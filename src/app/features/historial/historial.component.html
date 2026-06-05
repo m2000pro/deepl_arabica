@@ -21,13 +21,13 @@
 
     <div class="filters-container">
       <div class="filter-row">
-        <button class="btn-filter active">HOY</button>
-        <button class="btn-filter">ESTA SEMANA</button>
-        <button class="btn-filter">ESTE MES</button>
-        <button class="btn-filter">HACE 3 MESES</button>
+        <button class="btn-filter" [class.active]="filtroActivo === 'HOY'" (click)="aplicarFiltro('HOY')">HOY</button>
+        <button class="btn-filter" [class.active]="filtroActivo === 'ESTA SEMANA'" (click)="aplicarFiltro('ESTA SEMANA')">ESTA SEMANA</button>
+        <button class="btn-filter" [class.active]="filtroActivo === 'ESTE MES'" (click)="aplicarFiltro('ESTE MES')">ESTE MES</button>
+        <button class="btn-filter" [class.active]="filtroActivo === 'HACE 3 MESES'" (click)="aplicarFiltro('HACE 3 MESES')">HACE 3 MESES</button>
       </div>
       <div class="filter-row">
-        <button class="btn-filter">PLAZO PERSONALIZADO</button>
+        <button class="btn-filter" [class.active]="filtroActivo === 'PLAZO PERSONALIZADO'" (click)="aplicarFiltro('PLAZO PERSONALIZADO')">PLAZO PERSONALIZADO</button>
         <button class="btn-filter light">DESDE</button>
         <button class="btn-filter light">HASTA</button>
       </div>
@@ -44,7 +44,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of registros">
+          <tr *ngIf="registrosAMostrar.length === 0">
+            <td colspan="4" style="padding: 20px; color: #666;">No hay registros en este período.</td>
+          </tr>
+          
+          <tr *ngFor="let item of registrosAMostrar">
             <td>{{ item.fecha }}</td>
             <td>
               <span class="badge" 
@@ -59,6 +63,3 @@
         </tbody>
       </table>
     </div>
-
-  </div>
-</div>

@@ -33,11 +33,11 @@ export const routes: Routes = [
   { 
     path: 'historial', 
     loadComponent: () => import('./features/historial/historial.component').then(m => m.HistorialComponent)
-  }
-   /*
-     { 
+  },
+   
+    { 
     path: 'reportes', 
     loadComponent: () => import('./features/reportes/reportes.component').then(m => m.ReportesComponent)
   },
-  */
+
 ];

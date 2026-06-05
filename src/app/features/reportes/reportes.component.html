@@ -1,0 +1,68 @@
+<div class="dashboard-wrapper">
+  
+  <header class="top-bar">
+    <div class="menu-left">
+      <div class="menu-icon" routerLink="/dashboard">
+        <span class="menu-text">MENU</span>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+    </div>
+    <div class="header-buttons">
+      <button class="btn-nav" routerLink="/dashboard">INICIO</button>
+      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <h2 class="page-title">REPORTES LOCALES</h2>
+
+    <div class="weather-grid">
+      
+      <div class="weather-card card-blue">
+        <h3>Temperatura</h3>
+        
+        <div class="data-row"><span>Actual</span> <strong>{{ clima.temperatura.actual }}</strong></div>
+        <div class="data-row"><span>Máxima del día</span> <strong>{{ clima.temperatura.max }}</strong></div>
+        <div class="data-row"><span>Mínima del día</span> <strong>{{ clima.temperatura.min }}</strong></div>
+        <div class="data-row"><span>Promedio semanal</span> <strong>{{ clima.temperatura.promedio }}</strong></div>
+        
+        <div class="progress-section">
+          <p class="progress-label">Rango óptimo para café: 18–24°C</p>
+          <div class="progress-track"><div class="progress-fill fill-green" style="width: 40%;"></div></div>
+        </div>
+      </div>
+
+      <div class="weather-card">
+        <h3>Humedad</h3>
+        
+        <div class="data-row"><span>Actual</span> <strong>{{ clima.humedad.actual }}</strong></div>
+        <div class="data-row"><span>Promedio Semanal</span> <strong>{{ clima.humedad.promedio }}</strong></div>
+        <div class="data-row"><span>Lluvia hoy</span> <strong>{{ clima.humedad.lluviaHoy }}</strong></div>
+        <div class="data-row"><span>Lluvia semanal</span> <strong>{{ clima.humedad.lluviaSemana }}</strong></div>
+        
+        <div class="progress-section">
+          <p class="progress-label">Rango óptimo: 60–80%</p>
+          <div class="progress-track"><div class="progress-fill fill-green" style="width: 75%;"></div></div>
+        </div>
+      </div>
+
+      <div class="weather-card card-wide">
+        <h3>Condición general</h3>
+        
+        <div class="data-row"><span>Viento</span> <strong>{{ clima.condicion.viento }}</strong></div>
+        <div class="data-row"><span>Indice UV</span> <strong>{{ clima.condicion.uv }}</strong></div>
+        <div class="data-row"><span>Presion</span> <strong>{{ clima.condicion.presion }}</strong></div>
+        <div class="data-row"><span>Alerta activa</span> <strong class="text-red">{{ clima.condicion.alerta }}</strong></div>
+        
+        <div class="progress-section alert-section">
+          <p class="progress-label text-red">Condiciones favorables para propagación de roya</p>
+          <div class="progress-track"><div class="progress-fill fill-orange" style="width: 80%;"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
