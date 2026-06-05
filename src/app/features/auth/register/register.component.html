@@ -1,0 +1,44 @@
+<div class="login-wrapper">
+  <div class="login-card register-card">
+    
+    <h2>Crear Cuenta</h2>
+
+    <form (ngSubmit)="registrar()">
+      
+      <div class="form-group-vertical">
+        <label>Nombre completo</label>
+        <input type="text" name="nombre_completo" [(ngModel)]="nombre_completo" required>
+      </div>
+
+      <div class="form-group-vertical">
+        <label>Usuario</label>
+        <input type="text" name="usuario" [(ngModel)]="usuario" required>
+      </div>
+
+      <div class="form-group-vertical">
+        <label>Correo electrónico</label>
+        <input type="email" name="correo_electronico" [(ngModel)]="correo_electronico" required>
+      </div>
+
+      <div class="form-group-vertical">
+        <label>Contraseña</label>
+        <input type="password" name="contrasena" [(ngModel)]="password" required>
+      </div>
+
+      <div class="form-group-vertical">
+        <label>Confirmar Contraseña</label>
+        <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmar_password" required>
+      </div>
+
+      <div class="button-center">
+        <button type="submit" class="btn-login btn-register-submit">CREAR CUENTA</button>
+      </div>
+
+      <div class="link-center">
+        <a (click)="volverLogin()" class="back-link">← Volver al inicio de sesión</a>
+      </div>
+
+    </form>
+
+  </div>
+</div>

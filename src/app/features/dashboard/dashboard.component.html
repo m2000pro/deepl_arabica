@@ -1,1 +1,67 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper">
+  
+  <header class="top-bar">
+    <div class="menu-left">
+      <div class="menu-icon">
+        <span class="menu-text">MENU</span>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+    </div>
+    <div class="header-buttons">
+      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    </div>
+  </header>
+
+  <div class="content">
+    
+    <div class="scanner-section">
+      <div class="scanner-placeholder">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="center-line"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+      </div>
+      <button class="btn-primary" routerLink="/nuevo-diagnostico">NUEVO DIAGNOSTICO</button>
+    </div>
+
+    <div class="info-section">
+      
+      <div class="info-card">
+        <h3>Resumen de detecciones de la semana</h3>
+        
+        <div class="stat-row">
+          <p class="stat-label">Hojas Enfermas</p>
+          <p class="stat-number text-orange">5</p>
+        </div>
+        
+        <div class="stat-row">
+          <p class="stat-label">Hojas Sanas</p>
+          <p class="stat-number text-green">5</p>
+        </div>
+        
+        <button class="btn-detail" routerLink="/historial">Ver detalle</button>
+      </div>
+
+      <div class="info-card">
+        <h3>Reportes locales del día</h3>
+        
+        <div class="stat-row-inline">
+          <p class="stat-label">Temperatura</p>
+          <p class="stat-val text-green">21°C</p>
+        </div>
+        
+        <div class="stat-row-inline">
+          <p class="stat-label">Humedad</p>
+          <p class="stat-val text-black">72%</p>
+        </div>
+        
+        <button class="btn-detail" routerLink="/reportes">Ver detalle</button>
+      </div>
+
+    </div>
+  </div>
+</div>

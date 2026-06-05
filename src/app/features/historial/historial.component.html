@@ -1,0 +1,64 @@
+<div class="dashboard-wrapper">
+  
+  <header class="top-bar">
+    <div class="menu-left">
+      <div class="menu-icon" routerLink="/dashboard">
+        <span class="menu-text">MENU</span>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+    </div>
+    <div class="header-buttons">
+      <button class="btn-nav" routerLink="/dashboard">INICIO</button>
+      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <h2>Historial de diagnóstico</h2>
+
+    <div class="filters-container">
+      <div class="filter-row">
+        <button class="btn-filter active">HOY</button>
+        <button class="btn-filter">ESTA SEMANA</button>
+        <button class="btn-filter">ESTE MES</button>
+        <button class="btn-filter">HACE 3 MESES</button>
+      </div>
+      <div class="filter-row">
+        <button class="btn-filter">PLAZO PERSONALIZADO</button>
+        <button class="btn-filter light">DESDE</button>
+        <button class="btn-filter light">HASTA</button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Diagnóstico<br>(Positivo/Negativo)</th>
+            <th>Enfermedad</th>
+            <th>Parcela</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of registros">
+            <td>{{ item.fecha }}</td>
+            <td>
+              <span class="badge" 
+                    [ngClass]="{'badge-positive': item.diagnostico === 'Positivo', 
+                                'badge-negative': item.diagnostico === 'Negativo'}">
+                {{ item.diagnostico }}
+              </span>
+            </td>
+            <td>{{ item.enfermedad }}</td>
+            <td>{{ item.parcela }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -28,4 +28,8 @@ export class AuthService {
       })
     );
   }
+  registrar(nuevoUsuario: any): Observable<any> {
+    // Hace un POST a MockAPI para guardar el nuevo usuario
+    return this.http.post(this.apiUrl, nuevoUsuario);
+  }
 }

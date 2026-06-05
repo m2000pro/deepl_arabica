@@ -1,0 +1,103 @@
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: #E8E8E8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- HEADER (Reutilizado) --- */
+.top-bar { background-color: #7B5640; color: white; display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; height: 70px; }
+.menu-left { display: flex; align-items: center; gap: 30px; }
+.menu-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.menu-text { font-size: 10px; letter-spacing: 1px; margin-bottom: 3px; }
+.hamburger span { display: block; width: 35px; height: 4px; background-color: white; margin-bottom: 5px; border-radius: 2px; }
+.top-bar h1 { margin: 0; font-size: 22px; font-weight: normal; letter-spacing: 1px; }
+.header-buttons { display: flex; gap: 15px; }
+.btn-nav, .btn-logout { background-color: #E8E8E8; color: #333; border: none; border-radius: 20px; padding: 10px 25px; font-size: 14px; font-weight: bold; cursor: pointer; }
+.btn-logout { background-color: #8CB143; color: white; }
+
+/* --- CONTENIDO --- */
+.content {
+  padding: 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 14px;
+  color: #1A1A1A;
+  margin-bottom: 25px;
+}
+
+/* --- FILTROS --- */
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-filter {
+  background-color: #2D3E4E; /* Azul oscuro */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 25px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-filter.active { background-color: #2D5A27; } /* Verde para HOY */
+.btn-filter.light { background-color: white; color: #333; border: 1px solid #ccc; }
+
+/* --- TABLA --- */
+.table-container {
+  width: 100%;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #A9B2B6; /* Borde gris externo */
+}
+
+.history-table th {
+  background-color: #2D5A27; /* Cabecera verde oscuro */
+  color: white;
+  padding: 15px;
+  font-size: 12px;
+  font-weight: normal;
+  border: 1px solid #1f421a;
+}
+
+.history-table td {
+  padding: 15px;
+  font-size: 13px;
+  color: #333;
+  border: 1px solid #A9B2B6;
+}
+
+/* --- BADGES (Etiquetas de color para diagnósticos) --- */
+.badge {
+  padding: 5px 20px;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.badge-positive {
+  background-color: #D4E0B4; /* Verde muy claro */
+  color: #5B7524; /* Verde oscuro texto */
+}
+
+.badge-negative {
+  background-color: #EABCB9; /* Rojo muy claro */
+  color: #903333; /* Rojo oscuro texto */
+}

@@ -1,0 +1,90 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #EAEAEA;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.login-card {
+  background-color: #D3C9C0;
+  border-radius: 25px;
+  padding: 40px 50px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.register-card h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #1A1A1A;
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.form-group-vertical {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group-vertical label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-group-vertical input {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.form-group-vertical input:focus {
+  box-shadow: 0 0 0 2px #2D5A27;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn-register-submit {
+  background-color: #2D5A27;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 30px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-register-submit:hover {
+  opacity: 0.85;
+}
+
+.link-center {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.back-link {
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
