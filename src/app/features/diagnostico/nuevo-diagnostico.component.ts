@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- 1. Importamos ChangeDetectorRef
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { DiagnosticoService } from '../../core/services/diagnostico.service'; 
 
 @Component({
   selector: 'app-nuevo-diagnostico',
@@ -12,18 +13,20 @@ import { RouterModule, Router } from '@angular/router';
 export class NuevoDiagnosticoComponent implements OnInit {
   nombreUsuario: string = 'ADMIN';
   
-  // Variables para la imagen y el estado del proceso
   imagenUrl: string | ArrayBuffer | null = null;
   estadoAnalisis: 'vacio' | 'analizando' | 'completado' = 'vacio';
 
-  // Objeto para guardar los resultados
   resultado = {
     condicion: '',
     clasificacion: '',
     confianza: ''
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private diagnosticoService: DiagnosticoService,
+    private cdr: ChangeDetectorRef // <-- 2. Inyectamos el actualizador de pantalla
+  ) {}
 
   ngOnInit() {
     const userData = localStorage.getItem('deepL_usuario');
@@ -37,32 +40,67 @@ export class NuevoDiagnosticoComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  // Método que se activa al elegir un archivo de la PC
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      // Usamos FileReader para mostrar la vista previa de la imagen
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imagenUrl = e.target?.result as string;
-        this.iniciarAnalisisSimulado();
+        this.cdr.detectChanges(); // Forzamos a que pinte la foto de inmediato
       };
       reader.readAsDataURL(file);
+
+      // 3. Sacamos la llamada a la API fuera del FileReader para que Angular no se congele
+      this.analizarConApi(file);
     }
   }
 
-  // Simulación del análisis de la IA
-  iniciarAnalisisSimulado() {
-    this.estadoAnalisis = 'analizando';
+  analizarConApi(archivo: File) {
+    this.estadoAnalisis = 'analizando'; 
+    this.cdr.detectChanges(); // Avisamos a la pantalla que cambió a "Analizando..."
     
-    // Temporizador de 3 segundos para simular el procesamiento
-    setTimeout(() => {
-      this.estadoAnalisis = 'completado';
-      this.resultado = {
-        condicion: 'Hoja enferma',
-        clasificacion: 'Roya Amarilla',
-        confianza: '79.4%'
-      };
-    }, 3000); 
+    this.diagnosticoService.analizarImagen(archivo).subscribe({
+      next: (respuesta: any) => {
+        // 4. Imprimimos la respuesta en la consola (F12) para que veas la magia en vivo
+        console.log('¡Respuesta de tu IA en Render!', respuesta); 
+        
+        this.estadoAnalisis = 'completado'; 
+        
+        const diagnosticos = respuesta.diagnostico;
+        let enfermedadPrincipal = 'Desconocida';
+        let porcentajeMaximo = 0;
+        let esEnferma = false;
+
+        for (const clave in diagnosticos) {
+          if (diagnosticos[clave].porcentaje > porcentajeMaximo) {
+            porcentajeMaximo = diagnosticos[clave].porcentaje;
+            enfermedadPrincipal = clave;
+            esEnferma = diagnosticos[clave].detectado;
+          }
+        }
+
+        const nombresEnfermedades: { [key: string]: string } = {
+          'rust': 'Roya Amarilla',
+          'miner': 'Minador de hoja',
+          'phoma': 'Mancha de Phoma'
+        };
+
+        this.resultado = {
+          condicion: esEnferma ? 'Hoja enferma' : 'Aparentemente sana',
+          clasificacion: nombresEnfermedades[enfermedadPrincipal] || enfermedadPrincipal,
+          confianza: porcentajeMaximo + '%'
+        };
+
+        // 5. ¡Le gritamos a Angular que actualice los textos en la tarjeta azul!
+        this.cdr.detectChanges(); 
+      },
+      error: (err) => {
+        alert('Error al conectar con la API en Render. Revisa la consola.');
+        console.error(err);
+        this.estadoAnalisis = 'vacio';
+        this.imagenUrl = null;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }
