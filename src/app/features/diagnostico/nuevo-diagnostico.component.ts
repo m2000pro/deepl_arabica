@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- 1. Importamos ChangeDetectorRef
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { DiagnosticoService } from '../../core/services/diagnostico.service'; 
@@ -16,16 +16,20 @@ export class NuevoDiagnosticoComponent implements OnInit {
   imagenUrl: string | ArrayBuffer | null = null;
   estadoAnalisis: 'vacio' | 'analizando' | 'completado' = 'vacio';
 
+  // Objeto principal
   resultado = {
     condicion: '',
     clasificacion: '',
     confianza: ''
   };
 
+  // NUEVO: Arreglo para las barras de progreso
+  probabilidades: any[] = [];
+
   constructor(
     private router: Router,
     private diagnosticoService: DiagnosticoService,
-    private cdr: ChangeDetectorRef // <-- 2. Inyectamos el actualizador de pantalla
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit() {
@@ -46,24 +50,21 @@ export class NuevoDiagnosticoComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imagenUrl = e.target?.result as string;
-        this.cdr.detectChanges(); // Forzamos a que pinte la foto de inmediato
+        this.cdr.detectChanges(); 
       };
       reader.readAsDataURL(file);
 
-      // 3. Sacamos la llamada a la API fuera del FileReader para que Angular no se congele
       this.analizarConApi(file);
     }
   }
 
   analizarConApi(archivo: File) {
     this.estadoAnalisis = 'analizando'; 
-    this.cdr.detectChanges(); // Avisamos a la pantalla que cambió a "Analizando..."
+    this.probabilidades = []; // Limpiamos barras anteriores
+    this.cdr.detectChanges(); 
     
     this.diagnosticoService.analizarImagen(archivo).subscribe({
       next: (respuesta: any) => {
-        // 4. Imprimimos la respuesta en la consola (F12) para que veas la magia en vivo
-        console.log('¡Respuesta de tu IA en Render!', respuesta); 
-        
         this.estadoAnalisis = 'completado'; 
         
         const diagnosticos = respuesta.diagnostico;
@@ -71,27 +72,40 @@ export class NuevoDiagnosticoComponent implements OnInit {
         let porcentajeMaximo = 0;
         let esEnferma = false;
 
+        // Diccionario con nombres en español y colores para las barras
+        const detallesEnfermedad: { [key: string]: { nombre: string, color: string } } = {
+          'rust': { nombre: 'Roya Amarilla', color: '#FF6B6B' },   // Rojo/Naranja
+          'miner': { nombre: 'Minador de hoja', color: '#FCD53F' }, // Amarillo
+          'phoma': { nombre: 'Mancha de Phoma', color: '#A8D08D' }  // Verde claro
+        };
+
         for (const clave in diagnosticos) {
-          if (diagnosticos[clave].porcentaje > porcentajeMaximo) {
-            porcentajeMaximo = diagnosticos[clave].porcentaje;
+          const porc = diagnosticos[clave].porcentaje;
+          
+          // Llenamos el arreglo para las barras
+          this.probabilidades.push({
+            nombre: detallesEnfermedad[clave]?.nombre || clave,
+            porcentaje: porc,
+            color: detallesEnfermedad[clave]?.color || '#4682B4'
+          });
+
+          // Calculamos el mayor para el resultado principal
+          if (porc > porcentajeMaximo) {
+            porcentajeMaximo = porc;
             enfermedadPrincipal = clave;
             esEnferma = diagnosticos[clave].detectado;
           }
         }
 
-        const nombresEnfermedades: { [key: string]: string } = {
-          'rust': 'Roya Amarilla',
-          'miner': 'Minador de hoja',
-          'phoma': 'Mancha de Phoma'
-        };
+        // Ordenamos las barras de mayor a menor porcentaje visualmente
+        this.probabilidades.sort((a, b) => b.porcentaje - a.porcentaje);
 
         this.resultado = {
           condicion: esEnferma ? 'Hoja enferma' : 'Aparentemente sana',
-          clasificacion: nombresEnfermedades[enfermedadPrincipal] || enfermedadPrincipal,
+          clasificacion: detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal,
           confianza: porcentajeMaximo + '%'
         };
 
-        // 5. ¡Le gritamos a Angular que actualice los textos en la tarjeta azul!
         this.cdr.detectChanges(); 
       },
       error: (err) => {

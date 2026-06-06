@@ -21,7 +21,6 @@
     <div class="image-section">
       
       <div class="image-viewer">
-        
         <div class="scanner-placeholder" *ngIf="!imagenUrl">
           <div class="corner top-left"></div>
           <div class="corner top-right"></div>
@@ -35,7 +34,6 @@
 
       <div class="action-buttons">
         <button class="btn-action green">TOMAR FOTO</button>
-        
         <label class="btn-action blue">
           SUBIR IMAGEN
           <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
@@ -51,6 +49,7 @@
         </div>
 
         <div class="result-body">
+          
           <div class="data-block">
             <p class="data-title">CONDICIÓN</p>
             <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando.....</p>
@@ -58,18 +57,31 @@
           </div>
 
           <div class="data-block">
-            <p class="data-title">CLASIFICACIÓN</p>
+            <p class="data-title">CLASIFICACIÓN PRINCIPAL</p>
             <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando.....</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.clasificacion }}</p>
+            <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.clasificacion }} ({{ resultado.confianza }})</p>
           </div>
 
-          <div class="data-block" *ngIf="estadoAnalisis === 'completado' || estadoAnalisis === 'analizando'">
-            <p class="data-title">CONFIANZA DEL MODELO</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando.....</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.confianza }}</p>
+          <div class="divider" *ngIf="estadoAnalisis === 'completado'"></div>
+
+          <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
+            <p class="data-title" style="margin-bottom: 10px;">PROBABILIDADES POR ENFERMEDAD</p>
+            
+            <div class="prob-row" *ngFor="let prob of probabilidades">
+              <div class="prob-labels">
+                <span class="prob-name">{{ prob.nombre }}</span>
+                <span class="prob-value">{{ prob.porcentaje }}%</span>
+              </div>
+              <div class="prob-track">
+                <div class="prob-fill" 
+                     [style.width.%]="prob.porcentaje" 
+                     [style.background-color]="prob.color">
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
-
       </div>
     </div>
 
