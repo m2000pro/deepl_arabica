@@ -6,19 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DiagnosticoService {
-  // Pon aquí la URL real donde está corriendo tu API de Python
-  // Ejemplo: 'http://127.0.0.1:5000/analizar'
-  private apiUrl = 'https://modelo-clasificador-coffe.onrender.com/predict'; 
+  // 1. La URL de tu IA (La que ya tenías configurada en Render)
+  private iaUrl = 'https://modelo-clasificador-coffe.onrender.com'; 
+  
+  // 2. La URL de tu Base de Datos local (Python Puerto 5001)
+  private dbUrl = 'http://localhost:5001/api/diagnosticos'; 
 
   constructor(private http: HttpClient) {}
 
-  analizarImagen(imagen: File): Observable<any> {
+  analizarImagen(archivo: File): Observable<any> {
     const formData = new FormData();
-    
-    // 'file' es el nombre del campo que tu API de Python espera recibir. 
-    // Si tu API espera otro nombre (ej. 'imagen_hoja'), cámbialo aquí.
-    formData.append('file', imagen); 
+    formData.append('file', archivo);
+    // Llama a la IA para analizar la foto
+    return this.http.post(`${this.iaUrl}/predict`, formData);
+  }
 
-    return this.http.post(this.apiUrl, formData);
+  // --- ESTA ES LA FUNCIÓN QUE FALTABA ---
+  guardarEnHistorial(datos: any): Observable<any> {
+    // Llama a TiDB/Python para guardar el resultado
+    return this.http.post(`${this.dbUrl}/guardar`, datos);
   }
 }

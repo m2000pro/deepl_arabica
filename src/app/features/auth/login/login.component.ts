@@ -15,6 +15,10 @@ export class LoginComponent {
   usuario = '';
   password = '';
 
+  // --- VARIABLES PARA EL TRUCO SECRETO ---
+  contadorClicks = 0;
+  temporizador: any;
+
   constructor(
     private router: Router,
     private authService: AuthService
@@ -22,22 +26,25 @@ export class LoginComponent {
 
   iniciarSesion() {
     if (this.usuario && this.password) {
-      
       this.authService.login(this.usuario, this.password).subscribe({
-        next: (esValido) => {
+        next: (esValido: any) => { 
           if (esValido) {
-            // ¡Redirección activada!
+            const datosUsuario = esValido.usuario || { usuario: this.usuario, rol: 'USER' };
+            localStorage.setItem('deepL_usuario', JSON.stringify(datosUsuario));
             this.router.navigate(['/dashboard']); 
           } else {
             alert('Usuario o contraseña incorrectos.');
           }
         },
-        error: (err) => {
-          alert('Error de conexión con el servidor.');
+        error: (err: any) => { 
+          if (err.status === 401) {
+            alert('Usuario o contraseña incorrectos.');
+          } else {
+            alert('Error de conexión con el servidor.');
+          }
           console.error(err);
         }
       });
-
     } else {
       alert('Por favor ingrese usuario y contraseña');
     }
@@ -45,5 +52,29 @@ export class LoginComponent {
 
   irARegistro() {
     this.router.navigate(['/register']);
+  }
+
+  // --- FUNCIÓN DEL GATILLO OCULTO (MEJORADA) ---
+  revelarModoAdmin() {
+    this.contadorClicks++;
+    
+    // Imprimimos en consola para que veas que sí está funcionando
+    console.log('🕵️‍♂️ Clic secreto detectado. Llevas:', this.contadorClicks);
+    
+    // 1. Limpiamos el reloj anterior para que no te interrumpa
+    clearTimeout(this.temporizador);
+
+    // 2. Comprobamos si ya llegaste a 5
+    if (this.contadorClicks === 5) {
+      this.contadorClicks = 0;
+      console.log('🚀 ¡BINGO! Teletransportando al portal admin...');
+      this.router.navigate(['/portal-tecnico-acceso']);
+    } else {
+      // 3. Si aún no llegas a 5, te damos 1.5 segundos para hacer el siguiente clic
+      this.temporizador = setTimeout(() => {
+        this.contadorClicks = 0; 
+        console.log('⏱️ Tiempo agotado. Se reiniciaron los clics a 0.');
+      }, 1500); 
+    }
   }
 }

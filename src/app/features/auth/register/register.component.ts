@@ -15,8 +15,8 @@ export class RegisterComponent {
   nombre_completo = '';
   usuario = '';
   correo_electronico = '';
-  password = ''; // Usamos password
-  confirmar_password = ''; // Usamos password
+  password = ''; 
+  confirmar_password = ''; 
 
   constructor(
     private router: Router,
@@ -38,16 +38,20 @@ export class RegisterComponent {
       nombre_completo: this.nombre_completo,
       usuario: this.usuario,
       correo_electronico: this.correo_electronico,
-      password: this.password // Se enviará como 'password' a MockAPI
+      password: this.password 
     };
 
     this.authService.registrar(nuevoUsuario).subscribe({
-      next: () => {
+      // 1. Opcional: añadimos res: any por si usas la respuesta luego
+      next: (res: any) => {
         alert('¡Cuenta creada exitosamente!');
         this.router.navigate(['/login']);
       },
-      error: (err) => {
-        alert('Error al crear la cuenta.');
+      // 2. Agregamos ": any" aquí
+      error: (err: any) => {
+        // Mostramos el error específico si el usuario ya existe
+        const mensajeError = err.error?.error || 'Error al crear la cuenta.';
+        alert(mensajeError);
         console.error(err);
       }
     });

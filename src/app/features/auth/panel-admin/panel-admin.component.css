@@ -1,0 +1,172 @@
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: #E8E8E8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- HEADER ADMIN --- */
+.admin-header {
+  background-color: #1A252C; /* Color oscuro exclusivo para el admin */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  height: 70px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-badge {
+  background-color: #2D3E4E;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid #425664;
+}
+
+.btn-logout {
+  background-color: #D32F2F; /* Rojo para el admin */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 25px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-logout:hover { opacity: 0.8; }
+
+/* --- CONTENIDO PRINCIPAL --- */
+.content {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* --- TARJETAS MÉTRICAS --- */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.metric-card {
+  background-color: #5C6E7A;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.metric-card h3 { color: #E8E8E8; margin: 0 0 10px 0; font-size: 15px; }
+.metric-card h1 { color: white; margin: 0; font-size: 45px; }
+.text-green { color: #8CB143 !important; }
+.text-red { color: #FF6B6B !important; }
+
+/* --- SECCIÓN CRUD --- */
+.crud-section {
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.crud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.crud-header h2 {
+  margin: 0;
+  color: #1A252C;
+}
+
+.btn-primary {
+  background-color: #2D3E4E;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover { background-color: #1A252C; }
+
+/* --- TABLA ADMIN --- */
+.table-container {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: #F5F7FA;
+  color: #5C6E7A;
+  padding: 15px;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #E8E8E8;
+}
+
+.admin-table td {
+  padding: 15px;
+  border-bottom: 1px solid #E8E8E8;
+  color: #333;
+  font-size: 14px;
+}
+
+.font-bold { font-weight: 600; }
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.active { background-color: rgba(140, 177, 67, 0.15); color: #2E5A27; }
+.suspended { background-color: rgba(211, 47, 47, 0.15); color: #D32F2F; }
+
+.action-cells {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.btn-icon:hover { transform: scale(1.2); }
+.empty-state { text-align: center; color: #999; padding: 30px !important; font-style: italic; }

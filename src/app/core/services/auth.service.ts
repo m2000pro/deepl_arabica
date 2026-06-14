@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-
-export interface Usuario {
-  id?: string;
-  usuario: string; 
-  password: string;
-}
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // ATENCIÓN: Reemplaza esta URL con el endpoint de tu proyecto en MockAPI
-    private apiUrl = 'https://6a2244ee5c61035328698b82.mockapi.io/usuario';
+  // Ajusta el puerto al que estés usando en tu backend (ej. 5000 o 5001)
+  private apiUrl = 'http://127.0.0.1:5001/api/auth'; 
+
   constructor(private http: HttpClient) {}
 
-  login(usuario: string, password: string): Observable<boolean> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}?usuario=${usuario}`).pipe(
-      map(usuarios => {
-        const user = usuarios[0];
-        if (user && user.password === password) {
-          localStorage.setItem('deepL_usuario', JSON.stringify(user));
-          return true;
-        }
-        return false;
-      })
-    );
+  // --- Funciones originales para USUARIOS (Agricultores/Técnicos) ---
+  
+  // Tu login component envía 2 parámetros separados, así que los recibimos así:
+  login(usuario: string, password: string): Observable<any> {
+    const credenciales = { usuario: usuario, password: password };
+    return this.http.post(`${this.apiUrl}/login`, credenciales);
   }
+
   registrar(nuevoUsuario: any): Observable<any> {
-    // Hace un POST a MockAPI para guardar el nuevo usuario
-    return this.http.post(this.apiUrl, nuevoUsuario);
+    return this.http.post(`${this.apiUrl}/registro`, nuevoUsuario);
+  }
+
+  // --- Funciones exclusivas para ADMINISTRADORES ---
+  
+  loginAdmin(credenciales: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin-login`, credenciales);
+  }
+
+  registroAdmin(datos: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin-registro`, datos);
   }
 }

@@ -1,0 +1,58 @@
+<div class="dashboard-wrapper">
+  <header class="admin-header">
+    <h1>⚙️ PANEL DE MONITOREO Y AUDITORÍA</h1>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="color: white; font-weight: bold;">Admin: {{ nombreAdmin }}</span>
+      <button class="btn-logout" (click)="cerrarSesion()">SALIR</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="crud-section">
+      <h2>Agricultores Registrados</h2>
+      
+      <div *ngIf="cargando" style="text-align: center; padding: 30px; color: #5C6E7A;">
+        <h3>Conectando con la base de datos TiDB...</h3>
+      </div>
+
+      <table class="admin-table" *ngIf="!cargando && usuarios.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td style="color: #7A8B9A;">#{{ u.id }}</td>
+            <td style="font-weight: 600;">{{ u.nombre_completo }}</td>
+            <td>@{{ u.usuario }}</td>
+            <td>
+              <span class="status-badge" 
+                    [style.backgroundColor]="u.estado === 'Activo' ? 'rgba(140, 177, 67, 0.15)' : 'rgba(211, 47, 47, 0.15)'"
+                    [style.color]="u.estado === 'Activo' ? '#2E5A27' : '#D32F2F'"
+                    style="padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">
+                {{ u.estado || 'Activo' }}
+              </span>
+            </td>
+            <td>
+              <button (click)="cambiarEstado(u)" 
+                      [style.backgroundColor]="u.estado === 'Activo' ? '#FF6B6B' : '#8CB143'"
+                      style="color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                {{ u.estado === 'Activo' ? '⛔ Suspender' : '✅ Activar' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!cargando && usuarios.length === 0" style="text-align: center; padding: 30px; color: #5C6E7A;">
+        <p>No hay ningún agricultor registrado todavía.</p>
+      </div>
+
+    </div>
+  </div>
+</div>

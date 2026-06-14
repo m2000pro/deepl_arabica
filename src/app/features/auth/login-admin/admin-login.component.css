@@ -1,0 +1,142 @@
+.admin-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1A252C; /* Fondo oscuro muy elegante */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.admin-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: #2D3E4E; /* Azul oscuro característico de tu app */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #22303C;
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 3px solid #8CB143; /* Línea verde de acento */
+}
+
+.card-header h2 {
+  color: white;
+  margin: 0 0 10px 0;
+  letter-spacing: 2px;
+  font-size: 24px;
+}
+
+.card-header p {
+  color: #A0B2C1;
+  margin: 0;
+  font-size: 13px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #E8E8E8;
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #425664;
+  background-color: #1A252C;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #8CB143;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #8CB143;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover:not([disabled]) {
+  background-color: #7A9B3A;
+}
+
+.btn-submit[disabled] {
+  background-color: #5C6E7A;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.toggle-section {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.toggle-section p {
+  color: #A0B2C1;
+  font-size: 13px;
+  margin: 5px 0;
+}
+
+.toggle-section a {
+  color: #3FA9F5;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.toggle-section a:hover {
+  text-decoration: underline;
+}
+
+.escape-link {
+  color: #A0B2C1 !important;
+  font-weight: normal !important;
+}
+
+/* Alertas */
+.alert {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.error {
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #FF6B6B;
+  border: 1px solid #D32F2F;
+}
+
+.success {
+  background-color: rgba(140, 177, 67, 0.1);
+  color: #8CB143;
+  border: 1px solid #8CB143;
+}

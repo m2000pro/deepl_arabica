@@ -1,0 +1,37 @@
+<div class="admin-wrapper">
+  <div class="admin-card">
+    
+    <div class="card-header">
+      <h2>PORTAL TÉCNICO</h2>
+      <p>Acceso exclusivo para administradores del sistema</p>
+    </div>
+
+    <div class="card-body">
+      
+      <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <form (ngSubmit)="onSubmit()" #adminForm="ngForm">
+        
+        <div class="form-group">
+          <label>Usuario (Nickname)</label>
+          <input type="text" name="usuario" [(ngModel)]="adminData.usuario" required placeholder="Ingresa tu usuario">
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" name="contrasena" [(ngModel)]="adminData.contrasena" required placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="adminForm.invalid || isLoading">
+          {{ isLoading ? 'VERIFICANDO...' : 'INGRESAR AL PANEL' }}
+        </button>
+
+      </form>
+
+      <div class="toggle-section">
+        <p style="margin-top: 20px;"><a routerLink="/login" class="escape-link">← Volver al portal de agricultores</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>

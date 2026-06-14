@@ -15,6 +15,7 @@ export class NuevoDiagnosticoComponent implements OnInit {
   
   imagenUrl: string | ArrayBuffer | null = null;
   estadoAnalisis: 'vacio' | 'analizando' | 'completado' = 'vacio';
+  archivoSeleccionado: File | null = null; // Variable para controlar el archivo en móviles
 
   // Objeto principal
   resultado = {
@@ -23,7 +24,6 @@ export class NuevoDiagnosticoComponent implements OnInit {
     confianza: ''
   };
 
-  // NUEVO: Arreglo para las barras de progreso
   probabilidades: any[] = [];
 
   constructor(
@@ -44,9 +44,21 @@ export class NuevoDiagnosticoComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  // --- FUNCIÓN PARA LIMPIAR LA PANTALLA ---
+  descartarImagen() {
+    this.imagenUrl = null;
+    this.archivoSeleccionado = null;
+    this.estadoAnalisis = 'vacio';
+    this.resultado = { condicion: '', clasificacion: '', confianza: '' };
+    this.probabilidades = [];
+    this.cdr.detectChanges();
+  }
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
+      this.archivoSeleccionado = file; // Lo guardamos para el botón de analizar en móvil
+      
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imagenUrl = e.target?.result as string;
@@ -54,13 +66,17 @@ export class NuevoDiagnosticoComponent implements OnInit {
       };
       reader.readAsDataURL(file);
 
+      // Si quieres que el análisis sea automático (en PC), deja esta línea.
+      // Si prefieres que el usuario siempre presione un botón, puedes comentarla.
       this.analizarConApi(file);
     }
   }
 
-  analizarConApi(archivo: File) {
+  analizarConApi(archivo: File | null) {
+    if (!archivo) return;
+
     this.estadoAnalisis = 'analizando'; 
-    this.probabilidades = []; // Limpiamos barras anteriores
+    this.probabilidades = []; 
     this.cdr.detectChanges(); 
     
     this.diagnosticoService.analizarImagen(archivo).subscribe({
@@ -72,24 +88,21 @@ export class NuevoDiagnosticoComponent implements OnInit {
         let porcentajeMaximo = 0;
         let esEnferma = false;
 
-        // Diccionario con nombres en español y colores para las barras
         const detallesEnfermedad: { [key: string]: { nombre: string, color: string } } = {
-          'rust': { nombre: 'Roya Amarilla', color: '#FF6B6B' },   // Rojo/Naranja
-          'miner': { nombre: 'Minador de hoja', color: '#FCD53F' }, // Amarillo
-          'phoma': { nombre: 'Mancha de Phoma', color: '#A8D08D' }  // Verde claro
+          'rust': { nombre: 'Roya Amarilla', color: '#FF6B6B' },   
+          'miner': { nombre: 'Minador de hoja', color: '#FCD53F' }, 
+          'phoma': { nombre: 'Mancha de Phoma', color: '#A8D08D' }  
         };
 
         for (const clave in diagnosticos) {
           const porc = diagnosticos[clave].porcentaje;
           
-          // Llenamos el arreglo para las barras
           this.probabilidades.push({
             nombre: detallesEnfermedad[clave]?.nombre || clave,
             porcentaje: porc,
             color: detallesEnfermedad[clave]?.color || '#4682B4'
           });
 
-          // Calculamos el mayor para el resultado principal
           if (porc > porcentajeMaximo) {
             porcentajeMaximo = porc;
             enfermedadPrincipal = clave;
@@ -97,7 +110,6 @@ export class NuevoDiagnosticoComponent implements OnInit {
           }
         }
 
-        // Ordenamos las barras de mayor a menor porcentaje visualmente
         this.probabilidades.sort((a, b) => b.porcentaje - a.porcentaje);
 
         this.resultado = {
@@ -106,14 +118,31 @@ export class NuevoDiagnosticoComponent implements OnInit {
           confianza: porcentajeMaximo + '%'
         };
 
+        // --- SECCIÓN DE GUARDADO EN LA BASE DE DATOS ---
+        const userData = localStorage.getItem('deepL_usuario');
+        if (userData) {
+          const user = JSON.parse(userData);
+          
+          const payloadBD = {
+            usuario_id: user.id,
+            parcela_id: 1, // Se envía estático temporalmente
+            resultado: this.resultado.condicion,
+            enfermedad: this.resultado.clasificacion,
+            confianza: porcentajeMaximo // Número puro sin símbolo %
+          };
+
+          this.diagnosticoService.guardarEnHistorial(payloadBD).subscribe({
+            next: () => console.log('💾 ¡Diagnóstico guardado en la BD exitosamente!'),
+            error: (err: any) => console.error('Error al guardar en BD:', err)
+          });
+        }
+
         this.cdr.detectChanges(); 
       },
-      error: (err) => {
+      error: (err: any) => {
         alert('Error al conectar con la API en Render. Revisa la consola.');
         console.error(err);
-        this.estadoAnalisis = 'vacio';
-        this.imagenUrl = null;
-        this.cdr.detectChanges();
+        this.descartarImagen(); // Si falla, limpia la pantalla
       }
     });
   }
