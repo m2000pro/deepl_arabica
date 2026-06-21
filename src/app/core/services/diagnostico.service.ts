@@ -10,7 +10,7 @@ export class DiagnosticoService {
   private iaUrl = 'https://modelo-clasificador-coffe.onrender.com'; 
   
   // 2. La URL de tu Base de Datos local (Python Puerto 5001)
-  private dbUrl = 'http://localhost:5001/api/diagnosticos'; 
+  private dbUrl = 'http://https://backend-l-u7je.onrender.com/api/diagnosticos'; 
 
   constructor(private http: HttpClient) {}
 
