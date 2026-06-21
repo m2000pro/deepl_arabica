@@ -1,43 +1,35 @@
-<div class="admin-dashboard-wrapper">
+<div class="dashboard-wrapper">
   
-  <!-- Header con Cristal Oscuro "Dark Roast" -->
-  <header class="admin-header glass-panel dark-glass">
-    <div class="brand-zone">
-      <span class="icon">⚙️</span>
-      <div class="title-block">
-        <span class="sub">CONSOLA DE MONITOREO</span>
-        <h1>Auditoría de Base de Datos</h1>
-      </div>
+  <header class="admin-header">
+    <div class="brand">
+      <h1>⚙️ PANEL DE AUDITORÍA</h1>
     </div>
-    <div class="action-zone">
+    <div class="header-actions">
       <span class="admin-name">Admin: {{ nombreAdmin }}</span>
-      <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+      <button class="btn-logout" (click)="cerrarSesion()">SALIR</button>
     </div>
   </header>
 
   <div class="content">
-    
-    <!-- Sección de la Tabla del Administrador -->
-    <div class="crud-section glass-panel">
-      <div class="section-header">
+    <div class="crud-section">
+      <div class="crud-header">
         <h2>Agricultores Registrados</h2>
-        <span class="db-badge">Base de Datos: TiDB Serverless</span>
+        <p class="subtitle">Gestión y monitoreo de usuarios en base de datos</p>
       </div>
       
       <div *ngIf="cargando" class="loading-state">
-        <div class="spinner"></div>
-        <h3>Estableciendo conexión segura con TiDB...</h3>
+        <p>Conectando con la base de datos TiDB...</p>
       </div>
 
-      <div class="table-responsive-wrapper" *ngIf="!cargando && usuarios.length > 0">
+      <div class="table-responsive" *ngIf="!cargando && usuarios.length > 0">
         <table class="admin-table">
           <thead>
             <tr>
               <th>ID</th>
               <th>Nombre Completo</th>
-              <th>Nombre de Usuario</th>
-              <th>Estado de Cuenta</th>
-              <th>Acciones</th>
+              <th>Usuario</th>
+              <th>Estado</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
@@ -46,15 +38,13 @@
               <td class="font-bold">{{ u.nombre_completo }}</td>
               <td>@{{ u.usuario }}</td>
               <td>
-                <span class="status-badge" [ngClass]="u.estado === 'Activo' ? 'active' : 'suspended'">
+                <span class="status-badge" [ngClass]="u.estado === 'Activo' ? 'badge-active' : 'badge-suspended'">
                   {{ u.estado || 'Activo' }}
                 </span>
               </td>
               <td>
-                <button (click)="cambiarEstado(u)" 
-                        class="btn-action"
-                        [ngClass]="u.estado === 'Activo' ? 'btn-suspend' : 'btn-activate'">
-                  {{ u.estado === 'Activo' ? '⛔ Suspender' : '✅ Activar' }}
+                <button (click)="cambiarEstado(u)" class="btn-action" [ngClass]="u.estado === 'Activo' ? 'btn-red' : 'btn-green'">
+                  {{ u.estado === 'Activo' ? 'Suspender' : 'Activar' }}
                 </button>
               </td>
             </tr>
@@ -63,9 +53,8 @@
       </div>
 
       <div *ngIf="!cargando && usuarios.length === 0" class="empty-state">
-        <p>No se encontraron agricultores registrados en la base de datos.</p>
+        <p>No hay agricultores registrados actualmente.</p>
       </div>
-
     </div>
   </div>
 </div>
