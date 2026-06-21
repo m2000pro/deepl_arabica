@@ -8,7 +8,7 @@ import { DiagnosticoService } from '../../core/services/diagnostico.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './nuevo-diagnostico.component.html',
-  styleUrls: ['./nuevo-diagnostico.component.css']
+  styleUrls: ['./nuevo-diagnostico.component.scss']
 })
 export class NuevoDiagnosticoComponent implements OnInit {
   nombreUsuario: string = 'ADMIN';

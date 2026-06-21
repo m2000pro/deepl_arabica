@@ -45,27 +45,29 @@
       <div class="result-card">
         
         <div class="result-header">
-          <h3>RESULTADO</h3>
+          <h3>RESULTADO DEL ANÁLISIS</h3>
         </div>
 
         <div class="result-body">
           
           <div class="data-block">
             <p class="data-title">CONDICIÓN</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando.....</p>
+            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando modelo...</p>
             <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</p>
           </div>
 
           <div class="data-block">
             <p class="data-title">CLASIFICACIÓN PRINCIPAL</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando.....</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.clasificacion }} ({{ resultado.confianza }})</p>
+            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Procesando imagen...</p>
+            <p class="data-value font-highlight" *ngIf="estadoAnalisis === 'completado'">
+              {{ resultado.clasificacion }} ({{ resultado.confianza }})
+            </p>
           </div>
 
           <div class="divider" *ngIf="estadoAnalisis === 'completado'"></div>
 
           <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
-            <p class="data-title" style="margin-bottom: 10px;">PROBABILIDADES POR ENFERMEDAD</p>
+            <p class="data-title section-title">PROBABILIDADES POR ENFERMEDAD</p>
             
             <div class="prob-row" *ngFor="let prob of probabilidades">
               <div class="prob-labels">

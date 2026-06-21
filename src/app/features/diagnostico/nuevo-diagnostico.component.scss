@@ -1,0 +1,358 @@
+// ==========================================
+// 1. PALETA DE COLORES "FINCA CAFETALERA"
+// ==========================================
+$verde-hoja-madura: #2A5C38;  
+$verde-brote:       #4CAF50;  
+$azul-tecnico:      #2D3E4E;  // Conservamos este azul para botones técnicos
+$fondo-crema:       #F9F7F3;  
+$texto-principal:   #2E3331;  
+$texto-secundario:  #7A8B9A;  
+$blanco-puro:       #FFFFFF;  
+$gris-fondo-barra:  #E0E5E2;  // Para el fondo de las barras de progreso
+
+// Variables de diseño
+$borde-redondeado:  1.5rem;
+$transicion:        all 0.3s ease;
+$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS
+// ==========================================
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: $fondo-crema;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  // --- HEADER ---
+  .top-bar {
+    background-color: $verde-hoja-madura;
+    color: $blanco-puro;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2.5rem; 
+    min-height: 4.5rem; 
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+
+      .menu-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: $transicion;
+
+        &:hover { transform: scale(1.05); }
+
+        .menu-text {
+          font-size: 0.65rem;
+          font-weight: bold;
+          letter-spacing: 1px;
+          margin-bottom: 0.2rem;
+        }
+
+        .hamburger span {
+          display: block;
+          width: 2.2rem;
+          height: 0.25rem;
+          background-color: $blanco-puro;
+          margin-bottom: 0.3rem;
+          border-radius: 0.15rem;
+        }
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      button {
+        border: 1px solid rgba($blanco-puro, 0.3);
+        border-radius: 1.25rem;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: $transicion;
+
+        &.btn-nav {
+          background-color: transparent;
+          color: $blanco-puro;
+          &:hover { background-color: rgba($blanco-puro, 0.1); }
+        }
+
+        &.btn-logout {
+          background-color: rgba($blanco-puro, 0.15);
+          color: $blanco-puro;
+          &:hover { 
+            background-color: $blanco-puro; 
+            color: $verde-hoja-madura; 
+          }
+        }
+      }
+    }
+  }
+
+  // --- CONTENIDO PRINCIPAL ---
+  .content {
+    display: flex;
+    padding: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 3rem;
+
+    // --- COLUMNA IZQUIERDA: IMAGEN Y BOTONES ---
+    .image-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+
+      .image-viewer {
+        width: 100%;
+        height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .uploaded-image {
+          max-width: 100%;
+          max-height: 100%;
+          border-radius: $borde-redondeado;
+          object-fit: cover;
+          box-shadow: $sombra-premium;
+        }
+
+        .scanner-placeholder {
+          width: 250px;
+          height: 250px;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba($verde-hoja-madura, 0.03);
+          border-radius: $borde-redondeado;
+
+          .corner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 8px solid $verde-brote;
+            border-radius: 10px;
+          }
+
+          .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+          .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+          .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+          .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+          .center-line {
+            width: 80px;
+            height: 6px;
+            background-color: rgba($verde-brote, 0.5);
+            border-radius: 4px;
+          }
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1.5rem;
+        width: 100%;
+        justify-content: center;
+
+        .btn-action {
+          color: $blanco-puro;
+          border: none;
+          border-radius: 20px;
+          padding: 0.8rem 2rem;
+          font-size: 0.9rem;
+          font-weight: bold;
+          cursor: pointer;
+          text-align: center;
+          transition: $transicion;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+          }
+
+          &.green { background-color: $verde-hoja-madura; }
+          &.blue { background-color: $azul-tecnico; }
+        }
+
+        .hidden-input { display: none; }
+      }
+    }
+
+    // --- COLUMNA DERECHA: RESULTADOS ---
+    .result-section {
+      flex: 1;
+
+      .result-card {
+        background-color: $blanco-puro;
+        border-radius: $borde-redondeado;
+        height: 100%;
+        overflow: hidden;
+        box-shadow: $sombra-premium;
+        border: 1px solid rgba($verde-hoja-madura, 0.05);
+        display: flex;
+        flex-direction: column;
+
+        .result-header {
+          background-color: rgba($verde-hoja-madura, 0.05);
+          padding: 1.2rem;
+          text-align: center;
+          border-bottom: 1px solid rgba($verde-hoja-madura, 0.1);
+
+          h3 {
+            color: $verde-hoja-madura;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+          }
+        }
+
+        .result-body {
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          flex: 1;
+
+          .data-block {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .data-title {
+              color: $texto-secundario;
+              font-weight: 700;
+              font-size: 0.85rem;
+              margin: 0;
+              letter-spacing: 0.5px;
+
+              &.section-title {
+                margin-bottom: 0.5rem;
+              }
+            }
+
+            .data-value {
+              color: $texto-principal;
+              font-size: 1.1rem;
+              font-weight: 500;
+              margin: 0;
+              min-height: 20px;
+
+              &.font-highlight {
+                color: $verde-hoja-madura;
+                font-weight: 700;
+              }
+            }
+          }
+
+          .divider {
+            height: 1px;
+            background-color: rgba($texto-secundario, 0.15);
+            margin: 0.5rem 0;
+          }
+
+          // --- BARRAS DE PROBABILIDAD ---
+          .probabilities-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+
+            .prob-row {
+              display: flex;
+              flex-direction: column;
+              gap: 0.4rem;
+
+              .prob-labels {
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.9rem;
+                color: $texto-principal;
+
+                .prob-name { font-weight: 600; }
+                .prob-value { font-weight: 800; color: $verde-hoja-madura; }
+              }
+
+              .prob-track {
+                width: 100%;
+                height: 8px;
+                background-color: $gris-fondo-barra; // Fondo claro para contrastar en tarjeta blanca
+                border-radius: 4px;
+                overflow: hidden;
+
+                .prob-fill {
+                  height: 100%;
+                  border-radius: 4px;
+                  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); // Animación más fluida y natural
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // ==========================================
+  // 3. DISEÑO MÓVIL
+  // ==========================================
+  @media (max-width: 48em) {
+    .top-bar {
+      flex-direction: column;
+      padding: 1.2rem;
+
+      .menu-left {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+      
+      .header-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .content {
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 2.5rem;
+
+      .image-section .image-viewer {
+        height: 250px;
+        
+        .scanner-placeholder {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        .btn-action { width: 100%; }
+      }
+    }
+  }
+}

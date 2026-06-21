@@ -8,7 +8,7 @@ import { AdminService } from '../../../core/services/admin.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './panel-admin.component.html',
-  styleUrls: ['./panel-admin.component.css']
+  styleUrls: ['./panel-admin.component.scss']
 })
 export class PanelAdminComponent implements OnInit {
   usuarios: any[] = [];

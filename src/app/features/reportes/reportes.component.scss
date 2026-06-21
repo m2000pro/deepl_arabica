@@ -1,0 +1,268 @@
+// ==========================================
+// 1. PALETA DE COLORES "FINCA CAFETALERA"
+// ==========================================
+$verde-hoja-madura: #2A5C38;  
+$verde-brote:       #4CAF50;  
+$fondo-crema:       #F9F7F3;  
+$texto-principal:   #2E3331;  
+$texto-secundario:  #7A8B9A;  
+$blanco-puro:       #FFFFFF;  
+
+// Acentos Climáticos
+$azul-temp:         #3FA9F5;
+$celeste-agua:      #00BCD4;
+$naranja-alerta:    #F37021;
+$rojo-peligro:      #D32F2F;
+$gris-barra:        #E0E5E2;
+
+// Variables de diseño
+$borde-redondeado:  1.5rem;
+$transicion:        all 0.3s ease;
+$sombra-premium:    0 8px 24px rgba(42, 92, 56, 0.06);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS
+// ==========================================
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: $fondo-crema;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  // --- HEADER (Mismo del Dashboard principal) ---
+  .top-bar {
+    background-color: $verde-hoja-madura;
+    color: $blanco-puro;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2.5rem; 
+    min-height: 4.5rem; 
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+
+      .menu-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: $transicion;
+
+        &:hover { transform: scale(1.05); }
+
+        .menu-text {
+          font-size: 0.65rem;
+          font-weight: bold;
+          letter-spacing: 1px;
+          margin-bottom: 0.2rem;
+        }
+
+        .hamburger span {
+          display: block;
+          width: 2.2rem;
+          height: 0.25rem;
+          background-color: $blanco-puro;
+          margin-bottom: 0.3rem;
+          border-radius: 0.15rem;
+        }
+      }
+
+      h1 { margin: 0; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.5px; }
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      button {
+        border: 1px solid rgba($blanco-puro, 0.3);
+        border-radius: 1.25rem;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: $transicion;
+
+        &.btn-nav {
+          background-color: transparent;
+          color: $blanco-puro;
+          &:hover { background-color: rgba($blanco-puro, 0.1); }
+        }
+
+        &.btn-logout {
+          background-color: rgba($blanco-puro, 0.15);
+          color: $blanco-puro;
+          &:hover { background-color: $blanco-puro; color: $verde-hoja-madura; }
+        }
+      }
+    }
+  }
+
+  // --- CONTENIDO ---
+  .content {
+    padding: 3rem; 
+    max-width: 1000px; 
+    margin: 0 auto;
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 3rem;
+
+      .page-title {
+        font-size: 1.6rem;
+        color: $verde-hoja-madura;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: 1px;
+        font-weight: 800;
+      }
+
+      .subtitle {
+        color: $texto-secundario;
+        margin: 0;
+        font-size: 1rem;
+      }
+    }
+
+    // --- GRID DE TARJETAS ---
+    .weather-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem; 
+
+      .weather-card {
+        background-color: $blanco-puro; 
+        border-radius: $borde-redondeado; 
+        box-shadow: $sombra-premium;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba($verde-hoja-madura, 0.05);
+        transition: $transicion;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 30px rgba(42, 92, 56, 0.1);
+        }
+
+        // Variaciones de tarjetas (Borde superior de color)
+        &.card-blue { border-top: 4px solid $azul-temp; }
+        &.card-water { border-top: 4px solid $celeste-agua; }
+        &.card-wide {
+          border-top: 4px solid $verde-hoja-madura;
+          grid-column: 1 / -1; // Ocupa todo el ancho
+          width: 80%;
+          justify-self: center;
+        }
+
+        .card-header {
+          padding: 1.5rem 2rem 0.5rem;
+          
+          h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: $texto-principal;
+            font-weight: 700;
+          }
+        }
+
+        .card-body {
+          padding: 1rem 2rem 2rem;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+
+          .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 3rem;
+          }
+
+          .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0; 
+            border-bottom: 1px solid rgba($texto-secundario, 0.15);
+            font-size: 0.95rem; 
+            color: $texto-principal;
+
+            &:last-of-type { border-bottom: none; }
+
+            span { color: $texto-secundario; }
+            strong { font-weight: 700; }
+          }
+
+          // --- SECCIÓN DE BARRAS DE PROGRESO ---
+          .progress-section { 
+            margin-top: auto; 
+            padding-top: 1.5rem; 
+
+            &.alert-section { padding-top: 1rem; }
+
+            .progress-label { 
+              font-size: 0.8rem; 
+              font-weight: 600; 
+              color: $texto-secundario;
+              margin: 0 0 0.6rem 0; 
+            }
+
+            .progress-track { 
+              width: 100%; 
+              height: 8px; 
+              background-color: $gris-barra; 
+              border-radius: 4px; 
+              overflow: hidden; 
+
+              .progress-fill { 
+                height: 100%; 
+                border-radius: 4px; 
+                transition: width 1s ease-in-out;
+              }
+            }
+          }
+        }
+
+        // Colores utilitarios
+        .fill-green { background-color: $verde-brote; }
+        .fill-orange { background-color: $naranja-alerta; }
+        .text-red { color: $rojo-peligro !important; font-weight: bold; }
+      }
+    }
+  }
+
+  // ==========================================
+  // 3. DISEÑO MÓVIL
+  // ==========================================
+  @media (max-width: 48em) {
+    .top-bar { 
+      flex-direction: column; 
+      padding: 1.2rem; 
+      
+      .menu-left { width: 100%; justify-content: space-between; margin-bottom: 1rem; }
+      .header-buttons { width: 100%; justify-content: center; }
+    }
+    
+    .content { 
+      padding: 1.5rem; 
+      
+      .weather-grid {
+        grid-template-columns: 1fr; // 1 columna en móvil
+        gap: 1.5rem;
+
+        .weather-card.card-wide {
+          width: 100%;
+          
+          .card-body .grid-2-col {
+            grid-template-columns: 1fr; // Apilar datos en móvil
+          }
+        }
+      }
+    }
+  }
+}

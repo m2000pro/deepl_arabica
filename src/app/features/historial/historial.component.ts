@@ -7,7 +7,7 @@ import { RouterModule, Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './historial.component.html',
-  styleUrls: ['./historial.component.css']
+  styleUrls: ['./historial.component.scss']
 })
 export class HistorialComponent implements OnInit {
   nombreUsuario: string = 'ADMIN';

@@ -1,0 +1,166 @@
+// ==========================================
+// 1. PALETA DE COLORES "TUESTE OSCURO" (Admin)
+// ==========================================
+$fondo-noche:       #151C18; // Fondo oscuro con base verde oscuro
+$tarjeta-oscura:    #1E2A23; // Verde bosque ultra profundo
+$cabecera-oscura:   #18221C; // Tono intermedio para la cabecera
+$verde-brote:       #4CAF50; // El acento verde vivo de la app
+$verde-hover:       #45a049; 
+$texto-claro:       #E8F0EA; // Blanco con un levísimo matiz menta
+$texto-secundario:  #9AB0A2; // Gris verdoso para textos menores
+$borde-input:       #2D4235;
+
+// Variables de diseño
+$borde-redondeado:  12px;
+$transicion:        all 0.3s ease;
+$sombra-admin:      0 10px 30px rgba(0, 0, 0, 0.6);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS Y ESTRUCTURA
+// ==========================================
+.admin-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $fondo-noche;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+
+  .admin-card {
+    width: 100%;
+    max-width: 450px;
+    background-color: $tarjeta-oscura;
+    border-radius: $borde-redondeado;
+    box-shadow: $sombra-admin;
+    overflow: hidden;
+
+    // --- Cabecera ---
+    .card-header {
+      background-color: $cabecera-oscura;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 3px solid $verde-brote;
+
+      h2 {
+        color: #ffffff;
+        margin: 0 0 10px 0;
+        letter-spacing: 2px;
+        font-size: 24px;
+      }
+
+      p {
+        color: $texto-secundario;
+        margin: 0;
+        font-size: 13px;
+      }
+    }
+
+    // --- Cuerpo del Login ---
+    .card-body {
+      padding: 30px;
+
+      // Alertas dinámicas
+      .alert {
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        text-align: center;
+
+        &.error {
+          background-color: rgba(255, 107, 107, 0.1);
+          color: #FF6B6B;
+          border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        &.success {
+          background-color: rgba(76, 175, 80, 0.1);
+          color: $verde-brote;
+          border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+      }
+
+      // Formulario
+      form {
+        .form-group {
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+
+          label {
+            color: $texto-claro;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+          }
+
+          input {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid $borde-input;
+            background-color: $fondo-noche;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: $transicion;
+
+            &:focus {
+              border-color: $verde-brote;
+              box-shadow: 0 0 0 2px rgba($verde-brote, 0.15); // Anillo sutil al escribir
+            }
+          }
+        }
+
+        // Botón Principal
+        .btn-submit {
+          width: 100%;
+          padding: 14px;
+          background-color: $verde-brote;
+          color: #ffffff;
+          border: none;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: bold;
+          cursor: pointer;
+          margin-top: 10px;
+          transition: $transicion;
+
+          &:hover:not([disabled]) {
+            background-color: $verde-hover;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba($verde-brote, 0.2);
+          }
+
+          &[disabled] {
+            background-color: #304738;
+            color: #688271;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      // --- Enlaces secundarios ---
+      .toggle-section {
+        text-align: center;
+        margin-top: 25px;
+
+        p { margin: 5px 0; }
+
+        a.escape-link {
+          color: $texto-secundario;
+          font-size: 13px;
+          cursor: pointer;
+          font-weight: normal;
+          text-decoration: none;
+          transition: $transicion;
+
+          &:hover {
+            color: $texto-claro;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

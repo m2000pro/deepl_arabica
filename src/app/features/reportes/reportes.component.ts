@@ -7,7 +7,7 @@ import { RouterModule, Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './reportes.component.html',
-  styleUrls: ['./reportes.component.css']
+  styleUrls: ['./reportes.component.scss']
 })
 export class ReportesComponent implements OnInit {
   nombreUsuario: string = 'ADMIN';

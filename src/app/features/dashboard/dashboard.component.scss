@@ -1,0 +1,298 @@
+// ==========================================
+// 1. PALETA DE COLORES "FINCA CAFETALERA"
+// ==========================================
+$verde-hoja-madura: #2A5C38;  // Verde principal elegante
+$verde-brote:       #4CAF50;  // Verde vivo para acciones positivas
+$marron-cafe:       #6D4C41;  // Tono grano tostado para detalles
+$fondo-crema:       #F9F7F3;  // Fondo general de la app
+$texto-principal:   #2E3331;  // Textos oscuros
+$texto-secundario:  #7A8B9A;  // Textos de apoyo
+$blanco-puro:       #FFFFFF;  // Tarjetas
+$naranja-tierra:    #D84315;  // Para alertas (hojas enfermas)
+
+// Variables de diseño
+$borde-redondeado:  1.5rem;
+$transicion:        all 0.3s ease;
+$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS
+// ==========================================
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: $fondo-crema;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  // --- HEADER ---
+  .top-bar {
+    background-color: $verde-hoja-madura; // Unificamos con el verde corporativo
+    color: $blanco-puro;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2.5rem; 
+    min-height: 4.5rem; 
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    .menu-left { 
+      display: flex; 
+      align-items: center; 
+      gap: 1.8rem; 
+      
+      .menu-icon { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        cursor: pointer; 
+        transition: $transicion;
+
+        &:hover { transform: scale(1.05); }
+
+        .menu-text { 
+          font-size: 0.65rem; 
+          font-weight: bold;
+          letter-spacing: 1px; 
+          margin-bottom: 0.2rem; 
+        }
+
+        .hamburger span { 
+          display: block; 
+          width: 2.2rem; 
+          height: 0.25rem; 
+          background-color: $blanco-puro; 
+          margin-bottom: 0.3rem; 
+          border-radius: 0.15rem; 
+        }
+      }
+
+      h1 { 
+        margin: 0; 
+        font-size: 1.4rem; 
+        font-weight: 600; 
+        letter-spacing: 0.5px; 
+      }
+    }
+
+    .header-buttons { 
+      display: flex; 
+      gap: 1rem; 
+      flex-wrap: wrap; 
+      
+      .btn-logout {
+        background-color: rgba($blanco-puro, 0.15); // Botón sutil en el header
+        color: $blanco-puro;
+        border: 1px solid rgba($blanco-puro, 0.3);
+        border-radius: 1.25rem;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: $transicion;
+
+        &:hover { 
+          background-color: $blanco-puro; 
+          color: $verde-hoja-madura;
+        }
+      }
+    }
+  }
+
+  // --- CONTENIDO Y GRID ---
+  .content {
+    display: flex;
+    padding: 3rem; 
+    max-width: 1100px; 
+    margin: 0 auto;
+    gap: 4rem; 
+
+    // --- SECCIÓN ESCÁNER (IZQUIERDA) ---
+    .scanner-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem; 
+
+      .scanner-placeholder {
+        width: 18rem; 
+        height: 18rem; 
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba($verde-hoja-madura, 0.03); // Fondo ultra suave
+        border-radius: $borde-redondeado;
+
+        // Esquinas del escáner
+        .corner { 
+          position: absolute; 
+          width: 3.5rem; 
+          height: 3.5rem; 
+          border: 6px solid $verde-brote; // Verde vivo para indicar que está listo para escanear
+          border-radius: 0.6rem; 
+        }
+        .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+        
+        .center-line { 
+          width: 6rem; 
+          height: 6px; 
+          background-color: rgba($verde-brote, 0.5); 
+          border-radius: 4px; 
+        }
+      }
+
+      .btn-primary {
+        background-color: $verde-hoja-madura;
+        color: $blanco-puro;
+        border: none;
+        border-radius: $borde-redondeado; 
+        padding: 1rem 3rem; 
+        font-size: 1rem; 
+        font-weight: bold;
+        cursor: pointer;
+        transition: $transicion;
+        box-shadow: 0 6px 15px rgba($verde-hoja-madura, 0.3);
+
+        &:hover {
+          background-color: $verde-brote;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba($verde-brote, 0.4);
+        }
+      }
+    }
+
+    // --- SECCIÓN TARJETAS (DERECHA) ---
+    .info-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem; 
+
+      .info-card {
+        background-color: $blanco-puro; // Cambio a tarjetas blancas premium
+        border-radius: $borde-redondeado; 
+        padding: 2rem; 
+        color: $texto-principal;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: $sombra-premium;
+        border: 1px solid rgba($verde-hoja-madura, 0.05);
+
+        h3 { 
+          margin: 0 0 1.5rem 0; 
+          font-size: 1.1rem; 
+          font-weight: 700; 
+          text-align: center; 
+          color: $verde-hoja-madura;
+        }
+
+        .stat-row { 
+          width: 100%; 
+          display: flex; 
+          flex-direction: column; 
+          margin-bottom: 1.2rem; 
+          
+          .stat-label { 
+            margin: 0 0 0.2rem 0; 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+            color: $texto-secundario;
+          }
+          .stat-number { 
+            margin: 0; 
+            font-size: 2.8rem; 
+            text-align: center; 
+            font-weight: bold;
+          }
+        }
+
+        .stat-row-inline { 
+          width: 100%; 
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+          margin-bottom: 1.2rem; 
+          padding-bottom: 0.8rem;
+          border-bottom: 1px solid rgba($texto-secundario, 0.1);
+
+          &:last-of-type { border-bottom: none; }
+          
+          .stat-label { 
+            margin: 0; 
+            font-weight: 600; 
+            font-size: 1rem; 
+            color: $texto-secundario;
+          }
+          .stat-val { 
+            margin: 0; 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+          }
+        }
+
+        // Colores de los textos dinámicos
+        .text-orange { color: $naranja-tierra; }
+        .text-green { color: $verde-brote; }
+        .text-black { color: $texto-principal; }
+
+        .btn-detail {
+          background-color: rgba($marron-cafe, 0.1);
+          color: $marron-cafe;
+          border: none;
+          border-radius: 1rem; 
+          padding: 0.6rem 2rem; 
+          font-size: 0.9rem;
+          font-weight: bold;
+          cursor: pointer;
+          margin-top: 1rem;
+          transition: $transicion;
+
+          &:hover {
+            background-color: $marron-cafe;
+            color: $blanco-puro;
+          }
+        }
+      }
+    }
+  }
+
+  // ==========================================
+  // 3. DISEÑO MÓVIL
+  // ==========================================
+  @media (max-width: 48em) {
+    .top-bar { 
+      flex-direction: column; 
+      padding: 1.2rem; 
+      
+      .menu-left { 
+        width: 100%; 
+        justify-content: space-between; 
+        margin-bottom: 1rem; 
+      }
+      .header-buttons { 
+        width: 100%; 
+        justify-content: center; 
+      }
+    }
+    
+    .content {
+      flex-direction: column; 
+      padding: 1.5rem; 
+      gap: 2.5rem;
+      
+      .scanner-section {
+        .scanner-placeholder {
+          width: 16rem; 
+          height: 16rem; 
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,280 @@
+// ==========================================
+// 1. PALETA DE COLORES "FINCA CAFETALERA"
+// ==========================================
+$verde-hoja-madura: #2A5C38;  
+$verde-brote:       #4CAF50;  
+$azul-tecnico:      #2D3E4E;
+$fondo-crema:       #F9F7F3;  
+$texto-principal:   #2E3331;  
+$texto-secundario:  #7A8B9A;  
+$blanco-puro:       #FFFFFF;  
+$rojo-alerta:       #D32F2F;
+
+// Variables de diseño
+$borde-redondeado:  1.2rem;
+$transicion:        all 0.3s ease;
+$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.05);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS
+// ==========================================
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: $fondo-crema;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  // --- HEADER (Mismo del Dashboard principal) ---
+  .top-bar {
+    background-color: $verde-hoja-madura;
+    color: $blanco-puro;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2.5rem; 
+    min-height: 4.5rem; 
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+
+      .menu-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: $transicion;
+
+        &:hover { transform: scale(1.05); }
+
+        .menu-text {
+          font-size: 0.65rem;
+          font-weight: bold;
+          letter-spacing: 1px;
+          margin-bottom: 0.2rem;
+        }
+
+        .hamburger span {
+          display: block;
+          width: 2.2rem;
+          height: 0.25rem;
+          background-color: $blanco-puro;
+          margin-bottom: 0.3rem;
+          border-radius: 0.15rem;
+        }
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      button {
+        border: 1px solid rgba($blanco-puro, 0.3);
+        border-radius: 1.25rem;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: $transicion;
+
+        &.btn-nav {
+          background-color: transparent;
+          color: $blanco-puro;
+          &:hover { background-color: rgba($blanco-puro, 0.1); }
+        }
+
+        &.btn-logout {
+          background-color: rgba($blanco-puro, 0.15);
+          color: $blanco-puro;
+          &:hover { 
+            background-color: $blanco-puro; 
+            color: $verde-hoja-madura; 
+          }
+        }
+      }
+    }
+  }
+
+  // --- CONTENIDO ---
+  .content {
+    padding: 3rem; 
+    max-width: 1000px; 
+    margin: 0 auto;
+
+    .header-section {
+      margin-bottom: 2rem;
+      
+      h2 {
+        font-size: 1.6rem;
+        color: $verde-hoja-madura;
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: $texto-secundario;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+    }
+
+    // --- FILTROS ---
+    .filters-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem; 
+      margin-bottom: 2.5rem; 
+
+      .filter-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap; 
+
+        .btn-filter {
+          background-color: $blanco-puro;
+          color: $texto-secundario;
+          border: 1px solid rgba($texto-secundario, 0.2);
+          border-radius: 50px; // Forma de píldora
+          padding: 0.6rem 1.5rem;
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: $transicion;
+          flex: 1; 
+          min-width: 120px;
+          text-align: center;
+
+          &:hover {
+            border-color: $verde-hoja-madura;
+            color: $verde-hoja-madura;
+          }
+
+          // Estado activo
+          &.active { 
+            background-color: $verde-hoja-madura; 
+            color: $blanco-puro;
+            border-color: $verde-hoja-madura;
+            box-shadow: 0 4px 10px rgba($verde-hoja-madura, 0.2);
+          }
+
+          // Botones secundarios (Desde/Hasta)
+          &.light { 
+            background-color: rgba($texto-secundario, 0.05);
+            border: 1px dashed rgba($texto-secundario, 0.4);
+            &:hover { background-color: rgba($texto-secundario, 0.1); }
+          }
+        }
+      }
+    }
+
+    // --- TARJETA DE LA TABLA ---
+    .table-card {
+      background-color: $blanco-puro;
+      border-radius: $borde-redondeado;
+      box-shadow: $sombra-premium;
+      border: 1px solid rgba($verde-hoja-madura, 0.05);
+      padding: 1rem 0; // Padding arriba y abajo, la tabla toca los bordes laterales
+      
+      .table-container {
+        width: 100%;
+        overflow-x: auto; 
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        min-width: 600px; 
+
+        th {
+          background-color: rgba($verde-hoja-madura, 0.03);
+          color: $texto-principal;
+          padding: 1.2rem 1.5rem;
+          font-size: 0.85rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          border-bottom: 2px solid rgba($texto-secundario, 0.1);
+        }
+
+        td {
+          padding: 1.2rem 1.5rem;
+          font-size: 0.9rem; 
+          color: $texto-principal;
+          border-bottom: 1px solid rgba($texto-secundario, 0.1);
+          vertical-align: middle;
+
+          &.font-semibold { font-weight: 600; }
+          &.text-muted { color: $texto-secundario; }
+          &.empty-state { text-align: center; padding: 3rem; color: $texto-secundario; font-style: italic; }
+
+          // --- BADGES ---
+          .badge {
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: inline-block;
+
+            // Verde suave para positivo (ej. Planta sana)
+            &.badge-positive { 
+              background-color: rgba($verde-brote, 0.15); 
+              color: darken($verde-brote, 15%); 
+            }
+            
+            // Rojo suave para negativo (ej. Planta enferma)
+            &.badge-negative { 
+              background-color: rgba($rojo-alerta, 0.1); 
+              color: $rojo-alerta; 
+            }
+          }
+        }
+
+        // Efecto hover en filas
+        tbody tr {
+          transition: $transicion;
+          &:hover {
+            background-color: rgba($verde-hoja-madura, 0.02);
+          }
+        }
+      }
+    }
+  }
+
+  // ==========================================
+  // 3. DISEÑO MÓVIL
+  // ==========================================
+  @media (max-width: 48em) {
+    .top-bar { 
+      flex-direction: column; 
+      padding: 1.2rem; 
+      
+      .menu-left { width: 100%; justify-content: space-between; margin-bottom: 1rem; }
+      .header-buttons { width: 100%; justify-content: center; }
+    }
+    
+    .content { 
+      padding: 1.5rem; 
+
+      .header-section h2 { font-size: 1.4rem; }
+
+      .filters-container .filter-row { 
+        flex-direction: column; 
+        width: 100%; 
+        
+        .btn-filter { width: 100%; }
+      }
+    }
+  }
+}

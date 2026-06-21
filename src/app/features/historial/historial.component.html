@@ -17,7 +17,10 @@
   </header>
 
   <div class="content">
-    <h2>Historial de diagnóstico</h2>
+    <div class="header-section">
+      <h2>Historial de diagnósticos</h2>
+      <p class="subtitle">Revisa el registro de tus parcelas</p>
+    </div>
 
     <div class="filters-container">
       <div class="filter-row">
@@ -33,33 +36,37 @@
       </div>
     </div>
 
-    <div class="table-container">
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Diagnóstico<br>(Positivo/Negativo)</th>
-            <th>Enfermedad</th>
-            <th>Parcela</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngIf="registrosAMostrar.length === 0">
-            <td colspan="4" style="padding: 20px; color: #666;">No hay registros en este período.</td>
-          </tr>
-          
-          <tr *ngFor="let item of registrosAMostrar">
-            <td>{{ item.fecha }}</td>
-            <td>
-              <span class="badge" 
-                    [ngClass]="{'badge-positive': item.diagnostico === 'Positivo', 
-                                'badge-negative': item.diagnostico === 'Negativo'}">
-                {{ item.diagnostico }}
-              </span>
-            </td>
-            <td>{{ item.enfermedad }}</td>
-            <td>{{ item.parcela }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="table-card">
+      <div class="table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Diagnóstico</th>
+              <th>Enfermedad</th>
+              <th>Parcela</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="registrosAMostrar.length === 0">
+              <td colspan="4" class="empty-state">No hay registros en este período.</td>
+            </tr>
+            
+            <tr *ngFor="let item of registrosAMostrar">
+              <td class="font-semibold">{{ item.fecha }}</td>
+              <td>
+                <span class="badge" 
+                      [ngClass]="{'badge-positive': item.diagnostico === 'Positivo', 
+                                  'badge-negative': item.diagnostico === 'Negativo'}">
+                  {{ item.diagnostico }}
+                </span>
+              </td>
+              <td class="text-muted">{{ item.enfermedad }}</td>
+              <td>{{ item.parcela }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+</div>

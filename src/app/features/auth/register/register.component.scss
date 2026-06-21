@@ -1,0 +1,149 @@
+// ==========================================
+// 1. PALETA DE COLORES "FINCA CAFETALERA"
+// ==========================================
+$verde-hoja-madura: #2A5C38;  // Principal: Verde profundo
+$verde-brote:       #4CAF50;  // Hover: Verde vivo
+$marron-tierra:     #8D6E63;  // Enlaces secundarios
+$fondo-crema:       #F9F7F3;  // Fondo general
+$texto-principal:   #2E3331;  // Texto principal
+$blanco-puro:       #FFFFFF;  // Fondo de tarjeta
+
+// Variables de diseño
+$borde-redondeado:  1.5rem;
+$transicion-rapida: 0.2s ease;
+$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08);
+
+// ==========================================
+// 2. ESTILOS ANIDADOS
+// ==========================================
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $fondo-crema;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1.25rem;
+  box-sizing: border-box;
+
+  .login-card {
+    background-color: $blanco-puro;
+    border-radius: $borde-redondeado;
+    padding: 2.5rem 3rem;
+    width: 100%;
+    max-width: 26.25rem;
+    box-shadow: $sombra-premium;
+    box-sizing: border-box;
+    border: 1px solid rgba($verde-hoja-madura, 0.05);
+
+    // --- Título del Registro ---
+    h2 {
+      text-align: center;
+      font-size: 1.6rem;
+      color: $verde-hoja-madura;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    // --- Formulario y Controles ---
+    form {
+      .form-group-vertical {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.2rem;
+
+        label {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: $texto-principal;
+          margin-bottom: 0.4rem;
+          letter-spacing: 0.5px;
+        }
+
+        input {
+          padding: 0.7rem 1rem;
+          border: 1px solid rgba($texto-principal, 0.15);
+          background-color: #FAFAFA;
+          border-radius: 0.6rem;
+          font-size: 0.9rem;
+          outline: none;
+          color: $texto-principal;
+          transition: all $transicion-rapida;
+          width: 100%;
+          box-sizing: border-box;
+
+          // Anillo de foco al escribir
+          &:focus {
+            background-color: $blanco-puro;
+            border-color: $verde-hoja-madura;
+            box-shadow: 0 0 0 3px rgba($verde-hoja-madura, 0.15);
+          }
+        }
+      }
+
+      // --- Botón de Registro ---
+      .button-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+
+        .btn-register-submit {
+          background-color: $verde-hoja-madura;
+          color: $blanco-puro;
+          border: none;
+          border-radius: 0.6rem; // A juego con los inputs
+          padding: 0.8rem 1.875rem;
+          font-weight: bold;
+          font-size: 0.85rem;
+          cursor: pointer;
+          transition: all $transicion-rapida;
+          width: 100%;
+
+          &:hover {
+            background-color: $verde-brote;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba($verde-brote, 0.3);
+          }
+        }
+      }
+
+      // --- Enlace de Volver ---
+      .link-center {
+        text-align: center;
+        margin-top: 1.2rem;
+
+        .back-link {
+          font-size: 0.8rem;
+          color: $marron-tierra;
+          cursor: pointer;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color $transicion-rapida;
+
+          &:hover {
+            color: $verde-hoja-madura;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    // ==========================================
+    // 3. DISEÑO RESPONSIVO
+    // ==========================================
+    @media (max-width: 30em) {
+      padding: 2rem 1.5rem;
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      form {
+        .form-group-vertical input {
+          padding: 0.75rem 0.9375rem; // Inputs más altos en móvil
+        }
+      }
+    }
+  }
+}
