@@ -62,7 +62,7 @@ $sombra-tarjeta:    0 8px 24px rgba(30, 42, 35, 0.08);
         transition: $transicion;
 
         &:hover {
-          background-color: darken($rojo-alerta, 10%);
+          background-color:#A92525;
           transform: translateY(-2px);
           box-shadow: 0 4px 10px rgba($rojo-alerta, 0.4);
         }
@@ -147,7 +147,7 @@ $sombra-tarjeta:    0 8px 24px rgba(30, 42, 35, 0.08);
 
             &.active {
               background-color: rgba($verde-brote, 0.15);
-              color: darken($verde-brote, 15%);
+              color: #2E7031;
             }
 
             &.suspended {
@@ -170,7 +170,7 @@ $sombra-tarjeta:    0 8px 24px rgba(30, 42, 35, 0.08);
             &.btn-activate {
               background-color: $verde-brote;
               &:hover { 
-                background-color: darken($verde-brote, 10%); 
+                background-color: #388E3C; 
                 transform: scale(1.05);
               }
             }
@@ -178,7 +178,7 @@ $sombra-tarjeta:    0 8px 24px rgba(30, 42, 35, 0.08);
             &.btn-suspend {
               background-color: $rojo-suave;
               &:hover { 
-                background-color: darken($rojo-suave, 10%); 
+                background-color: #FF4D4D; 
                 transform: scale(1.05);
               }
             }

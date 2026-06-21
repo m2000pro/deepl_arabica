@@ -230,7 +230,7 @@ $sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.05);
             // Verde suave para positivo (ej. Planta sana)
             &.badge-positive { 
               background-color: rgba($verde-brote, 0.15); 
-              color: darken($verde-brote, 15%); 
+              color: #2E7031; 
             }
             
             // Rojo suave para negativo (ej. Planta enferma)

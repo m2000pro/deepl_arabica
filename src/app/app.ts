@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   templateUrl: './app.html',
   // Si usas CSS o SCSS, asegúrate de que el nombre coincida aquí
-  styleUrls: ['./app.css'] 
+  styleUrls: ['./app.scss'] 
 })
 export class App { // <--- ¡ESTE ES EL CAMBIO CLAVE!
   title = 'deepl_arabica';
