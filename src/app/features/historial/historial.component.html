@@ -1,44 +1,43 @@
-<div class="dashboard-wrapper">
+<div class="innovative-wrapper">
   
-  <header class="top-bar">
-    <div class="menu-left">
-      <div class="menu-icon" routerLink="/dashboard">
-        <span class="menu-text">MENU</span>
-        <div class="hamburger">
-          <span></span><span></span><span></span>
-        </div>
+  <!-- Navegación Flotante -->
+  <header class="floating-nav glass-panel">
+    <div class="brand-zone">
+      <div class="menu-trigger" routerLink="/dashboard">
+        <div class="dots"></div><div class="dots"></div><div class="dots"></div>
       </div>
-      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+      <div class="greeting">
+        <span class="greeting-sub">REGISTRO CLÍNICO</span>
+        <h1>Historial de Parcelas</h1>
+      </div>
     </div>
-    <div class="header-buttons">
-      <button class="btn-nav" routerLink="/dashboard">INICIO</button>
-      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    <div class="nav-actions">
+      <button class="btn-neo-ghost" routerLink="/dashboard">Inicio</button>
+      <button class="btn-neo-logout" (click)="cerrarSesion()">Salir</button>
     </div>
   </header>
 
-  <div class="content">
-    <div class="header-section">
-      <h2>Historial de diagnósticos</h2>
-      <p class="subtitle">Revisa el registro de tus parcelas</p>
-    </div>
-
-    <div class="filters-container">
-      <div class="filter-row">
-        <button class="btn-filter" [class.active]="filtroActivo === 'HOY'" (click)="aplicarFiltro('HOY')">HOY</button>
-        <button class="btn-filter" [class.active]="filtroActivo === 'ESTA SEMANA'" (click)="aplicarFiltro('ESTA SEMANA')">ESTA SEMANA</button>
-        <button class="btn-filter" [class.active]="filtroActivo === 'ESTE MES'" (click)="aplicarFiltro('ESTE MES')">ESTE MES</button>
-        <button class="btn-filter" [class.active]="filtroActivo === 'HACE 3 MESES'" (click)="aplicarFiltro('HACE 3 MESES')">HACE 3 MESES</button>
+  <div class="history-content">
+    
+    <!-- Filtros tipo "Píldora" -->
+    <div class="filters-zone">
+      <div class="filter-group">
+        <button class="pill-filter" [class.active]="filtroActivo === 'HOY'" (click)="aplicarFiltro('HOY')">Hoy</button>
+        <button class="pill-filter" [class.active]="filtroActivo === 'ESTA SEMANA'" (click)="aplicarFiltro('ESTA SEMANA')">Esta Semana</button>
+        <button class="pill-filter" [class.active]="filtroActivo === 'ESTE MES'" (click)="aplicarFiltro('ESTE MES')">Este Mes</button>
+        <button class="pill-filter" [class.active]="filtroActivo === 'HACE 3 MESES'" (click)="aplicarFiltro('HACE 3 MESES')">Últimos 3 Meses</button>
       </div>
-      <div class="filter-row">
-        <button class="btn-filter" [class.active]="filtroActivo === 'PLAZO PERSONALIZADO'" (click)="aplicarFiltro('PLAZO PERSONALIZADO')">PLAZO PERSONALIZADO</button>
-        <button class="btn-filter light">DESDE</button>
-        <button class="btn-filter light">HASTA</button>
+      <div class="filter-group custom-range">
+        <button class="pill-filter outline" [class.active]="filtroActivo === 'PLAZO PERSONALIZADO'" (click)="aplicarFiltro('PLAZO PERSONALIZADO')">Rango Personalizado</button>
+        <button class="pill-filter ghost">Desde</button>
+        <button class="pill-filter ghost">Hasta</button>
       </div>
     </div>
 
-    <div class="table-card">
-      <div class="table-container">
-        <table class="history-table">
+    <!-- Tabla en Cristal -->
+    <div class="table-card glass-panel">
+      <div class="table-responsive">
+        <table class="neo-table">
           <thead>
             <tr>
               <th>Fecha</th>
@@ -49,15 +48,15 @@
           </thead>
           <tbody>
             <tr *ngIf="registrosAMostrar.length === 0">
-              <td colspan="4" class="empty-state">No hay registros en este período.</td>
+              <td colspan="4" class="empty-state">No se encontraron registros en este período.</td>
             </tr>
             
             <tr *ngFor="let item of registrosAMostrar">
-              <td class="font-semibold">{{ item.fecha }}</td>
+              <td class="font-bold">{{ item.fecha }}</td>
               <td>
-                <span class="badge" 
-                      [ngClass]="{'badge-positive': item.diagnostico === 'Positivo', 
-                                  'badge-negative': item.diagnostico === 'Negativo'}">
+                <span class="status-pill" 
+                      [ngClass]="{'is-positive': item.diagnostico === 'Positivo', 
+                                  'is-negative': item.diagnostico === 'Negativo'}">
                   {{ item.diagnostico }}
                 </span>
               </td>
@@ -68,5 +67,6 @@
         </table>
       </div>
     </div>
+
   </div>
 </div>

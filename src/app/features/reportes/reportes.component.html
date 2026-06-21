@@ -1,32 +1,33 @@
-<div class="dashboard-wrapper">
+<div class="innovative-wrapper">
   
-  <header class="top-bar">
-    <div class="menu-left">
-      <div class="menu-icon" routerLink="/dashboard">
-        <span class="menu-text">MENU</span>
-        <div class="hamburger">
-          <span></span><span></span><span></span>
-        </div>
+  <!-- Navegación Flotante -->
+  <header class="floating-nav glass-panel">
+    <div class="brand-zone">
+      <div class="menu-trigger" routerLink="/dashboard">
+        <div class="dots"></div><div class="dots"></div><div class="dots"></div>
       </div>
-      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+      <div class="greeting">
+        <span class="greeting-sub">CONDICIONES EN TIEMPO REAL</span>
+        <h1>Reportes Locales</h1>
+      </div>
     </div>
-    <div class="header-buttons">
-      <button class="btn-nav" routerLink="/dashboard">INICIO</button>
-      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    <div class="nav-actions">
+      <button class="btn-neo-ghost" routerLink="/dashboard">Inicio</button>
+      <button class="btn-neo-logout" (click)="cerrarSesion()">Salir</button>
     </div>
   </header>
 
-  <div class="content">
-    <div class="header-section">
-      <h2 class="page-title">REPORTES LOCALES</h2>
-      <p class="subtitle">Monitoreo climático de tus parcelas</p>
-    </div>
-
+  <div class="reports-content">
+    
     <div class="weather-grid">
       
-      <div class="weather-card card-blue">
+      <!-- TARJETA TEMPERATURA (Efecto Cristal con sutil acento azul) -->
+      <div class="weather-card glass-panel card-temp">
         <div class="card-header">
-          <h3>Temperatura</h3>
+          <div class="header-title">
+            <span class="icon">🌡️</span>
+            <h3>Temperatura</h3>
+          </div>
         </div>
         
         <div class="card-body">
@@ -44,9 +45,13 @@
         </div>
       </div>
 
-      <div class="weather-card card-water">
+      <!-- TARJETA HUMEDAD (Efecto Cristal con sutil acento celeste) -->
+      <div class="weather-card glass-panel card-humidity">
         <div class="card-header">
-          <h3>Humedad</h3>
+          <div class="header-title">
+            <span class="icon">💧</span>
+            <h3>Humedad</h3>
+          </div>
         </div>
         
         <div class="card-body">
@@ -64,9 +69,13 @@
         </div>
       </div>
 
-      <div class="weather-card card-wide">
+      <!-- TARJETA CONDICIÓN GENERAL (Translucida y Ancha) -->
+      <div class="weather-card glass-panel card-wide">
         <div class="card-header">
-          <h3>Condición general</h3>
+          <div class="header-title">
+            <span class="icon">🍃</span>
+            <h3>Condición General</h3>
+          </div>
         </div>
         
         <div class="card-body">
@@ -74,11 +83,11 @@
             <div class="data-row"><span>Viento</span> <strong>{{ clima.condicion.viento }}</strong></div>
             <div class="data-row"><span>Índice UV</span> <strong>{{ clima.condicion.uv }}</strong></div>
             <div class="data-row"><span>Presión</span> <strong>{{ clima.condicion.presion }}</strong></div>
-            <div class="data-row"><span>Alerta activa</span> <strong class="text-red">{{ clima.condicion.alerta }}</strong></div>
+            <div class="data-row"><span>Alerta activa</span> <strong class="text-cherry">{{ clima.condicion.alerta }}</strong></div>
           </div>
           
           <div class="progress-section alert-section">
-            <p class="progress-label text-red">Condiciones favorables para propagación de roya</p>
+            <p class="progress-label text-cherry">Condiciones favorables para propagación de roya</p>
             <div class="progress-track">
               <div class="progress-fill fill-orange" style="width: 80%;"></div>
             </div>

@@ -1,38 +1,29 @@
-<div class="login-wrapper">
-  <div class="login-card">
+<div class="auth-wrapper">
+  <div class="auth-card glass-panel">
     
-    <div class="logo-section" (click)="revelarModoAdmin()" style="cursor: default; user-select: none;">
-      
+    <div class="brand-section" (click)="revelarModoAdmin()" style="cursor: default; user-select: none;">
       <svg class="leaf-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 21C12 21 4 15.5 4 9C4 5.5 6.5 3 10 3C11.5 3 12 4 12 4C12 4 12.5 3 14 3C17.5 3 20 5.5 20 9C20 15.5 12 21 12 21Z" fill="#4CAF50" stroke="#2A5C38" stroke-width="2"/>
-        <path d="M12 21V10" stroke="#2A5C38" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 21C12 21 4 15.5 4 9C4 5.5 6.5 3 10 3C11.5 3 12 4 12 4C12 4 12.5 3 14 3C17.5 3 20 5.5 20 9C20 15.5 12 21 12 21Z" fill="var(--leaf-vibrant)" stroke="var(--leaf-dark)" stroke-width="2"/>
+        <path d="M12 21V10" stroke="var(--leaf-dark)" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      
       <h2>DeepL-Arabica</h2>
+      <p class="subtitle">Portal de Agricultores</p>
     </div>
 
     <form (ngSubmit)="iniciarSesion()">
-      <div class="form-group">
+      <div class="input-group">
         <label>USUARIO</label>
-        <input 
-          type="text" 
-          name="usuario" 
-          [(ngModel)]="usuario" 
-          required>
+        <input type="text" name="usuario" [(ngModel)]="usuario" required placeholder="Ingresa tu usuario">
       </div>
 
-      <div class="form-group">
+      <div class="input-group">
         <label>CONTRASEÑA</label>
-        <input 
-          type="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          required>
+        <input type="password" name="password" [(ngModel)]="password" required placeholder="••••••••">
       </div>
 
-      <div class="button-group">
-        <button type="submit" class="btn-login">INICIAR SESION</button>
-        <button type="button" class="btn-register" (click)="irARegistro()">REGISTRARSE</button>
+      <div class="action-group">
+        <button type="submit" class="btn-neo-primary w-100">INICIAR SESIÓN</button>
+        <button type="button" class="btn-neo-ghost w-100" (click)="irARegistro()">CREAR CUENTA</button>
       </div>
     </form>
 

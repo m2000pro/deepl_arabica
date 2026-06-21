@@ -1,166 +1,151 @@
-// ==========================================
-// 1. PALETA DE COLORES "TUESTE OSCURO" (Admin)
-// ==========================================
-$fondo-noche:       #151C18; // Fondo oscuro con base verde oscuro
-$tarjeta-oscura:    #1E2A23; // Verde bosque ultra profundo
-$cabecera-oscura:   #18221C; // Tono intermedio para la cabecera
-$verde-brote:       #4CAF50; // El acento verde vivo de la app
-$verde-hover:       #45a049; 
-$texto-claro:       #E8F0EA; // Blanco con un levísimo matiz menta
-$texto-secundario:  #9AB0A2; // Gris verdoso para textos menores
-$borde-input:       #2D4235;
-
-// Variables de diseño
-$borde-redondeado:  12px;
-$transicion:        all 0.3s ease;
-$sombra-admin:      0 10px 30px rgba(0, 0, 0, 0.6);
-
-// ==========================================
-// 2. ESTILOS ANIDADOS Y ESTRUCTURA
-// ==========================================
 .admin-wrapper {
-  min-height: 100vh;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 2rem;
+// Fondo oscuro misterioso con matiz verde
+background: radial-gradient(circle at top, #1E2A23 0%, #0D1310 100%);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-card {
+width: 100%;
+max-width: 450px;
+border-radius: var(--radius-lg);
+overflow: hidden;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+
+// Cristal Oscuro (Dark Roast Glass)
+&.dark-glass {
+background: rgba(24, 34, 28, 0.75);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-header {
+background: rgba(18, 26, 21, 0.8);
+padding: 2.5rem 2rem;
+text-align: center;
+border-bottom: 3px solid var(--leaf-vibrant);
+
+h2 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #8DA395;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+
+}
+
+.card-body {
+padding: 2.5rem;
+
+/* Alertas oscuras */
+.alert {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  background: rgba(231, 76, 60, 0.1);
+  color: #FF6B6B;
+  border: 1px solid rgba(231, 76, 60, 0.25);
+}
+
+form {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $fondo-noche;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 20px;
+  flex-direction: column;
+  gap: 1.5rem;
 
-  .admin-card {
-    width: 100%;
-    max-width: 450px;
-    background-color: $tarjeta-oscura;
-    border-radius: $borde-redondeado;
-    box-shadow: $sombra-admin;
-    overflow: hidden;
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-    // --- Cabecera ---
-    .card-header {
-      background-color: $cabecera-oscura;
-      padding: 30px 20px;
-      text-align: center;
-      border-bottom: 3px solid $verde-brote;
-
-      h2 {
-        color: #ffffff;
-        margin: 0 0 10px 0;
-        letter-spacing: 2px;
-        font-size: 24px;
-      }
-
-      p {
-        color: $texto-secundario;
-        margin: 0;
-        font-size: 13px;
-      }
+    label {
+      color: #E8F0EA;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
-    // --- Cuerpo del Login ---
-    .card-body {
-      padding: 30px;
+    input {
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(13, 19, 16, 0.6);
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition-smooth);
 
-      // Alertas dinámicas
-      .alert {
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 20px;
-        font-size: 13px;
-        text-align: center;
+      &::placeholder { color: #5C7063; }
 
-        &.error {
-          background-color: rgba(255, 107, 107, 0.1);
-          color: #FF6B6B;
-          border: 1px solid rgba(255, 107, 107, 0.3);
-        }
-
-        &.success {
-          background-color: rgba(76, 175, 80, 0.1);
-          color: $verde-brote;
-          border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-      }
-
-      // Formulario
-      form {
-        .form-group {
-          margin-bottom: 20px;
-          display: flex;
-          flex-direction: column;
-
-          label {
-            color: $texto-claro;
-            font-size: 13px;
-            margin-bottom: 8px;
-            font-weight: 600;
-          }
-
-          input {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid $borde-input;
-            background-color: $fondo-noche;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            transition: $transicion;
-
-            &:focus {
-              border-color: $verde-brote;
-              box-shadow: 0 0 0 2px rgba($verde-brote, 0.15); // Anillo sutil al escribir
-            }
-          }
-        }
-
-        // Botón Principal
-        .btn-submit {
-          width: 100%;
-          padding: 14px;
-          background-color: $verde-brote;
-          color: #ffffff;
-          border: none;
-          border-radius: 8px;
-          font-size: 15px;
-          font-weight: bold;
-          cursor: pointer;
-          margin-top: 10px;
-          transition: $transicion;
-
-          &:hover:not([disabled]) {
-            background-color: $verde-hover;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba($verde-brote, 0.2);
-          }
-
-          &[disabled] {
-            background-color: #304738;
-            color: #688271;
-            cursor: not-allowed;
-          }
-        }
-      }
-
-      // --- Enlaces secundarios ---
-      .toggle-section {
-        text-align: center;
-        margin-top: 25px;
-
-        p { margin: 5px 0; }
-
-        a.escape-link {
-          color: $texto-secundario;
-          font-size: 13px;
-          cursor: pointer;
-          font-weight: normal;
-          text-decoration: none;
-          transition: $transicion;
-
-          &:hover {
-            color: $texto-claro;
-            text-decoration: underline;
-          }
-        }
+      &:focus {
+        border-color: var(--leaf-vibrant);
+        box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.15);
+        background: rgba(13, 19, 16, 0.8);
       }
     }
   }
+
+  .btn-submit-neo {
+    width: 100%;
+    padding: 1.1rem;
+    background: linear-gradient(135deg, var(--leaf-vibrant) 0%, #1E8449 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+    margin-top: 0.5rem;
+
+    &:hover:not([disabled]) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(39, 174, 96, 0.45);
+    }
+
+    &[disabled] {
+      background: #24352B;
+      color: #516357;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+}
+
+.toggle-section {
+  text-align: center;
+  margin-top: 2rem;
+
+  .escape-link {
+    color: #8DA395;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+
+}
 }

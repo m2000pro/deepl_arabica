@@ -1,162 +1,131 @@
-// ==========================================
-// 1. PALETA DE COLORES "FINCA CAFETALERA"
-// ==========================================
-$verde-hoja-madura: #2A5C38;  // Principal: Verde elegante y profundo
-$verde-brote:       #4CAF50;  // Hover: Verde vivo
-$marron-tierra:     #8D6E63;  // Secundario: Tono tierra/madera
-$fondo-crema:       #F9F7F3;  // Fondo general: Blanco cálido
-$texto-principal:   #2E3331;  // Texto principal
-$blanco-puro:       #FFFFFF;  // Fondo de tarjeta
-
-// Variables de diseño
-$borde-redondeado:  1.5rem;
-$transicion-rapida: 0.2s ease;
-$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08); // Sombra con un levísimo toque verde
-
-// ==========================================
-// 2. ESTILOS ANIDADOS
-// ==========================================
-.login-wrapper {
+.auth-wrapper {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: $fondo-crema;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 1.25rem;
+  padding: 2rem;
+  /* Fondo radial para dar profundidad al efecto cristal */
+  background: radial-gradient(circle at bottom right, #E8F5E9 0%, var(--bg-crema) 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 3rem;
   box-sizing: border-box;
 
-  .login-card {
-    background-color: $blanco-puro;
-    border-radius: $borde-redondeado;
-    padding: 2.5rem 3rem;
-    width: 100%;
-    max-width: 26.25rem;
-    box-shadow: $sombra-premium;
-    box-sizing: border-box;
-    border: 1px solid rgba($verde-hoja-madura, 0.05);
+  .brand-section {
+    text-align: center;
+    margin-bottom: 2.5rem;
 
-    // --- Sección del Logo ---
-    .logo-section {
+    .leaf-logo { 
+      width: 48px; 
+      height: 48px; 
+      margin-bottom: 1rem; 
+      transition: var(--transition-smooth); 
+    }
+    
+    .leaf-logo:hover { 
+      transform: rotate(10deg) scale(1.1); 
+    }
+
+    h2 { 
+      margin: 0; 
+      font-size: 1.8rem; 
+      color: var(--leaf-dark); 
+      font-weight: 800; 
+      letter-spacing: -0.5px; 
+    }
+    
+    .subtitle { 
+      color: var(--text-muted); 
+      font-size: 0.9rem; 
+      margin-top: 0.5rem; 
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .input-group {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 2.5rem;
+      flex-direction: column;
+      gap: 0.5rem;
 
-      .leaf-logo {
-        width: 2.5rem;
-        height: 2.5rem;
-        margin-right: 0.9rem;
+      label { 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+        color: var(--text-main); 
+        letter-spacing: 0.5px; 
+      }
+      
+      input {
+        padding: 1rem 1.2rem;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid transparent;
+        border-radius: var(--radius-md);
+        font-size: 0.95rem;
+        color: var(--text-main);
+        transition: var(--transition-smooth);
+        outline: none;
+
+        &:focus {
+          background: var(--surface-solid);
+          border-color: var(--leaf-vibrant);
+          box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
+        }
+      }
+    }
+
+    .action-group {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .w-100 { width: 100%; }
+
+      .btn-neo-primary {
+        background: linear-gradient(135deg, var(--leaf-vibrant) 0%, #1E8449 100%);
+        color: white;
+        border: none;
+        padding: 1.1rem;
+        border-radius: var(--radius-pill);
+        font-weight: 800;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        transition: var(--transition-smooth);
+
+        &:hover { 
+          transform: translateY(-3px); 
+          box-shadow: 0 12px 25px rgba(39, 174, 96, 0.4); 
+        }
       }
 
-      h2 {
-        font-size: 1.6rem;
+      .btn-neo-ghost {
+        background: transparent;
+        color: var(--leaf-dark);
+        border: 2px solid rgba(18, 53, 36, 0.1);
+        padding: 1.1rem;
+        border-radius: var(--radius-pill);
         font-weight: 700;
-        color: $verde-hoja-madura; 
-        margin: 0;
-      }
-    }
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: var(--transition-smooth);
 
-    // --- Formulario y Controles ---
-    form {
-      .form-group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.25rem;
-        gap: 0.6rem;
-
-        label {
-          font-size: 0.8rem;
-          font-weight: 700;
-          color: $texto-principal;
-          flex-basis: 35%; 
-          letter-spacing: 0.5px;
-        }
-
-        input {
-          flex-basis: 65%; 
-          padding: 0.7rem 1rem;
-          border: 1px solid rgba($texto-principal, 0.15); 
-          background-color: #FAFAFA;
-          border-radius: 0.6rem;
-          font-size: 0.9rem;
-          outline: none;
-          color: $texto-principal;
-          transition: all $transicion-rapida;
-          width: 100%;
-          box-sizing: border-box;
-
-          &:focus {
-            background-color: $blanco-puro;
-            border-color: $verde-hoja-madura;
-            box-shadow: 0 0 0 3px rgba($verde-hoja-madura, 0.15); 
-          }
-        }
-      }
-
-      // --- Botones ---
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 2.5rem;
-        gap: 1rem;
-
-        button {
-          flex: 1;
-          padding: 0.8rem 0.6rem;
-          border: none;
-          border-radius: 0.6rem;
-          font-size: 0.85rem;
-          font-weight: bold;
-          color: $blanco-puro;
-          cursor: pointer;
-          transition: all $transicion-rapida;
-
-          &.btn-login { 
-            background-color: $verde-hoja-madura; 
-            
-            &:hover {
-              background-color: $verde-brote;
-              transform: translateY(-2px);
-              box-shadow: 0 4px 10px rgba($verde-brote, 0.3);
-            }
-          }
-
-          &.btn-register { 
-            background-color: $marron-tierra; 
-            
-            &:hover {
-              background-color: #70584f; 
-              transform: translateY(-2px);
-              box-shadow: 0 4px 10px rgba($marron-tierra, 0.3);
-            }
-          }
-        }
-      }
-    }
-
-    // ==========================================
-    // 3. DISEÑO RESPONSIVO
-    // ==========================================
-    @media (max-width: 30em) {
-      padding: 2rem 1.5rem; 
-
-      .logo-section h2 { font-size: 1.4rem; }
-
-      form {
-        .form-group {
-          flex-direction: column;
-          align-items: flex-start;
-
-          label { margin-bottom: 0.3rem; }
-        }
-
-        .button-group {
-          flex-direction: column;
-          button { width: 100%; }
+        &:hover { 
+          background: rgba(18, 53, 36, 0.05); 
+          border-color: var(--leaf-dark); 
         }
       }
     }
   }
+}
+
+@media (max-width: 600px) {
+  .auth-card { padding: 2rem 1.5rem; }
 }

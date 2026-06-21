@@ -1,35 +1,49 @@
-<div class="dashboard-wrapper">
-  <header class="admin-header">
-    <h1>⚙️ PANEL DE MONITOREO Y AUDITORÍA</h1>
-    <div class="header-actions">
+<div class="admin-dashboard-wrapper">
+  
+  <!-- Header con Cristal Oscuro "Dark Roast" -->
+  <header class="admin-header glass-panel dark-glass">
+    <div class="brand-zone">
+      <span class="icon">⚙️</span>
+      <div class="title-block">
+        <span class="sub">CONSOLA DE MONITOREO</span>
+        <h1>Auditoría de Base de Datos</h1>
+      </div>
+    </div>
+    <div class="action-zone">
       <span class="admin-name">Admin: {{ nombreAdmin }}</span>
-      <button class="btn-logout" (click)="cerrarSesion()">SALIR</button>
+      <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
     </div>
   </header>
 
   <div class="content">
-    <div class="crud-section">
-      <h2>Agricultores Registrados</h2>
+    
+    <!-- Sección de la Tabla del Administrador -->
+    <div class="crud-section glass-panel">
+      <div class="section-header">
+        <h2>Agricultores Registrados</h2>
+        <span class="db-badge">Base de Datos: TiDB Serverless</span>
+      </div>
       
       <div *ngIf="cargando" class="loading-state">
-        <h3>Conectando con la base de datos TiDB...</h3>
+        <div class="spinner"></div>
+        <h3>Estableciendo conexión segura con TiDB...</h3>
       </div>
 
-      <div class="table-container" *ngIf="!cargando && usuarios.length > 0">
+      <div class="table-responsive-wrapper" *ngIf="!cargando && usuarios.length > 0">
         <table class="admin-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Estado</th>
+              <th>Nombre Completo</th>
+              <th>Nombre de Usuario</th>
+              <th>Estado de Cuenta</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let u of usuarios">
               <td class="text-muted">#{{ u.id }}</td>
-              <td class="font-semibold">{{ u.nombre_completo }}</td>
+              <td class="font-bold">{{ u.nombre_completo }}</td>
               <td>@{{ u.usuario }}</td>
               <td>
                 <span class="status-badge" [ngClass]="u.estado === 'Activo' ? 'active' : 'suspended'">
@@ -49,7 +63,7 @@
       </div>
 
       <div *ngIf="!cargando && usuarios.length === 0" class="empty-state">
-        <p>No hay ningún agricultor registrado todavía.</p>
+        <p>No se encontraron agricultores registrados en la base de datos.</p>
       </div>
 
     </div>

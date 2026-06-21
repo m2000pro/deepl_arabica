@@ -1,14 +1,49 @@
-/* --- RESETEO GLOBAL DEL NAVEGADOR --- */
-html, body {
-margin: 0;
-padding: 0;
-width: 100%;
-height: 100%;
-box-sizing: border-box;
-  overflow-x: hidden; /* Elimina cualquier barra de desplazamiento horizontal accidental */
+// ======================================================
+// SISTEMA DE DISEÑO: DEEPL-ARABICA "GLASS-LEAF"
+// ======================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+:root {
+  // 1. Paleta de Colores "Ciclo del Café"
+  --leaf-dark: #123524;     // Verde selva profundo (Elegancia, menús, textos fuertes)
+  --leaf-vibrant: #27AE60;  // Verde brote (Botones principales, acentos de éxito)
+  --coffee-roast: #8B5A2B;  // Marrón grano tostado (Detalles cálidos)
+  --coffee-cherry: #E74C3C; // Rojo cereza del café (Alertas, cancelar, roya)
+  
+  // 2. Fondos y Superficies
+  --bg-crema: #F4F6F4;      // Blanco con un levísimo tinte verde hoja
+  --surface-glass: rgba(255, 255, 255, 0.85); // Tarjetas efecto cristal
+  --surface-solid: #FFFFFF;
+  
+  // 3. Textos
+  --text-main: #202A25;     // Casi negro, muy legible
+  --text-muted: #7A8B82;    // Gris verdoso para subtítulos
+  
+  // 4. Sombras y Formas Modernas
+  --shadow-soft: 0 12px 32px rgba(18, 53, 36, 0.05);
+  --shadow-hover: 0 16px 40px rgba(39, 174, 96, 0.15);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-pill: 50px;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Asegura que los bordes y rellenos no deformen el tamaño de las cajas */
-*, *:before, *:after {
-box-sizing: inherit;
+body {
+  background-color: var(--bg-crema);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+// Clase global para el efecto cristal (Glassmorphism)
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
 }

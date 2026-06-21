@@ -1,41 +1,41 @@
-<div class="login-wrapper">
-  <div class="login-card register-card">
+<div class="auth-wrapper">
+  <div class="auth-card glass-panel">
     
-    <h2>Crear Cuenta</h2>
+    <div class="brand-section">
+      <h2>Crear Cuenta</h2>
+      <p class="subtitle">Únete a la red de DeepL-Arabica</p>
+    </div>
 
     <form (ngSubmit)="registrar()">
       
-      <div class="form-group-vertical">
-        <label>Nombre completo</label>
-        <input type="text" name="nombre_completo" [(ngModel)]="nombre_completo" required>
+      <div class="input-group">
+        <label>NOMBRE COMPLETO</label>
+        <input type="text" name="nombre_completo" [(ngModel)]="nombre_completo" required placeholder="Ej. Juan Pérez">
       </div>
 
-      <div class="form-group-vertical">
-        <label>Usuario</label>
-        <input type="text" name="usuario" [(ngModel)]="usuario" required>
+      <div class="input-group">
+        <label>USUARIO</label>
+        <input type="text" name="usuario" [(ngModel)]="usuario" required placeholder="Crea un nickname">
       </div>
 
-      <div class="form-group-vertical">
-        <label>Correo electrónico</label>
-        <input type="email" name="correo_electronico" [(ngModel)]="correo_electronico" required>
+      <div class="input-group">
+        <label>CORREO ELECTRÓNICO</label>
+        <input type="email" name="correo_electronico" [(ngModel)]="correo_electronico" required placeholder="juan@correo.com">
       </div>
 
-      <div class="form-group-vertical">
-        <label>Contraseña</label>
-        <input type="password" name="contrasena" [(ngModel)]="password" required>
+      <div class="input-group">
+        <label>CONTRASEÑA</label>
+        <input type="password" name="contrasena" [(ngModel)]="password" required placeholder="Crea una contraseña segura">
       </div>
 
-      <div class="form-group-vertical">
-        <label>Confirmar Contraseña</label>
-        <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmar_password" required>
+      <div class="input-group">
+        <label>CONFIRMAR CONTRASEÑA</label>
+        <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmar_password" required placeholder="Repite tu contraseña">
       </div>
 
-      <div class="button-center">
-        <button type="submit" class="btn-login btn-register-submit">CREAR CUENTA</button>
-      </div>
-
-      <div class="link-center">
-        <a (click)="volverLogin()" class="back-link">← Volver al inicio de sesión</a>
+      <div class="action-group">
+        <button type="submit" class="btn-neo-primary w-100">REGISTRARSE</button>
+        <a (click)="volverLogin()" class="link-volver">← Volver al inicio de sesión</a>
       </div>
 
     </form>

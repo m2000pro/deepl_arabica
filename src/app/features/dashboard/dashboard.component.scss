@@ -1,298 +1,197 @@
-// ==========================================
-// 1. PALETA DE COLORES "FINCA CAFETALERA"
-// ==========================================
-$verde-hoja-madura: #2A5C38;  // Verde principal elegante
-$verde-brote:       #4CAF50;  // Verde vivo para acciones positivas
-$marron-cafe:       #6D4C41;  // Tono grano tostado para detalles
-$fondo-crema:       #F9F7F3;  // Fondo general de la app
-$texto-principal:   #2E3331;  // Textos oscuros
-$texto-secundario:  #7A8B9A;  // Textos de apoyo
-$blanco-puro:       #FFFFFF;  // Tarjetas
-$naranja-tierra:    #D84315;  // Para alertas (hojas enfermas)
-
-// Variables de diseño
-$borde-redondeado:  1.5rem;
-$transicion:        all 0.3s ease;
-$sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08);
-
-// ==========================================
-// 2. ESTILOS ANIDADOS
-// ==========================================
-.dashboard-wrapper {
+.innovative-wrapper {
   min-height: 100vh;
-  background-color: $fondo-crema;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: radial-gradient(circle at top left, #FFFFFF 0%, var(--bg-crema) 100%);
+}
 
-  // --- HEADER ---
-  .top-bar {
-    background-color: $verde-hoja-madura; // Unificamos con el verde corporativo
-    color: $blanco-puro;
+/* --- NAVEGACIÓN FLOTANTE --- */
+.floating-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  margin-bottom: 3rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  .brand-zone {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 2.5rem; 
-    min-height: 4.5rem; 
-    flex-wrap: wrap;
-    gap: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    gap: 1.5rem;
 
-    .menu-left { 
-      display: flex; 
-      align-items: center; 
-      gap: 1.8rem; 
+    .menu-trigger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: var(--transition-smooth);
       
-      .menu-icon { 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        cursor: pointer; 
-        transition: $transicion;
-
-        &:hover { transform: scale(1.05); }
-
-        .menu-text { 
-          font-size: 0.65rem; 
-          font-weight: bold;
-          letter-spacing: 1px; 
-          margin-bottom: 0.2rem; 
-        }
-
-        .hamburger span { 
-          display: block; 
-          width: 2.2rem; 
-          height: 0.25rem; 
-          background-color: $blanco-puro; 
-          margin-bottom: 0.3rem; 
-          border-radius: 0.15rem; 
-        }
-      }
-
-      h1 { 
-        margin: 0; 
-        font-size: 1.4rem; 
-        font-weight: 600; 
-        letter-spacing: 0.5px; 
-      }
+      &:hover { transform: scale(1.1); }
+      
+      .dots { width: 24px; height: 3px; background: var(--leaf-dark); border-radius: 5px; }
+      .dots:nth-child(2) { width: 16px; }
     }
 
-    .header-buttons { 
-      display: flex; 
-      gap: 1rem; 
-      flex-wrap: wrap; 
+    .greeting {
+      display: flex;
+      flex-direction: column;
       
-      .btn-logout {
-        background-color: rgba($blanco-puro, 0.15); // Botón sutil en el header
-        color: $blanco-puro;
-        border: 1px solid rgba($blanco-puro, 0.3);
-        border-radius: 1.25rem;
-        padding: 0.6rem 1.5rem;
-        font-size: 0.85rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: $transicion;
-
-        &:hover { 
-          background-color: $blanco-puro; 
-          color: $verde-hoja-madura;
-        }
-      }
+      .greeting-sub { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); letter-spacing: 1px; }
+      h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--leaf-dark); letter-spacing: -0.5px; }
     }
   }
 
-  // --- CONTENIDO Y GRID ---
-  .content {
-    display: flex;
-    padding: 3rem; 
-    max-width: 1100px; 
-    margin: 0 auto;
-    gap: 4rem; 
-
-    // --- SECCIÓN ESCÁNER (IZQUIERDA) ---
-    .scanner-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem; 
-
-      .scanner-placeholder {
-        width: 18rem; 
-        height: 18rem; 
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba($verde-hoja-madura, 0.03); // Fondo ultra suave
-        border-radius: $borde-redondeado;
-
-        // Esquinas del escáner
-        .corner { 
-          position: absolute; 
-          width: 3.5rem; 
-          height: 3.5rem; 
-          border: 6px solid $verde-brote; // Verde vivo para indicar que está listo para escanear
-          border-radius: 0.6rem; 
-        }
-        .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
-        .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
-        .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
-        .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
-        
-        .center-line { 
-          width: 6rem; 
-          height: 6px; 
-          background-color: rgba($verde-brote, 0.5); 
-          border-radius: 4px; 
-        }
-      }
-
-      .btn-primary {
-        background-color: $verde-hoja-madura;
-        color: $blanco-puro;
-        border: none;
-        border-radius: $borde-redondeado; 
-        padding: 1rem 3rem; 
-        font-size: 1rem; 
-        font-weight: bold;
-        cursor: pointer;
-        transition: $transicion;
-        box-shadow: 0 6px 15px rgba($verde-hoja-madura, 0.3);
-
-        &:hover {
-          background-color: $verde-brote;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba($verde-brote, 0.4);
-        }
-      }
-    }
-
-    // --- SECCIÓN TARJETAS (DERECHA) ---
-    .info-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem; 
-
-      .info-card {
-        background-color: $blanco-puro; // Cambio a tarjetas blancas premium
-        border-radius: $borde-redondeado; 
-        padding: 2rem; 
-        color: $texto-principal;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: $sombra-premium;
-        border: 1px solid rgba($verde-hoja-madura, 0.05);
-
-        h3 { 
-          margin: 0 0 1.5rem 0; 
-          font-size: 1.1rem; 
-          font-weight: 700; 
-          text-align: center; 
-          color: $verde-hoja-madura;
-        }
-
-        .stat-row { 
-          width: 100%; 
-          display: flex; 
-          flex-direction: column; 
-          margin-bottom: 1.2rem; 
-          
-          .stat-label { 
-            margin: 0 0 0.2rem 0; 
-            font-weight: 600; 
-            font-size: 0.95rem; 
-            color: $texto-secundario;
-          }
-          .stat-number { 
-            margin: 0; 
-            font-size: 2.8rem; 
-            text-align: center; 
-            font-weight: bold;
-          }
-        }
-
-        .stat-row-inline { 
-          width: 100%; 
-          display: flex; 
-          justify-content: space-between; 
-          align-items: center; 
-          margin-bottom: 1.2rem; 
-          padding-bottom: 0.8rem;
-          border-bottom: 1px solid rgba($texto-secundario, 0.1);
-
-          &:last-of-type { border-bottom: none; }
-          
-          .stat-label { 
-            margin: 0; 
-            font-weight: 600; 
-            font-size: 1rem; 
-            color: $texto-secundario;
-          }
-          .stat-val { 
-            margin: 0; 
-            font-size: 1.3rem; 
-            font-weight: bold; 
-          }
-        }
-
-        // Colores de los textos dinámicos
-        .text-orange { color: $naranja-tierra; }
-        .text-green { color: $verde-brote; }
-        .text-black { color: $texto-principal; }
-
-        .btn-detail {
-          background-color: rgba($marron-cafe, 0.1);
-          color: $marron-cafe;
-          border: none;
-          border-radius: 1rem; 
-          padding: 0.6rem 2rem; 
-          font-size: 0.9rem;
-          font-weight: bold;
-          cursor: pointer;
-          margin-top: 1rem;
-          transition: $transicion;
-
-          &:hover {
-            background-color: $marron-cafe;
-            color: $blanco-puro;
-          }
-        }
-      }
-    }
-  }
-
-  // ==========================================
-  // 3. DISEÑO MÓVIL
-  // ==========================================
-  @media (max-width: 48em) {
-    .top-bar { 
-      flex-direction: column; 
-      padding: 1.2rem; 
-      
-      .menu-left { 
-        width: 100%; 
-        justify-content: space-between; 
-        margin-bottom: 1rem; 
-      }
-      .header-buttons { 
-        width: 100%; 
-        justify-content: center; 
-      }
-    }
+  .btn-neo-logout {
+    background: transparent;
+    border: 2px solid rgba(231, 76, 60, 0.2);
+    color: var(--coffee-cherry);
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
     
-    .content {
-      flex-direction: column; 
-      padding: 1.5rem; 
-      gap: 2.5rem;
+    &:hover { background: var(--coffee-cherry); color: white; border-color: var(--coffee-cherry); }
+  }
+}
+
+/* --- GRID PRINCIPAL --- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- ESCÁNER INNOVADOR --- */
+.scanner-module {
+  display: flex;
+  align-items: center;
+  padding: 3rem;
+  gap: 3rem;
+
+  .scanner-target {
+    flex-shrink: 0;
+    width: 220px;
+    height: 220px;
+    background: rgba(39, 174, 96, 0.05);
+    border-radius: var(--radius-md);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .target-box {
+      width: 140px; height: 140px; position: relative;
       
-      .scanner-section {
-        .scanner-placeholder {
-          width: 16rem; 
-          height: 16rem; 
-        }
+      .corner { position: absolute; width: 30px; height: 30px; border: 4px solid var(--leaf-vibrant); border-radius: 8px; }
+      .t-l { top: 0; left: 0; border-right: none; border-bottom: none; }
+      .t-r { top: 0; right: 0; border-left: none; border-bottom: none; }
+      .b-l { bottom: 0; left: 0; border-right: none; border-top: none; }
+      .b-r { bottom: 0; right: 0; border-left: none; border-top: none; }
+      
+      .scan-line {
+        position: absolute; top: 50%; left: -10%; width: 120%; height: 3px;
+        background: var(--leaf-vibrant);
+        box-shadow: 0 0 15px var(--leaf-vibrant);
+        border-radius: 10px;
+        animation: scan 3s ease-in-out infinite;
       }
     }
   }
+
+  .scanner-actions {
+    .module-title { margin: 0 0 0.5rem 0; font-size: 1.8rem; color: var(--leaf-dark); font-weight: 800; }
+    .module-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; font-size: 1rem; }
+    
+    .btn-neo-primary {
+      background: linear-gradient(135deg, var(--leaf-vibrant) 0%, #1E8449 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-pill);
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+      transition: var(--transition-smooth);
+      
+      &:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(39, 174, 96, 0.4); }
+    }
+  }
+}
+
+@keyframes scan { 0%, 100% { top: 10%; } 50% { top: 90%; } }
+
+/* --- MÓDULO DE ESTADÍSTICAS --- */
+.stats-module {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .stat-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      
+      h3 { margin: 0; font-size: 1.1rem; color: var(--leaf-dark); font-weight: 800; }
+      .icon-btn { background: rgba(18, 53, 36, 0.05); border: none; width: 32px; height: 32px; border-radius: 50%; color: var(--leaf-dark); cursor: pointer; transition: var(--transition-smooth); }
+      .icon-btn:hover { background: var(--leaf-dark); color: white; }
+    }
+
+    .stat-body {
+      display: flex; flex-direction: column; gap: 1rem;
+      
+      &.row-layout { flex-direction: row; align-items: center; justify-content: space-between; }
+
+      .stat-item {
+        display: flex; align-items: center; gap: 1rem;
+        background: rgba(255,255,255,0.5); padding: 1rem; border-radius: var(--radius-md);
+        
+        .indicator { width: 10px; height: 10px; border-radius: 50%; }
+        .indicator.cherry { background: var(--coffee-cherry); box-shadow: 0 0 10px rgba(231,76,60,0.4); }
+        .indicator.vibrant { background: var(--leaf-vibrant); box-shadow: 0 0 10px rgba(39,174,96,0.4); }
+        
+        .stat-info {
+          display: flex; justify-content: space-between; width: 100%; align-items: center;
+          .label { font-weight: 600; color: var(--text-main); font-size: 0.9rem; }
+          .value { font-size: 1.5rem; font-weight: 800; }
+        }
+      }
+
+      .stat-block {
+        display: flex; flex-direction: column; gap: 0.3rem; text-align: center; width: 45%;
+        .label { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        .value { font-size: 2.2rem; font-weight: 800; color: var(--text-main); }
+      }
+
+      .divider-vertical { width: 2px; height: 40px; background: rgba(18, 53, 36, 0.1); }
+    }
+  }
+}
+
+/* Colores de texto auxiliares */
+.text-cherry { color: var(--coffee-cherry) !important; }
+.text-vibrant { color: var(--leaf-vibrant) !important; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .scanner-module { flex-direction: column; text-align: center; padding: 2rem; gap: 2rem; }
+}
+@media (max-width: 600px) {
+  .innovative-wrapper { padding: 1rem; }
+  .floating-nav { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
 }

@@ -1,88 +1,84 @@
-<div class="dashboard-wrapper">
+<div class="innovative-wrapper">
   
-  <header class="top-bar">
-    <div class="menu-left">
-      <div class="menu-icon" routerLink="/dashboard">
-        <span class="menu-text">INICIO</span>
-        <div class="hamburger">
-          <span></span><span></span><span></span>
-        </div>
+  <!-- Navegación Flotante -->
+  <header class="floating-nav glass-panel">
+    <div class="brand-zone">
+      <div class="menu-trigger" routerLink="/dashboard">
+        <div class="dots"></div><div class="dots"></div><div class="dots"></div>
       </div>
-      <h1>HOLA, {{ nombreUsuario | uppercase }}</h1> 
+      <div class="greeting">
+        <span class="greeting-sub">DIAGNÓSTICO CON IA</span>
+        <h1>{{ nombreUsuario | uppercase }}</h1>
+      </div>
     </div>
-    <div class="header-buttons">
-      <button class="btn-nav" routerLink="/dashboard">INICIO</button>
-      <button class="btn-logout" (click)="cerrarSesion()">CERRAR SESION</button>
+    <div class="nav-actions">
+      <button class="btn-neo-ghost" routerLink="/dashboard">Inicio</button>
+      <button class="btn-neo-logout" (click)="cerrarSesion()">Salir</button>
     </div>
   </header>
 
-  <div class="content">
+  <div class="dashboard-grid">
     
-    <div class="image-section">
-      
+    <!-- COLUMNA IZQUIERDA: ESCÁNER -->
+    <div class="scanner-module glass-panel flex-col">
       <div class="image-viewer">
-        <div class="scanner-placeholder" *ngIf="!imagenUrl">
-          <div class="corner top-left"></div>
-          <div class="corner top-right"></div>
-          <div class="center-line"></div>
-          <div class="corner bottom-left"></div>
-          <div class="corner bottom-right"></div>
+        <div class="scanner-target" *ngIf="!imagenUrl">
+          <div class="target-box">
+            <div class="corner t-l"></div><div class="corner t-r"></div>
+            <div class="scan-line"></div>
+            <div class="corner b-l"></div><div class="corner b-r"></div>
+          </div>
         </div>
-
         <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image">
       </div>
 
       <div class="action-buttons">
-        <button class="btn-action green">TOMAR FOTO</button>
-        <label class="btn-action blue">
+        <button class="btn-neo-primary">TOMAR FOTO</button>
+        <label class="btn-neo-secondary">
           SUBIR IMAGEN
           <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
         </label>
       </div>
     </div>
 
-    <div class="result-section">
-      <div class="result-card">
-        
-        <div class="result-header">
-          <h3>RESULTADO DEL ANÁLISIS</h3>
+    <!-- COLUMNA DERECHA: RESULTADOS -->
+    <div class="results-module glass-panel">
+      <div class="card-header">
+        <h3>Resultado del Análisis</h3>
+      </div>
+
+      <div class="result-body">
+        <div class="data-block">
+          <span class="label">CONDICIÓN</span>
+          <span class="value" *ngIf="estadoAnalisis === 'analizando'">Procesando...</span>
+          <span class="value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</span>
         </div>
 
-        <div class="result-body">
+        <div class="data-block highlight-block">
+          <span class="label">CLASIFICACIÓN PRINCIPAL</span>
+          <span class="value" *ngIf="estadoAnalisis === 'analizando'">Calculando...</span>
+          <span class="value highlight-text" *ngIf="estadoAnalisis === 'completado'">
+            {{ resultado.clasificacion }} ({{ resultado.confianza }})
+          </span>
+        </div>
+
+        <div class="divider" *ngIf="estadoAnalisis === 'completado'"></div>
+
+        <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
+          <span class="label">PROBABILIDADES POR ENFERMEDAD</span>
           
-          <div class="data-block">
-            <p class="data-title">CONDICIÓN</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Analizando modelo...</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</p>
-          </div>
-
-          <div class="data-block">
-            <p class="data-title">CLASIFICACIÓN PRINCIPAL</p>
-            <p class="data-value" *ngIf="estadoAnalisis === 'analizando'">Procesando imagen...</p>
-            <p class="data-value font-highlight" *ngIf="estadoAnalisis === 'completado'">
-              {{ resultado.clasificacion }} ({{ resultado.confianza }})
-            </p>
-          </div>
-
-          <div class="divider" *ngIf="estadoAnalisis === 'completado'"></div>
-
-          <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
-            <p class="data-title section-title">PROBABILIDADES POR ENFERMEDAD</p>
-            
-            <div class="prob-row" *ngFor="let prob of probabilidades">
-              <div class="prob-labels">
-                <span class="prob-name">{{ prob.nombre }}</span>
-                <span class="prob-value">{{ prob.porcentaje }}%</span>
-              </div>
-              <div class="prob-track">
-                <div class="prob-fill" 
-                     [style.width.%]="prob.porcentaje" 
-                     [style.background-color]="prob.color">
-                </div>
+          <div class="prob-row" *ngFor="let prob of probabilidades">
+            <div class="prob-labels">
+              <span class="prob-name">{{ prob.nombre }}</span>
+              <span class="prob-value">{{ prob.porcentaje }}%</span>
+            </div>
+            <div class="prob-track">
+              <div class="prob-fill" 
+                   [style.width.%]="prob.porcentaje" 
+                   [style.background-color]="prob.color">
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
