@@ -1,95 +1,220 @@
 .auth-wrapper {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at top left, rgba(96, 138, 61, 0.18) 0%, transparent 32%),
+    radial-gradient(circle at bottom right, rgba(92, 51, 23, 0.18) 0%, transparent 28%),
+    linear-gradient(135deg, #f6f0e7 0%, #eef4e8 48%, #e7ddd1 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-wrapper::before,
+.auth-wrapper::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.auth-wrapper::before { width: 18rem; height: 18rem; top: -4rem; right: -5rem; background: rgba(52, 122, 74, 0.12); }
+.auth-wrapper::after { width: 16rem; height: 16rem; bottom: -5rem; left: -4rem; background: rgba(120, 72, 35, 0.12); }
+
+.auth-shell {
+  width: min(1200px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: 3.5rem;
   align-items: center;
-  padding: 2rem;
-  background: radial-gradient(circle at bottom right, #E8F5E9 0%, var(--bg-crema) 100%);
 }
 
-.auth-card {
+.glass-panel {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 251, 246, 0.68);
+  border: 1px solid rgba(92, 59, 36, 0.12);
+  box-shadow: 0 20px 60px rgba(58, 37, 22, 0.12), 0 8px 24px rgba(44, 83, 52, 0.08);
+}
+
+/* =========================================================
+   CAJA IZQUIERDA (IMAGEN DE GRANOS DE CAFÉ Y TEXTO)
+   ========================================================= */
+.auth-visual {
+  position: relative;
+  min-height: 720px;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  padding: 3.5rem;
+  display: flex;
+  align-items: stretch;
+  /* 1. Quitamos el filtro blanco para que se vea la imagen original */
+  background: url("https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=80") center/cover no-repeat;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+}
+
+.visual-overlay {
+  position: absolute; inset: 0;
+  /* 2. El nuevo degradado oscuro: de verde bosque a café profundo */
+  background: linear-gradient(
+    145deg,
+    rgba(25, 42, 28, 0.75) 0%,     /* Verde oscuro arriba izquierda */
+    rgba(50, 30, 15, 0.85) 50%,    /* Café tostado al centro */
+    rgba(15, 10, 5, 0.95) 100%     /* Casi negro abajo a la derecha */
+  );
+  z-index: 0;
+}
+
+.visual-badge { display: none; }
+
+.visual-content {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 2rem;
+}
+
+/* Marca Superior Izquierda */
+.brand-section {
+  display: flex; align-items: center; gap: 1.1rem;
+  width: fit-content;
+  padding: 1rem 1.5rem;
+  border-radius: 1.5rem;
+  /* Cristal oscuro para que resalte sobre el fondo */
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.leaf-logo {
+  width: 58px; height: 58px; flex-shrink: 0;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.4));
+}
+
+.brand-section:hover .leaf-logo { transform: rotate(8deg) scale(1.08); }
+
+.brand-copy {
+  h2 { margin: 0; font-size: 1.8rem; color: #ffffff; font-weight: 800; letter-spacing: -0.03em; }
+  .subtitle { margin: 0.2rem 0 0; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+  .eyebrow { margin: 0 0 0.4rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.16em; color: #a4c48a; font-weight: 700; }
+}
+
+/* Mensaje Central (Márgenes arreglados) */
+.visual-message {
+  align-self: center;
   width: 100%;
-  max-width: 480px; // Ligeramente más ancho para el registro
-  padding: 3rem;
-  box-sizing: border-box;
+  padding-left: 1.5rem; /* Alineado armónicamente con el logo */
+  border-left: 4px solid #73a648; /* Línea verde decorativa que ancla el texto */
 
-  .brand-section {
-    text-align: center;
-    margin-bottom: 2rem;
-
-    h2 { margin: 0; font-size: 1.8rem; color: var(--leaf-dark); font-weight: 800; letter-spacing: -0.5px; }
-    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+  h3 {
+    margin: 0 0 1.2rem;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    color: #ffffff; /* Blanco puro para máximo contraste */
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    max-width: 95%;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-
-      label { font-size: 0.75rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-      
-      input {
-        padding: 0.9rem 1.2rem;
-        background: rgba(255, 255, 255, 0.6);
-        border: 2px solid transparent;
-        border-radius: var(--radius-md);
-        font-size: 0.95rem;
-        color: var(--text-main);
-        transition: var(--transition-smooth);
-        outline: none;
-
-        &:focus {
-          background: var(--surface-solid);
-          border-color: var(--leaf-vibrant);
-          box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
-        }
-      }
-    }
-
-    .action-group {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-
-      .w-100 { width: 100%; }
-
-      .btn-neo-primary {
-        background: linear-gradient(135deg, var(--leaf-vibrant) 0%, #1E8449 100%);
-        color: white;
-        border: none;
-        padding: 1.1rem;
-        border-radius: var(--radius-pill);
-        font-weight: 800;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
-        transition: var(--transition-smooth);
-
-        &:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(39, 174, 96, 0.4); }
-      }
-
-      .link-volver {
-        font-size: 0.85rem;
-        color: var(--coffee-roast);
-        font-weight: 600;
-        cursor: pointer;
-        text-decoration: none;
-        transition: var(--transition-smooth);
-
-        &:hover { color: var(--leaf-dark); text-decoration: underline; }
-      }
-    }
+  p {
+    margin: 0;
+    max-width: 28rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85); /* Ligeramente opaco para jerarquía */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 }
 
-@media (max-width: 600px) {
+/* Estadísticas Inferiores */
+.visual-stats { display: flex; flex-wrap: wrap; gap: 1.5rem; width: 100%; }
+
+.stat-pill {
+  flex: 1; min-width: 150px; padding: 1.2rem; border-radius: 1.2rem;
+  background: rgba(0, 0, 0, 0.35); /* Fondo cristal oscuro */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+
+  strong { display: block; margin-bottom: 0.3rem; font-size: 1.25rem; font-weight: 800; }
+  span { font-size: 0.9rem; color: rgba(255, 255, 255, 0.75); }
+}
+
+/* =========================================================
+   CAJA DERECHA (FORMULARIO)
+   ========================================================= */
+.auth-card {
+  border-radius: 2.5rem; padding: 3.5rem 3rem; display: flex; flex-direction: column; justify-content: center; background: rgba(255, 251, 246, 0.85);
+}
+
+.form-head {
+  margin-bottom: 2rem;
+  .mini-tag { margin: 0 0 0.8rem; font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; color: #647f40; }
+  h1 { margin: 0; font-size: 2.2rem; color: #301d11; line-height: 1.1; letter-spacing: -0.05em; font-weight: 900; }
+  .form-subtitle { margin: 0.8rem 0 0; color: #5b4638; font-size: 1rem; line-height: 1.6; }
+}
+
+.auth-card form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.input-group {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; color: #452d1b; }
+}
+
+.input-shell {
+  display: flex; align-items: center; gap: 0.85rem; padding: 0.3rem 1.2rem; border-radius: 1.2rem; border: 1px solid rgba(81, 55, 32, 0.16); background: rgba(255, 255, 255, 0.84); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45); transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  &:focus-within { transform: translateY(-2px); background: rgba(255, 252, 247, 0.98); border-color: rgba(103, 153, 57, 0.68); box-shadow: 0 0 0 4px rgba(115, 166, 72, 0.14), 0 10px 24px rgba(93, 63, 39, 0.08); }
+  input { width: 100%; border: none; background: transparent; padding: 1rem 0; font-size: 1rem; color: #2c1b12; font-weight: 500; outline: none; &::placeholder { color: #7d6858; opacity: 1; } }
+}
+
+.input-icon { width: 1.2rem; height: 1.2rem; color: #5d7f3d; flex-shrink: 0; svg { width: 100%; height: 100%; } }
+
+.action-group {
+  margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem; .w-100 { width: 100%; }
+  .btn-neo-primary, .btn-neo-ghost { min-height: 58px; border-radius: 999px; padding: 1rem 1.25rem; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.05em; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease; }
+  .btn-neo-primary { color: #fff; border: none; background: linear-gradient(135deg, #6d9b43 0%, #3f6f32 48%, #5a381f 100%); box-shadow: 0 14px 26px rgba(76, 111, 42, 0.24); &:hover { transform: translateY(-3px); box-shadow: 0 18px 34px rgba(76, 111, 42, 0.35); } }
+  .btn-neo-ghost { color: #412a1a; border: 1px solid rgba(77, 52, 34, 0.2); background: rgba(255, 251, 246, 0.72); &:hover { transform: translateY(-2px); background: rgba(255, 247, 239, 0.92); border-color: rgba(77, 52, 34, 0.4); } }
+}
+
+/* =========================================================
+   DISEÑO MÓVIL
+   ========================================================= */
+@media (max-width: 980px) {
+  .auth-shell { grid-template-columns: 1fr; gap: 2rem; }
+  .auth-visual { min-height: 500px; order: 1; padding: 2.5rem; }
+  .auth-card { order: 2; padding: 2.5rem; }
+  .visual-message h3 { font-size: clamp(2rem, 5vw, 2.5rem); }
+}
+
+@media (max-width: 640px) {
+  .auth-wrapper { padding: 1rem; }
+  .auth-visual, .auth-card { border-radius: 1.5rem; }
+  .auth-visual { padding: 2rem 1.5rem; min-height: 480px; }
   .auth-card { padding: 2rem 1.5rem; }
+  .brand-section { padding: 0.8rem 1rem; }
+  .leaf-logo { width: 44px; height: 44px; }
+  .visual-stats { flex-direction: column; gap: 1rem; }
+  .stat-pill { width: 100%; }
+  /* En móvil quitamos la línea lateral verde para aprovechar espacio */
+  .visual-message { padding-left: 0; border-left: none; }
+}
+.password-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .password-row {
+    grid-template-columns: 1fr;
+  }
 }

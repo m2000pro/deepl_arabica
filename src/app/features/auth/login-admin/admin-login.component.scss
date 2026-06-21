@@ -1,60 +1,110 @@
-// Paleta original técnica
-$fondo-noche: #1A252C;
-$tarjeta-azul: #2D3E4E;
-$cabecera-azul: #22303C;
-$verde-acento: #8CB143;
-$texto-claro: #E8E8E8;
-$texto-muted: #A0B2C1;
-
+/* =========================================================
+   FONDO OSCURO Y ATMÓSFERA TÉCNICA
+   ========================================================= */
 .admin-wrapper {
   min-height: 100vh;
-  display: flex; justify-content: center; align-items: center;
-  background-color: $fondo-noche;
-  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: 
+    radial-gradient(circle at top right, #1b2a1e 0%, #0a0e0c 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
-.admin-card {
-  width: 100%; max-width: 420px;
-  background-color: $tarjeta-azul;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+.admin-wrapper::before {
+  content: ""; position: absolute; width: 30rem; height: 30rem; top: -10rem; right: -10rem;
+  background: rgba(109, 155, 67, 0.05); border-radius: 50%; filter: blur(40px); pointer-events: none;
+}
 
-  .card-header {
-    background-color: $cabecera-azul; padding: 2.5rem 1.5rem; text-align: center; border-bottom: 3px solid $verde-acento;
-    h2 { color: #FFF; margin: 0 0 0.5rem 0; letter-spacing: 2px; font-size: 1.4rem; font-weight: 800; }
-    p { color: $texto-muted; margin: 0; font-size: 0.85rem; }
+.admin-shell {
+  width: min(500px, 100%);
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   PANEL CRISTAL OSCURO (Dark Roast Glass)
+   ========================================================= */
+.dark-glass-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(15, 20, 17, 0.7);
+  border: 1px solid rgba(109, 155, 67, 0.2);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  border-radius: 2.5rem;
+  padding: 3.5rem 3rem;
+  display: flex; flex-direction: column; gap: 2.5rem;
+}
+
+/* =========================================================
+   CABECERA DEL FORMULARIO
+   ========================================================= */
+.auth-head {
+  text-align: center;
+  
+  .shield-container {
+    display: inline-flex; justify-content: center; align-items: center; width: 72px; height: 72px; border-radius: 1.5rem; background: rgba(109, 155, 67, 0.1); border: 1px solid rgba(109, 155, 67, 0.2); margin-bottom: 1.5rem; box-shadow: inset 0 0 20px rgba(109, 155, 67, 0.1);
+    .shield-icon { width: 36px; height: 36px; color: #6d9b43; filter: drop-shadow(0 0 8px rgba(109,155,67,0.5)); }
+  }
+  
+  h1 { margin: 0 0 0.5rem; font-size: 2rem; color: #ffffff; font-weight: 900; letter-spacing: 0.05em; }
+  .subtitle { margin: 0; color: #8fa396; font-size: 1rem; line-height: 1.5; }
+}
+
+/* Alerta de Error */
+.alert.error { background: rgba(211, 47, 47, 0.15); border: 1px solid #d32f2f; color: #ff6b6b; padding: 1.2rem; border-radius: 1rem; text-align: center; font-weight: 700; font-size: 0.9rem; }
+
+/* =========================================================
+   FORMULARIO E INPUTS
+   ========================================================= */
+form { display: flex; flex-direction: column; gap: 1.8rem; }
+
+.input-group {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  label { font-size: 0.8rem; font-weight: 800; color: #6d9b43; letter-spacing: 0.1em; }
+}
+
+.input-shell {
+  display: flex; align-items: center; gap: 0.85rem; padding: 0.4rem 1.2rem; border-radius: 1.2rem;
+  background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus-within {
+    transform: translateY(-2px); background: rgba(0, 0, 0, 0.6); border-color: #6d9b43; box-shadow: 0 0 0 4px rgba(109, 155, 67, 0.15), 0 10px 24px rgba(0, 0, 0, 0.3);
   }
 
-  .card-body {
-    padding: 2.5rem 2rem;
+  .input-icon { width: 1.2rem; height: 1.2rem; color: #6d9b43; flex-shrink: 0; }
 
-    .alert {
-      padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.85rem; text-align: center; font-weight: bold;
-      &.error { background-color: rgba(211, 47, 47, 0.15); color: #FF6B6B; border: 1px solid #D32F2F; }
-    }
-
-    form {
-      .form-group {
-        margin-bottom: 1.5rem; display: flex; flex-direction: column;
-        label { color: $texto-claro; font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 700; letter-spacing: 0.5px; }
-        input {
-          padding: 1rem; border-radius: 8px; border: 1px solid #425664; background-color: $fondo-noche; color: #FFF; font-size: 0.95rem; outline: none; transition: 0.3s;
-          &:focus { border-color: $verde-acento; box-shadow: 0 0 0 2px rgba(140, 177, 67, 0.2); }
-        }
-      }
-
-      .btn-submit {
-        width: 100%; padding: 1.1rem; background-color: $verde-acento; color: #FFF; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-top: 0.5rem; transition: 0.3s;
-        &:hover:not([disabled]) { background-color: #7A9B3A; transform: translateY(-2px); }
-        &[disabled] { background-color: #5C6E7A; cursor: not-allowed; opacity: 0.6; }
-      }
-    }
-
-    .toggle-section {
-      text-align: center; margin-top: 2rem;
-      .escape-link { color: $texto-muted; font-size: 0.85rem; text-decoration: none; transition: 0.3s; &:hover { color: #FFF; text-decoration: underline; } }
-    }
+  input {
+    width: 100%; border: none; background: transparent; padding: 1rem 0; color: #ffffff; font-size: 1rem; outline: none; font-weight: 600; letter-spacing: 0.05em;
+    &::placeholder { color: #4a5c51; opacity: 1; font-weight: 500; }
   }
+}
+
+/* =========================================================
+   BOTONES Y LINKS
+   ========================================================= */
+.action-group {
+  margin-top: 1rem;
+  
+  .btn-neo-secure {
+    width: 100%; min-height: 58px; border-radius: 999px; border: none; background: linear-gradient(135deg, #6d9b43 0%, #3f6f32 100%); color: #ffffff; font-weight: 900; font-size: 1rem; letter-spacing: 0.1em; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 10px 20px rgba(109, 155, 67, 0.2);
+    
+    &:hover:not([disabled]) { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(109, 155, 67, 0.4); filter: brightness(1.1); }
+    &[disabled] { opacity: 0.5; cursor: not-allowed; background: #2c3e23; box-shadow: none; color: #8fa396; }
+  }
+}
+
+.footer-links { text-align: center; margin-top: 1rem; .escape-link { color: #8fa396; font-size: 0.9rem; text-decoration: none; font-weight: 600; transition: color 0.3s ease; &:hover { color: #ffffff; } } }
+
+/* =========================================================
+   DISEÑO MÓVIL
+   ========================================================= */
+@media (max-width: 640px) {
+  .admin-wrapper { padding: 1rem; }
+  .dark-glass-panel { padding: 2.5rem 1.5rem; border-radius: 1.5rem; gap: 2rem; }
+  .auth-head h1 { font-size: 1.6rem; }
+  .auth-head .shield-container { width: 60px; height: 60px; .shield-icon { width: 30px; height: 30px; } }
 }

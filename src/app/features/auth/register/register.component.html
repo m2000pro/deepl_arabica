@@ -1,44 +1,91 @@
 <div class="auth-wrapper">
-  <div class="auth-card glass-panel">
+  <div class="auth-shell">
     
-    <div class="brand-section">
-      <h2>Crear Cuenta</h2>
-      <p class="subtitle">Únete a la red de DeepL-Arabica</p>
-    </div>
-
-    <form (ngSubmit)="registrar()">
+    <section class="auth-visual glass-panel">
+      <div class="visual-overlay"></div>
       
-      <div class="input-group">
-        <label>NOMBRE COMPLETO</label>
-        <input type="text" name="nombre_completo" [(ngModel)]="nombre_completo" required placeholder="Ej. Juan Pérez">
+      <div class="visual-content">
+        <div class="brand-section">
+          <svg class="leaf-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21C12 21 4 15.5 4 9C4 5.5 6.5 3 10 3C11.5 3 12 4 12 4C12 4 12.5 3 14 3C17.5 3 20 5.5 20 9C20 15.5 12 21 12 21Z" fill="var(--leaf-vibrant, #6d9b43)" stroke="#1a2e16" stroke-width="2"/>
+            <path d="M12 21V10" stroke="#1a2e16" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="brand-copy">
+            <p class="eyebrow">Únete a la red</p>
+            <h2>DeepL-Arabica</h2>
+          </div>
+        </div>
+
+        <div class="visual-message">
+          <h3>Cultiva el futuro de tus parcelas hoy.</h3>
+          <p>Crea tu cuenta gratuita y accede a herramientas de diagnóstico con IA, reportes climáticos y un historial detallado de tus cultivos.</p>
+        </div>
+
+        <div class="visual-stats">
+          <article class="stat-pill">
+            <strong>IA</strong>
+            <span>Análisis preciso</span>
+          </article>
+          <article class="stat-pill">
+            <strong>24/7</strong>
+            <span>Monitoreo local</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-card glass-panel">
+      <div class="form-head">
+        <p class="mini-tag">Nuevo agricultor</p>
+        <h1>Crear Cuenta</h1>
+        <p class="form-subtitle">Completa tus datos para ingresar a la plataforma.</p>
       </div>
 
-      <div class="input-group">
-        <label>USUARIO</label>
-        <input type="text" name="usuario" [(ngModel)]="usuario" required placeholder="Crea un nickname">
-      </div>
+      <form (ngSubmit)="registrar()">
+        
+        <div class="input-group">
+          <label>NOMBRE COMPLETO</label>
+          <div class="input-shell">
+            <input type="text" name="nombre_completo" [(ngModel)]="nombre_completo" required placeholder="Ej. Juan Pérez">
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label>CORREO ELECTRÓNICO</label>
-        <input type="email" name="correo_electronico" [(ngModel)]="correo_electronico" required placeholder="juan@correo.com">
-      </div>
+        <div class="input-group">
+          <label>USUARIO</label>
+          <div class="input-shell">
+            <input type="text" name="usuario" [(ngModel)]="usuario" required placeholder="Crea un nickname">
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label>CONTRASEÑA</label>
-        <input type="password" name="contrasena" [(ngModel)]="password" required placeholder="Crea una contraseña segura">
-      </div>
+        <div class="input-group">
+          <label>CORREO ELECTRÓNICO</label>
+          <div class="input-shell">
+            <input type="email" name="correo_electronico" [(ngModel)]="correo_electronico" required placeholder="juan@correo.com">
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label>CONFIRMAR CONTRASEÑA</label>
-        <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmar_password" required placeholder="Repite tu contraseña">
-      </div>
+        <div class="password-row">
+          <div class="input-group">
+            <label>CONTRASEÑA</label>
+            <div class="input-shell">
+              <input type="password" name="contrasena" [(ngModel)]="password" required placeholder="••••••••">
+            </div>
+          </div>
 
-      <div class="action-group">
-        <button type="submit" class="btn-neo-primary w-100">REGISTRARSE</button>
-        <a (click)="volverLogin()" class="link-volver">← Volver al inicio de sesión</a>
-      </div>
+          <div class="input-group">
+            <label>CONFIRMAR</label>
+            <div class="input-shell">
+              <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmar_password" required placeholder="••••••••">
+            </div>
+          </div>
+        </div>
 
-    </form>
-
+        <div class="action-group">
+          <button type="submit" class="btn-neo-primary w-100">REGISTRARSE</button>
+          <button type="button" class="btn-neo-ghost w-100" (click)="volverLogin()">← VOLVER AL INICIO</button>
+        </div>
+      </form>
+    </section>
+    
   </div>
 </div>

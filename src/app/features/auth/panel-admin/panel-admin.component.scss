@@ -1,80 +1,144 @@
-$azul-tecnico: #1A252C;
-$fondo-gris: #F0F2F5;
-$blanco-puro: #FFFFFF;
-$rojo-peligro: #D32F2F;
-$verde-brote: #8CB143;
-$texto-oscuro: #1A1A1A;
-$texto-gris: #6C7A89;
-
-.dashboard-wrapper {
+/* =========================================================
+   FONDO OSCURO Y ATMÓSFERA TÉCNICA
+   ========================================================= */
+.admin-wrapper {
   min-height: 100vh;
-  background-color: $fondo-gris;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: radial-gradient(circle at top right, #1b2a1e 0%, #0a0e0c 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- HEADER ADMIN --- */
-.admin-header {
-  background-color: $azul-tecnico; color: $blanco-puro; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  
-  .brand h1 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; font-weight: 700; }
-  
-  .header-actions {
-    display: flex; align-items: center; gap: 1.5rem;
-    .admin-name { font-size: 0.9rem; font-weight: bold; color: #A0B2C1; }
-    .btn-logout { background-color: $rojo-peligro; color: $blanco-puro; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.3s; &:hover { background-color: #B71C1C; } }
+/* Efectos de luces de fondo (Nodos) */
+.admin-wrapper::before,
+.admin-wrapper::after {
+  content: ""; position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; z-index: 0;
+}
+.admin-wrapper::before { width: 40rem; height: 40rem; top: -15rem; right: -15rem; background: rgba(109, 155, 67, 0.05); }
+.admin-wrapper::after { width: 30rem; height: 30rem; bottom: -10rem; left: -10rem; background: rgba(109, 155, 67, 0.03); }
+
+/* =========================================================
+   PANEL CRISTAL OSCURO (Dark Roast Glass)
+   ========================================================= */
+.dark-glass-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(15, 20, 17, 0.7);
+  border: 1px solid rgba(109, 155, 67, 0.2);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   NAVEGACIÓN SUPERIOR TÉCNICA
+   ========================================================= */
+.admin-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  width: min(1400px, 100%);
+  padding: 1rem 2.5rem;
+  border-radius: 2.5rem;
+  margin-bottom: 2.5rem;
+
+  .nav-brand {
+    display: flex; align-items: center; gap: 1.2rem;
+    .shield-container { display: flex; justify-content: center; align-items: center; width: 48px; height: 48px; border-radius: 1rem; background: rgba(109, 155, 67, 0.1); border: 1px solid rgba(109, 155, 67, 0.2); box-shadow: inset 0 0 15px rgba(109, 155, 67, 0.1); }
+    .shield-icon { width: 24px; height: 24px; color: #6d9b43; filter: drop-shadow(0 0 5px rgba(109,155,67,0.5)); }
+    .titles { display: flex; flex-direction: column; .eyebrow { font-size: 0.75rem; font-weight: 800; color: #6d9b43; letter-spacing: 0.15em; text-transform: uppercase; } h1 { margin: 0; font-size: 1.5rem; color: #ffffff; font-weight: 900; letter-spacing: 0.02em; } }
   }
-}
 
-/* --- CONTENIDO --- */
-.content {
-  padding: 2.5rem; max-width: 1100px; margin: 0 auto;
-
-  .crud-section {
-    background-color: $blanco-puro; border-radius: 12px; padding: 2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  .nav-actions {
+    display: flex; align-items: center; gap: 2rem;
     
-    .crud-header {
-      margin-bottom: 2rem; border-bottom: 1px solid #EAEAEA; padding-bottom: 1rem;
-      h2 { margin: 0 0 0.5rem 0; color: $azul-tecnico; font-size: 1.4rem; font-weight: 800; }
-      .subtitle { margin: 0; color: $texto-gris; font-size: 0.9rem; }
+    .admin-badge {
+      display: flex; align-items: center; gap: 0.6rem; font-family: monospace; color: #8fa396; font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; background: rgba(0,0,0,0.4); padding: 0.6rem 1.2rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.05);
+      .pulse-dot { width: 8px; height: 8px; background: #6d9b43; border-radius: 50%; box-shadow: 0 0 10px #6d9b43; animation: pulse 2s infinite; }
     }
 
-    /* --- TABLA RESPONSIVA --- */
-    .table-responsive {
-      width: 100%; overflow-x: auto; /* Permite scroll horizontal en móviles */
+    .btn-neo-danger {
+      background: transparent; border: 1px solid rgba(211, 47, 47, 0.4); color: #ff6b6b; padding: 0.8rem 1.8rem; border-radius: 999px; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.05em; cursor: pointer; transition: 0.3s;
+      &:hover { background: rgba(211, 47, 47, 0.15); border-color: #ff6b6b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.2); }
     }
-
-    .admin-table {
-      width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; /* Evita que las columnas se aplasten */
-      
-      th { background-color: #F8F9FA; color: $texto-gris; padding: 1rem; font-size: 0.85rem; text-transform: uppercase; border-bottom: 2px solid #EAEAEA; }
-      td { padding: 1.2rem 1rem; border-bottom: 1px solid #F0F2F5; color: $texto-oscuro; font-size: 0.95rem; vertical-align: middle; }
-
-      .text-muted { color: $texto-gris; font-size: 0.85rem; }
-      .font-bold { font-weight: 700; }
-
-      .status-badge {
-        padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: inline-block;
-        &.badge-active { background-color: rgba(140, 177, 67, 0.15); color: #4CAF50; }
-        &.badge-suspended { background-color: rgba(211, 47, 47, 0.1); color: $rojo-peligro; }
-      }
-
-      .btn-action {
-        border: none; border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: bold; cursor: pointer; color: $blanco-puro; transition: 0.3s;
-        &.btn-green { background-color: $verde-brote; &:hover { background-color: #689F38; } }
-        &.btn-red { background-color: #FF5252; &:hover { background-color: $rojo-peligro; } }
-      }
-    }
-
-    .loading-state, .empty-state { text-align: center; padding: 3rem; color: $texto-gris; font-style: italic; }
   }
 }
 
-/* --- ADAPTACIÓN MÓVIL ESTRICTA --- */
-@media (max-width: 768px) {
-  .admin-header {
-    flex-direction: column; padding: 1.5rem; gap: 1rem; text-align: center;
-    .header-actions { flex-direction: column; width: 100%; gap: 0.8rem; .btn-logout { width: 100%; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* =========================================================
+   CONTENEDOR DEL PANEL Y TABLA
+   ========================================================= */
+.admin-shell { width: min(1400px, 100%); position: relative; z-index: 1; display: flex; flex-direction: column; gap: 2.5rem; }
+
+.admin-card {
+  border-radius: 2.5rem; padding: 3.5rem; display: flex; flex-direction: column;
+  
+  .panel-header {
+    margin-bottom: 3rem;
+    h2 { margin: 0 0 0.5rem; font-size: 2.2rem; color: #ffffff; font-weight: 900; letter-spacing: -0.02em; }
+    p { margin: 0; color: #8fa396; font-size: 1.05rem; }
   }
-  .content { padding: 1rem; }
-  .crud-section { padding: 1.5rem; }
+
+  .table-responsive { width: 100%; overflow-x: auto; }
+  
+  .cyber-table {
+    width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; min-width: 900px;
+    
+    th { padding: 1.5rem; font-size: 0.8rem; font-weight: 800; color: #6d9b43; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid rgba(109, 155, 67, 0.3); background: rgba(0,0,0,0.3); }
+    td { padding: 1.8rem 1.5rem; font-size: 1rem; color: #e8e8e8; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+    
+    tbody tr { transition: 0.2s; &:hover { background: rgba(255,255,255,0.03); } }
+    tbody tr:last-child td { border-bottom: none; }
+    
+    /* Celdas específicas */
+    .cell-id { font-family: monospace; color: #6d9b43; font-weight: 600; font-size: 1.1rem; }
+    .cell-name { font-weight: 800; color: #ffffff; }
+    .cell-user { color: #a4c48a; font-weight: 600; span { color: #4a5c51; margin-right: 2px; } }
+
+    /* Indicador de estado estilo Neón */
+    .status-indicator {
+      display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1.2rem; border-radius: 999px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+      .pulse { width: 8px; height: 8px; border-radius: 50%; }
+      &.is-live { color: #8cb143; .pulse { background: #8cb143; box-shadow: 0 0 10px #8cb143; animation: pulse 2s infinite; } }
+      &.is-banned { color: #ff6b6b; .pulse { background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b; } }
+    }
+
+    /* Botones de acción */
+    .btn-toggle {
+      padding: 0.8rem 1.5rem; border-radius: 999px; font-weight: 800; font-size: 0.8rem; border: none; cursor: pointer; transition: 0.3s; letter-spacing: 0.05em; text-transform: uppercase;
+      &.btn-danger { background: rgba(211, 47, 47, 0.15); color: #ff6b6b; border: 1px solid rgba(211, 47, 47, 0.3); &:hover { background: #d32f2f; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.2); } }
+      &.btn-success { background: rgba(109, 155, 67, 0.15); color: #8cb143; border: 1px solid rgba(109, 155, 67, 0.3); &:hover { background: #6d9b43; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(109, 155, 67, 0.2); } }
+    }
+  }
+}
+
+/* =========================================================
+   ESTADOS VACÍOS Y CARGA
+   ========================================================= */
+.state-container {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.5rem; padding: 6rem 2rem; color: #4a5c51;
+  svg { width: 64px; height: 64px; color: #4a5c51; }
+  p { margin: 0; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.05em; }
+  
+  .cyber-spinner {
+    width: 48px; height: 48px; border: 4px solid rgba(109, 155, 67, 0.2); border-top-color: #6d9b43; border-radius: 50%; animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* =========================================================
+   DISEÑO MÓVIL
+   ========================================================= */
+@media (max-width: 980px) {
+  .admin-nav { flex-direction: column; gap: 1.5rem; padding: 2rem; .nav-actions { flex-direction: column; width: 100%; .btn-neo-danger { width: 100%; } } }
+}
+
+@media (max-width: 640px) {
+  .admin-wrapper { padding: 1rem; }
+  .admin-nav { border-radius: 1.5rem; }
+  .admin-card { padding: 2rem 1.5rem; border-radius: 1.5rem; .panel-header h2 { font-size: 1.6rem; } }
 }

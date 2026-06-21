@@ -1,65 +1,76 @@
-<div class="innovative-wrapper">
+<div class="app-wrapper">
   
-  <!-- Navegación Flotante -->
-  <header class="floating-nav glass-panel">
-    <div class="brand-zone">
-      <div class="menu-trigger" routerLink="/dashboard">
-        <div class="dots"></div><div class="dots"></div><div class="dots"></div>
+  <!-- BARRA DE NAVEGACIÓN FLOTANTE -->
+  <header class="app-nav glass-panel">
+    <div class="nav-brand">
+      <div class="menu-icon" routerLink="/dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
       </div>
       <div class="greeting">
-        <span class="greeting-sub">DIAGNÓSTICO CON IA</span>
-        <h1>{{ nombreUsuario | uppercase }}</h1>
+        <span class="eyebrow">DIAGNÓSTICO CON IA</span>
+        <h1>Hola, {{ nombreUsuario | uppercase }}</h1>
       </div>
     </div>
     <div class="nav-actions">
-      <button class="btn-neo-ghost" routerLink="/dashboard">Inicio</button>
-      <button class="btn-neo-logout" (click)="cerrarSesion()">Salir</button>
+      <button class="btn-outline-dark" routerLink="/dashboard">Volver al Inicio</button>
     </div>
   </header>
 
-  <div class="dashboard-grid">
+  <!-- ESTRUCTURA ARMONIOSA (Igual al Login: 1fr 460px) -->
+  <main class="app-shell">
     
-    <!-- COLUMNA IZQUIERDA: ESCÁNER -->
-    <div class="scanner-module glass-panel flex-col">
+    <!-- CAJA IZQUIERDA: VISOR DE IMAGEN Y BOTONES -->
+    <section class="diagnostic-visual glass-panel">
+      
       <div class="image-viewer">
-        <div class="scanner-target" *ngIf="!imagenUrl">
-          <div class="target-box">
+        <!-- Placeholder cuando no hay imagen -->
+        <div class="scanner-placeholder" *ngIf="!imagenUrl">
+          <div class="target-frame">
             <div class="corner t-l"></div><div class="corner t-r"></div>
-            <div class="scan-line"></div>
             <div class="corner b-l"></div><div class="corner b-r"></div>
+            <div class="scan-laser"></div>
           </div>
+          <p class="placeholder-text">Sube una imagen de la hoja para comenzar el análisis</p>
         </div>
-        <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image">
+
+        <!-- Imagen cargada -->
+        <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image" alt="Hoja analizada">
       </div>
 
       <div class="action-buttons">
         <button class="btn-neo-primary">TOMAR FOTO</button>
-        <label class="btn-neo-secondary">
+        <label class="btn-neo-ghost">
           SUBIR IMAGEN
           <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
         </label>
       </div>
-    </div>
 
-    <!-- COLUMNA DERECHA: RESULTADOS -->
-    <div class="results-module glass-panel">
-      <div class="card-header">
-        <h3>Resultado del Análisis</h3>
+    </section>
+
+    <!-- CAJA DERECHA: RESULTADOS DEL MODELO -->
+    <section class="diagnostic-results glass-panel">
+      <div class="form-head">
+        <p class="mini-tag">Reporte de Salud</p>
+        <h2>Resultado del Análisis</h2>
+        <p class="form-subtitle">Precisión basada en nuestro modelo predictivo de IA.</p>
       </div>
 
-      <div class="result-body">
+      <div class="results-body">
+        
         <div class="data-block">
-          <span class="label">CONDICIÓN</span>
-          <span class="value" *ngIf="estadoAnalisis === 'analizando'">Procesando...</span>
-          <span class="value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</span>
+          <span class="label">CONDICIÓN DE LA PLANTA</span>
+          <strong class="value pending" *ngIf="estadoAnalisis === 'analizando'">Analizando textura y patrones...</strong>
+          <strong class="value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</strong>
         </div>
 
-        <div class="data-block highlight-block">
-          <span class="label">CLASIFICACIÓN PRINCIPAL</span>
-          <span class="value" *ngIf="estadoAnalisis === 'analizando'">Calculando...</span>
-          <span class="value highlight-text" *ngIf="estadoAnalisis === 'completado'">
-            {{ resultado.clasificacion }} ({{ resultado.confianza }})
-          </span>
+        <div class="input-shell highlight-shell">
+          <div class="data-block">
+            <span class="label">DIAGNÓSTICO PRINCIPAL</span>
+            <strong class="value pending" *ngIf="estadoAnalisis === 'analizando'">Calculando modelo...</strong>
+            <strong class="value text-vibrant" *ngIf="estadoAnalisis === 'completado'">
+              {{ resultado.clasificacion }} ({{ resultado.confianza }})
+            </strong>
+          </div>
         </div>
 
         <div class="divider" *ngIf="estadoAnalisis === 'completado'"></div>
@@ -67,21 +78,24 @@
         <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
           <span class="label">PROBABILIDADES POR ENFERMEDAD</span>
           
-          <div class="prob-row" *ngFor="let prob of probabilidades">
-            <div class="prob-labels">
-              <span class="prob-name">{{ prob.nombre }}</span>
-              <span class="prob-value">{{ prob.porcentaje }}%</span>
-            </div>
-            <div class="prob-track">
-              <div class="prob-fill" 
-                   [style.width.%]="prob.porcentaje" 
-                   [style.background-color]="prob.color">
+          <div class="prob-list">
+            <div class="prob-item" *ngFor="let prob of probabilidades">
+              <div class="prob-info">
+                <span class="prob-name">{{ prob.nombre }}</span>
+                <span class="prob-value">{{ prob.porcentaje }}%</span>
+              </div>
+              <div class="prob-track">
+                <div class="prob-fill" 
+                     [style.width.%]="prob.porcentaje" 
+                     [style.background-color]="prob.color">
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-  </div>
+      </div>
+    </section>
+
+  </main>
 </div>

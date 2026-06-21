@@ -1,50 +1,64 @@
-<div class="dashboard-wrapper">
+<div class="admin-wrapper">
   
-  <header class="admin-header">
-    <div class="brand">
-      <h1>⚙️ PANEL DE AUDITORÍA</h1>
+  <header class="admin-nav dark-glass-panel">
+    <div class="nav-brand">
+      <div class="shield-container">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shield-icon">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+      </div>
+      <div class="titles">
+        <span class="eyebrow">CONSOLA CENTRAL</span>
+        <h1>Panel de Auditoría TiDB</h1>
+      </div>
     </div>
-    <div class="header-actions">
-      <span class="admin-name">Admin: {{ nombreAdmin }}</span>
-      <button class="btn-logout" (click)="cerrarSesion()">SALIR</button>
+    
+    <div class="nav-actions">
+      <div class="admin-badge">
+        <span class="pulse-dot"></span> ROOT: {{ nombreAdmin }}
+      </div>
+      <button class="btn-neo-danger" (click)="cerrarSesion()">DESCONECTAR</button>
     </div>
   </header>
 
-  <div class="content">
-    <div class="crud-section">
-      <div class="crud-header">
+  <main class="admin-shell">
+    
+    <section class="admin-card dark-glass-panel">
+      
+      <div class="panel-header">
         <h2>Agricultores Registrados</h2>
-        <p class="subtitle">Gestión y monitoreo de usuarios en base de datos</p>
+        <p>Monitoreo en tiempo real de la base de datos de usuarios y control de accesos.</p>
       </div>
       
-      <div *ngIf="cargando" class="loading-state">
-        <p>Conectando con la base de datos TiDB...</p>
+      <div *ngIf="cargando" class="state-container">
+        <div class="cyber-spinner"></div>
+        <p>Sincronizando clúster TiDB...</p>
       </div>
 
       <div class="table-responsive" *ngIf="!cargando && usuarios.length > 0">
-        <table class="admin-table">
+        <table class="cyber-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>ID Sistema</th>
               <th>Nombre Completo</th>
-              <th>Usuario</th>
-              <th>Estado</th>
-              <th>Acción</th>
+              <th>Credencial</th>
+              <th>Estado de Red</th>
+              <th>Gestión de Acceso</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let u of usuarios">
-              <td class="text-muted">#{{ u.id }}</td>
-              <td class="font-bold">{{ u.nombre_completo }}</td>
-              <td>@{{ u.usuario }}</td>
+              <td class="cell-id">#{{ u.id }}</td>
+              <td class="cell-name">{{ u.nombre_completo }}</td>
+              <td class="cell-user"><span>@</span>{{ u.usuario }}</td>
               <td>
-                <span class="status-badge" [ngClass]="u.estado === 'Activo' ? 'badge-active' : 'badge-suspended'">
-                  {{ u.estado || 'Activo' }}
+                <span class="status-indicator" [ngClass]="u.estado === 'Activo' ? 'is-live' : 'is-banned'">
+                  <span class="pulse"></span> {{ u.estado || 'Activo' }}
                 </span>
               </td>
               <td>
-                <button (click)="cambiarEstado(u)" class="btn-action" [ngClass]="u.estado === 'Activo' ? 'btn-red' : 'btn-green'">
-                  {{ u.estado === 'Activo' ? 'Suspender' : 'Activar' }}
+                <button (click)="cambiarEstado(u)" class="btn-toggle" [ngClass]="u.estado === 'Activo' ? 'btn-danger' : 'btn-success'">
+                  {{ u.estado === 'Activo' ? 'SUSPENDER' : 'RESTAURAR' }}
                 </button>
               </td>
             </tr>
@@ -52,9 +66,12 @@
         </table>
       </div>
 
-      <div *ngIf="!cargando && usuarios.length === 0" class="empty-state">
-        <p>No hay agricultores registrados actualmente.</p>
+      <div *ngIf="!cargando && usuarios.length === 0" class="state-container">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <p>Base de datos vacía. No se han detectado usuarios en la red.</p>
       </div>
-    </div>
-  </div>
+
+    </section>
+
+  </main>
 </div>

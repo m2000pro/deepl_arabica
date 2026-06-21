@@ -1,83 +1,77 @@
-<div class="innovative-wrapper">
+<div class="app-wrapper">
   
-  <header class="floating-nav glass-panel">
-    <div class="brand-zone">
-      <div class="menu-trigger">
-        <div class="dots"></div><div class="dots"></div><div class="dots"></div>
+  <header class="app-nav glass-panel">
+    <div class="nav-brand">
+      <div class="menu-icon" routerLink="/dashboard">
+        <div class="hamburger"><span></span><span></span><span></span></div>
       </div>
       <div class="greeting">
-        <span class="greeting-sub">BIENVENIDO DE VUELTA</span>
-        <h1>{{ nombreUsuario | uppercase }}</h1>
+        <span class="eyebrow">PANEL PRINCIPAL</span>
+        <h1>Hola, {{ nombreUsuario | uppercase }}</h1>
       </div>
     </div>
     
-    <button class="btn-neo-logout" (click)="cerrarSesion()">
-      <span>Cerrar Sesión</span>
-    </button>
+    <div class="nav-actions">
+      <button class="btn-outline-dark" (click)="cerrarSesion()">Cerrar Sesión</button>
+    </div>
   </header>
 
-  <div class="dashboard-grid">
+  <main class="app-content">
     
-    <section class="scanner-module glass-panel">
-      <div class="scanner-target">
-        <div class="target-box">
+    <section class="module-scanner glass-panel">
+      <div class="scanner-visual">
+        <div class="target-frame">
           <div class="corner t-l"></div><div class="corner t-r"></div>
-          <div class="scan-line"></div>
           <div class="corner b-l"></div><div class="corner b-r"></div>
+          <div class="scan-laser"></div>
         </div>
       </div>
-      <div class="scanner-actions">
-        <h2 class="module-title">Análisis de Cultivo</h2>
-        <p class="module-desc">Sube o captura una imagen de la hoja para detectar patologías mediante IA.</p>
-        <button class="btn-neo-primary" routerLink="/nuevo-diagnostico">
-          INICIAR DIAGNÓSTICO
-        </button>
+      
+      <div class="scanner-info">
+        <h2>Diagnóstico IA</h2>
+        <p>Analiza el estado de salud de tus hojas de café o cacao al instante.</p>
+        <button class="btn-neo-primary" routerLink="/nuevo-diagnostico">NUEVO DIAGNÓSTICO</button>
       </div>
     </section>
 
-    <section class="stats-module">
+    <section class="module-stats">
       
       <div class="stat-card glass-panel">
-        <div class="card-header">
-          <h3>Salud Semanal</h3>
-          <button class="icon-btn" routerLink="/historial">→</button>
+        <div class="card-head">
+          <h3>Salud de la Semana</h3>
+          <button class="btn-icon" routerLink="/historial">→</button>
         </div>
-        <div class="stat-body">
-          <div class="stat-item">
-            <span class="indicator cherry"></span>
-            <div class="stat-info">
-              <span class="label">Hojas Enfermas</span>
-              <span class="value text-cherry">5</span>
-            </div>
+        <div class="card-body">
+          <div class="data-row">
+            <span class="label">Hojas Enfermas</span>
+            <strong class="value text-danger">5</strong>
           </div>
-          <div class="stat-item">
-            <span class="indicator vibrant"></span>
-            <div class="stat-info">
-              <span class="label">Hojas Sanas</span>
-              <span class="value text-vibrant">5</span>
-            </div>
+          <div class="divider"></div>
+          <div class="data-row">
+            <span class="label">Hojas Sanas</span>
+            <strong class="value text-success">5</strong>
           </div>
         </div>
       </div>
 
       <div class="stat-card glass-panel">
-        <div class="card-header">
+        <div class="card-head">
           <h3>Clima Local</h3>
-          <button class="icon-btn" routerLink="/reportes">→</button>
+          <button class="btn-icon" routerLink="/reportes">→</button>
         </div>
-        <div class="stat-body row-layout">
-          <div class="stat-block">
+        <div class="card-body flex-row">
+          <div class="data-block">
             <span class="label">Temp</span>
-            <span class="value text-vibrant">21°</span>
+            <strong class="value text-success">21°C</strong>
           </div>
-          <div class="divider-vertical"></div>
-          <div class="stat-block">
+          <div class="vert-divider"></div>
+          <div class="data-block">
             <span class="label">Humedad</span>
-            <span class="value">72%</span>
+            <strong class="value text-dark">72%</strong>
           </div>
         </div>
       </div>
 
     </section>
-  </div>
+  </main>
 </div>

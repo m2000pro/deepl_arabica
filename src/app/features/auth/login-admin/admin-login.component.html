@@ -1,34 +1,55 @@
 <div class="admin-wrapper">
-  <div class="admin-card">
-    
-    <div class="card-header">
-      <h2>PORTAL TÉCNICO</h2>
-      <p>Acceso exclusivo para administradores TiDB</p>
-    </div>
+  
+  <div class="admin-shell">
+    <section class="admin-card dark-glass-panel">
+      
+      <div class="auth-head">
+        <div class="shield-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shield-icon">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <h1>PORTAL TÉCNICO</h1>
+        <p class="subtitle">Acceso seguro para administración de base de datos TiDB.</p>
+      </div>
 
-    <div class="card-body">
       <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
       <form (ngSubmit)="onSubmit()" #adminForm="ngForm">
-        <div class="form-group">
-          <label>USUARIO TÉCNICO</label>
-          <input type="text" name="usuario" [(ngModel)]="adminData.usuario" required placeholder="Ej. admin_root">
+        
+        <div class="input-group">
+          <label>CREDENCIAL TÉCNICA / USUARIO</label>
+          <div class="input-shell">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+            <input type="text" name="usuario" [(ngModel)]="adminData.usuario" required placeholder="Ej. root_admin">
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>CONTRASEÑA</label>
-          <input type="password" name="contrasena" [(ngModel)]="adminData.contrasena" required placeholder="••••••••">
+        <div class="input-group">
+          <label>CLAVE DE ACCESO</label>
+          <div class="input-shell">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </span>
+            <input type="password" name="contrasena" [(ngModel)]="adminData.contrasena" required placeholder="••••••••">
+          </div>
         </div>
 
-        <button type="submit" class="btn-submit" [disabled]="adminForm.invalid || isLoading">
-          {{ isLoading ? 'VERIFICANDO...' : 'INGRESAR AL SISTEMA' }}
-        </button>
+        <div class="action-group">
+          <button type="submit" class="btn-neo-secure" [disabled]="adminForm.invalid || isLoading">
+            {{ isLoading ? 'VERIFICANDO CREDENCIALES...' : 'INICIAR SESIÓN SEGURA' }}
+          </button>
+        </div>
+
       </form>
 
-      <div class="toggle-section">
-        <a routerLink="/login" class="escape-link">← Volver al portal de agricultores</a>
+      <div class="footer-links">
+        <a routerLink="/login" class="escape-link">← Retornar al portal de agricultores</a>
       </div>
-    </div>
-    
+
+    </section>
   </div>
+
 </div>
