@@ -17,11 +17,12 @@ export class NuevoDiagnosticoComponent implements OnInit {
   estadoAnalisis: 'vacio' | 'analizando' | 'completado' = 'vacio';
   archivoSeleccionado: File | null = null; // Variable para controlar el archivo en móviles
 
-  // Objeto principal
+  // Objeto principal actualizado con la propiedad de recomendación
   resultado = {
     condicion: '',
     clasificacion: '',
-    confianza: ''
+    confianza: '',
+    recomendacion: ''
   };
 
   probabilidades: any[] = [];
@@ -49,7 +50,7 @@ export class NuevoDiagnosticoComponent implements OnInit {
     this.imagenUrl = null;
     this.archivoSeleccionado = null;
     this.estadoAnalisis = 'vacio';
-    this.resultado = { condicion: '', clasificacion: '', confianza: '' };
+    this.resultado = { condicion: '', clasificacion: '', confianza: '', recomendacion: '' };
     this.probabilidades = [];
     this.cdr.detectChanges();
   }
@@ -57,7 +58,7 @@ export class NuevoDiagnosticoComponent implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.archivoSeleccionado = file; // Lo guardamos para el botón de analizar en móvil
+      this.archivoSeleccionado = file; 
       
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -66,8 +67,7 @@ export class NuevoDiagnosticoComponent implements OnInit {
       };
       reader.readAsDataURL(file);
 
-      // Si quieres que el análisis sea automático (en PC), deja esta línea.
-      // Si prefieres que el usuario siempre presione un botón, puedes comentarla.
+      // Iniciamos el análisis automático
       this.analizarConApi(file);
     }
   }
@@ -88,10 +88,23 @@ export class NuevoDiagnosticoComponent implements OnInit {
         let porcentajeMaximo = 0;
         let esEnferma = false;
 
-        const detallesEnfermedad: { [key: string]: { nombre: string, color: string } } = {
-          'rust': { nombre: 'Roya Amarilla', color: '#FF6B6B' },   
-          'miner': { nombre: 'Minador de hoja', color: '#FCD53F' }, 
-          'phoma': { nombre: 'Mancha de Phoma', color: '#A8D08D' }  
+        // Diccionario ampliado con recomendaciones agronómicas
+        const detallesEnfermedad: { [key: string]: { nombre: string, color: string, recomendacion: string } } = {
+          'rust': { 
+            nombre: 'Roya Amarilla', 
+            color: '#FF6B6B',
+            recomendacion: 'Se sugiere aplicar fungicida a base de cobre de inmediato. Poda las ramas muy afectadas para mejorar la ventilación y evitar la propagación por esporas al resto de la parcela.'
+          },   
+          'miner': { 
+            nombre: 'Minador de hoja', 
+            color: '#FCD53F',
+            recomendacion: 'Aplica insecticidas sistémicos o extractos orgánicos como el aceite de neem. Retira y destruye las hojas con galerías visibles para cortar el ciclo de reproducción de la plaga.'
+          }, 
+          'phoma': { 
+            nombre: 'Mancha de Phoma', 
+            color: '#A8D08D',
+            recomendacion: 'Regula la sombra y reduce la humedad en el follaje. Aplica fungicidas preventivos antes de las épocas de lluvia y asegúrate de mantener un buen drenaje en el suelo.'
+          }  
         };
 
         for (const clave in diagnosticos) {
@@ -112,10 +125,15 @@ export class NuevoDiagnosticoComponent implements OnInit {
 
         this.probabilidades.sort((a, b) => b.porcentaje - a.porcentaje);
 
+        // Construcción del resultado final
         this.resultado = {
           condicion: esEnferma ? 'Hoja enferma' : 'Aparentemente sana',
           clasificacion: detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal,
-          confianza: porcentajeMaximo + '%'
+          confianza: porcentajeMaximo + '%',
+          // Asigna la recomendación específica o una general si la hoja está sana
+          recomendacion: esEnferma 
+            ? (detallesEnfermedad[enfermedadPrincipal]?.recomendacion || 'Consulta con un ingeniero agrónomo para un tratamiento específico.')
+            : 'Tu cultivo parece estar en óptimas condiciones. Mantén tus buenas prácticas de poda, fertilización y monitoreo constante.'
         };
 
         // --- SECCIÓN DE GUARDADO EN LA BASE DE DATOS ---
@@ -125,10 +143,10 @@ export class NuevoDiagnosticoComponent implements OnInit {
           
           const payloadBD = {
             usuario_id: user.id,
-            parcela_id: 1, // Se envía estático temporalmente
+            parcela_id: 1, 
             resultado: this.resultado.condicion,
             enfermedad: this.resultado.clasificacion,
-            confianza: porcentajeMaximo // Número puro sin símbolo %
+            confianza: porcentajeMaximo 
           };
 
           this.diagnosticoService.guardarEnHistorial(payloadBD).subscribe({
@@ -140,9 +158,9 @@ export class NuevoDiagnosticoComponent implements OnInit {
         this.cdr.detectChanges(); 
       },
       error: (err: any) => {
-        alert('Error al conectar con la API en Render. Revisa la consola.');
+        alert('Error al conectar con la API de diagnóstico. Verifica tu conexión.');
         console.error(err);
-        this.descartarImagen(); // Si falla, limpia la pantalla
+        this.descartarImagen(); // Limpia la pantalla en caso de error
       }
     });
   }

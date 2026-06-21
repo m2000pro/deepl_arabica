@@ -1,6 +1,5 @@
 <div class="app-wrapper">
   
-  <!-- BARRA DE NAVEGACIÓN FLOTANTE -->
   <header class="app-nav glass-panel">
     <div class="nav-brand">
       <div class="menu-icon" routerLink="/dashboard">
@@ -16,14 +15,10 @@
     </div>
   </header>
 
-  <!-- ESTRUCTURA ARMONIOSA (Igual al Login: 1fr 460px) -->
   <main class="app-shell">
     
-    <!-- CAJA IZQUIERDA: VISOR DE IMAGEN Y BOTONES -->
     <section class="diagnostic-visual glass-panel">
-      
       <div class="image-viewer">
-        <!-- Placeholder cuando no hay imagen -->
         <div class="scanner-placeholder" *ngIf="!imagenUrl">
           <div class="target-frame">
             <div class="corner t-l"></div><div class="corner t-r"></div>
@@ -32,8 +27,6 @@
           </div>
           <p class="placeholder-text">Sube una imagen de la hoja para comenzar el análisis</p>
         </div>
-
-        <!-- Imagen cargada -->
         <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image" alt="Hoja analizada">
       </div>
 
@@ -44,10 +37,8 @@
           <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
         </label>
       </div>
-
     </section>
 
-    <!-- CAJA DERECHA: RESULTADOS DEL MODELO -->
     <section class="diagnostic-results glass-panel">
       <div class="form-head">
         <p class="mini-tag">Reporte de Salud</p>
@@ -70,6 +61,19 @@
             <strong class="value text-vibrant" *ngIf="estadoAnalisis === 'completado'">
               {{ resultado.clasificacion }} ({{ resultado.confianza }})
             </strong>
+          </div>
+        </div>
+
+        <div class="recommendation-shell" *ngIf="estadoAnalisis === 'completado' && resultado.recomendacion">
+          <div class="rec-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="rec-content">
+            <span class="label">ACCIÓN RECOMENDADA</span>
+            <p class="rec-text">{{ resultado.recomendacion }}</p>
           </div>
         </div>
 
