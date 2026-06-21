@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   // Cambiamos 127.0.0.1 por localhost para evitar bloqueos CORS del navegador
-  private apiUrl = 'http://https://backend-l-u7je.onrender.com/api/admin'; 
+  private apiUrl = 'https://backend-l-u7je.onrender.com/api/admin'; 
 
   constructor(private http: HttpClient) {}
 
