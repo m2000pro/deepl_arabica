@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   // Ajusta el puerto al que estés usando en tu backend (ej. 5000 o 5001)
-  private apiUrl = 'http://127.0.0.1:5001/api/auth'; 
+  private apiUrl = 'https://backend-l-u7je.onrender.com/api/auth'; 
 
   constructor(private http: HttpClient) {}
 
