@@ -127,7 +127,7 @@ $sombra-premium:    0 10px 30px rgba(42, 92, 56, 0.08); // Sombra con un levísi
             background-color: $marron-tierra; 
             
             &:hover {
-              background-color: darken($marron-tierra, 10%); 
+              background-color: #70584f; 
               transform: translateY(-2px);
               box-shadow: 0 4px 10px rgba($marron-tierra, 0.3);
             }
