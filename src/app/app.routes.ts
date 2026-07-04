@@ -7,7 +7,7 @@ export const routes: Routes = [
   // --- RUTAS DE ACCESO PÚBLICO (Agricultores) ---
   { 
     path: 'login', 
-    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/auth/presentation/pages/login-page.component').then(m => m.LoginPageComponent)
   },
   { 
     path: 'register', 
