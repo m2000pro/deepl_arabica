@@ -11,13 +11,13 @@ export const routes: Routes = [
   },
   { 
     path: 'register', 
-    loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
+    loadComponent: () => import('./features/auth/presentation/pages/register.component').then(m => m.RegisterComponent)
   },
 
   // --- RUTAS SECRETAS (Administradores) ---
   { 
     path: 'portal-tecnico-acceso', 
-    loadComponent: () => import('./features/auth/login-admin/admin-login.component').then(m => m.AdminLoginComponent)
+    loadComponent: () => import('./features/auth/presentation/pages/login-admin/admin-login.component').then(m => m.AdminLoginComponent)
   },
   // 👇 ¡AQUÍ ESTÁ LA RUTA QUE FALTABA! 👇
   { 

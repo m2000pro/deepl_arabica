@@ -10,7 +10,14 @@ export class AuthApiService implements AuthRepository {
   constructor(private http: HttpClient) {}
 
   login(usuario: string, password: string): Observable<any> {
-    const credenciales = { usuario: usuario, password: password };
-    return this.http.post(`${this.apiUrl}/login`, credenciales);
+    return this.http.post(`${this.apiUrl}/login`, { usuario, password });
+  }
+
+  registrar(nuevoUsuario: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registro`, nuevoUsuario);
+  }
+
+  loginAdmin(credenciales: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin-login`, credenciales);
   }
 }
