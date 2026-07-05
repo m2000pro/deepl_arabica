@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject , Subject} from 'rxjs';
 import { RegistrarUsuarioUseCase } from '../../domain/usecases/register.usecase';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class RegisterViewModel {
   private errorSubject = new BehaviorSubject<string | null>(null);
   public error$ = this.errorSubject.asObservable();
 
-  private registerSuccessSubject = new BehaviorSubject<boolean>(false);
+  private registerSuccessSubject = new Subject<any>();
   public registerSuccess$ = this.registerSuccessSubject.asObservable();
 
   constructor(private registrarUsuarioUseCase: RegistrarUsuarioUseCase) {}

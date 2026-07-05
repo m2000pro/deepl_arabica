@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IniciarSesionUseCase } from '../../domain/usecases/login.usecase';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class AuthViewModel {
   private errorSubject = new BehaviorSubject<string | null>(null);
   public error$ = this.errorSubject.asObservable();
 
-  private loginSuccessSubject = new BehaviorSubject<any | null>(null);
+  private loginSuccessSubject = new Subject<any>();
   public loginSuccess$ = this.loginSuccessSubject.asObservable();
 
   constructor(private iniciarSesionUseCase: IniciarSesionUseCase) {}

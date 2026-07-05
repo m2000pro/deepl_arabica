@@ -28,7 +28,7 @@ export const routes: Routes = [
   // --- RUTAS DEL SISTEMA ---
   { 
     path: 'dashboard', 
-    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    loadComponent: () => import('./features/dashboard/presentation/pages/dashboard.component').then(m => m.DashboardComponent)
   },
   { 
     path: 'nuevo-diagnostico', 

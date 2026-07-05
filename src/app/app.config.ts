@@ -6,12 +6,15 @@ import { AuthRepository } from './features/auth/domain/repositories/auth.reposit
 import { AuthApiService } from './features/auth/data/repositories/auth-api.service';
 import { AdminRepository } from './features/admin/domain/repositories/admin.repository';
 import { AdminApiService } from './features/admin/data/repositories/admin-api.service';
+import { DashboardRepository } from './features/dashboard/domain/repositories/dashboard.repository';
+import { DashboardLocalService } from './features/dashboard/data/repositories/dashboard-local.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     { provide: AuthRepository, useClass: AuthApiService },
-    { provide: AdminRepository, useClass: AdminApiService }
+    { provide: AdminRepository, useClass: AdminApiService },
+    { provide: DashboardRepository, useClass: DashboardLocalService }
   ]
 };
