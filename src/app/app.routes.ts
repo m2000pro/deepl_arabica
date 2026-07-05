@@ -32,7 +32,7 @@ export const routes: Routes = [
   },
   { 
     path: 'nuevo-diagnostico', 
-    loadComponent: () => import('./features/diagnostico/nuevo-diagnostico.component').then(m => m.NuevoDiagnosticoComponent)
+    loadComponent: () => import('./features/diagnostico/presentation/pages/nuevo-diagnostico/nuevo-diagnostico.component').then(m => m.NuevoDiagnosticoComponent)
   },
   { 
     path: 'historial', 

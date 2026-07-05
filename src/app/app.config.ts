@@ -12,6 +12,8 @@ import { HistorialRepository } from './features/historial/domain/repositories/hi
 import { HistorialApiService } from './features/historial/data/repositories/historial-api.service';
 import { ReportesRepository } from './features/reportes/domain/repositories/reportes.repository';
 import { ReportesApiService } from './features/reportes/data/repositories/reportes-api.service';
+import { DiagnosticoRepository } from './features/diagnostico/domain/repositories/diagnostico.repository';
+import { DiagnosticoApiService } from './features/diagnostico/data/repositories/diagnostico-api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     { provide: AdminRepository, useClass: AdminApiService },
     { provide: DashboardRepository, useClass: DashboardLocalService },
     { provide: HistorialRepository, useClass: HistorialApiService },
-    { provide: ReportesRepository, useClass: ReportesApiService }
+    { provide: ReportesRepository, useClass: ReportesApiService },
+    { provide: DiagnosticoRepository, useClass: DiagnosticoApiService }
   ]
 };
