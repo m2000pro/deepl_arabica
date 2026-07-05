@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject} from 'rxjs';
 import { IniciarSesionAdminUseCase } from '../../domain/usecases/login-admin.usecase';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AdminLoginViewModel {
   private errorSubject = new BehaviorSubject<string | null>(null);
   public error$ = this.errorSubject.asObservable();
 
-  private adminLoginSuccessSubject = new BehaviorSubject<any | null>(null);
+  private adminLoginSuccessSubject = new Subject<any>(); 
   public adminLoginSuccess$ = this.adminLoginSuccessSubject.asObservable();
 
   constructor(private iniciarSesionAdminUseCase: IniciarSesionAdminUseCase) {}

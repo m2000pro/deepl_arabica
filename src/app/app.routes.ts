@@ -22,7 +22,7 @@ export const routes: Routes = [
   // 👇 ¡AQUÍ ESTÁ LA RUTA QUE FALTABA! 👇
   { 
     path: 'panel-admin', 
-    loadComponent: () => import('./features/auth/panel-admin/panel-admin.component').then(m => m.PanelAdminComponent)
+    loadComponent: () => import('./features/admin/presentation/pages/panel-admin/panel-admin.component').then(m => m.PanelAdminComponent)
   },
 
   // --- RUTAS DEL SISTEMA ---
