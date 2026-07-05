@@ -2,30 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DiagnosticoRepository } from '../repositories/diagnostico.repository';
-import { ResultadoDiagnostico, PrediccionRaw } from '../models/diagnostico.model';
+import { ResultadoDiagnostico, ProbabilidadFormat } from '../models/diagnostico.model';
 
 @Injectable({ providedIn: 'root' })
 export class AnalizarImagenUseCase {
   
-  private detallesEnfermedad: { [key: string]: { nombre: string, recomendacion: string } } = {
-    'roya': { 
-      nombre: 'Roya Amarilla', 
-      recomendacion: 'Aplicar fungicidas a base de cobre. Realizar podas sanitarias para mejorar la ventilación y reducir la humedad en el follaje.' 
-    },
-    'mancha_hierro': { 
-      nombre: 'Mancha de Hierro', 
-      recomendacion: 'Mejorar la ventilación del cultivo y mantener un plan de fertilización equilibrado rico en potasio.' 
-    },
-    'minador': { 
-      nombre: 'Minador de la hoja', 
-      recomendacion: 'Usar trampas de luz o feromonas. En casos severos, aplicar insecticidas sistémicos específicos.' 
-    },
-    'phoma': { 
-      nombre: 'Phoma (Quema)', 
-      recomendacion: 'Podar ramas afectadas y quemarlas. Aplicar fungicidas preventivos antes de la época de lluvias.' 
-    }
-  };
-
   constructor(private repository: DiagnosticoRepository) {}
 
   ejecutar(archivo: File): Observable<ResultadoDiagnostico> {
@@ -35,31 +16,71 @@ export class AnalizarImagenUseCase {
 
     return this.repository.analizarImagen(archivo).pipe(
       map((response: any) => {
-        const predictions: PrediccionRaw[] = response.predictions || [];
-        
-        let maxPred = predictions[0];
-        const probabilidadesFormateadas = predictions.map(p => {
-          if (p.probability > maxPred.probability) maxPred = p;
-          return {
-            nombre: this.detallesEnfermedad[p.class]?.nombre || p.class,
-            porcentaje: (p.probability * 100).toFixed(1),
-            valorRaw: p.probability
-          };
-        });
+        const diagnostico = response.diagnostico;
+        const probs = response.probabilidades;
 
-        const porcentajeMaximoRaw = maxPred.probability * 100;
-        const enfermedadPrincipal = maxPred.class;
-        const esEnferma = enfermedadPrincipal !== 'sano';
+        const probabilidadesFormateadas: ProbabilidadFormat[] = [
+          { nombre: 'Sano', porcentaje: (probs['Healthy'] * 100).toFixed(1), valorRaw: probs['Healthy'] },
+          { nombre: 'Roya Amarilla', porcentaje: (probs['Leaf rust'] * 100).toFixed(1), valorRaw: probs['Leaf rust'] },
+          { nombre: 'Minador', porcentaje: (probs['Miner'] * 100).toFixed(1), valorRaw: probs['Miner'] },
+          { nombre: 'Phoma', porcentaje: (probs['Phoma'] * 100).toFixed(1), valorRaw: probs['Phoma'] }
+        ].sort((a, b) => b.valorRaw - a.valorRaw);
 
+        let condicion = 'Negativo';
+        let clasificacion = 'Sano';
+        let recomendacion = 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.';
+        let maxConfianza = probs['Healthy'] * 100;
+
+        // A. Evaluar casos especiales (Lesión Compleja o Anomalía)
+        if (diagnostico['Lesion_Compleja']?.detectado) {
+          condicion = 'Positivo';
+          clasificacion = 'Lesión Compleja';
+          recomendacion = diagnostico['Lesion_Compleja'].mensaje;
+          maxConfianza = 99.0; // Confianza simbólica alta de estrés biótico severo
+        } 
+        else if (diagnostico['Anomalia']?.detectado) {
+          condicion = 'Advertencia';
+          clasificacion = 'Anomalía Desconocida';
+          recomendacion = diagnostico['Anomalia'].mensaje;
+          maxConfianza = 0; // El modelo no reconoce el patrón
+        } 
+        // B. Evaluar las enfermedades conocidas
+        else {
+          const enfermedades = [
+            { key: 'Leaf rust', nombre: 'Roya Amarilla' },
+            { key: 'Miner', nombre: 'Minador de la hoja' },
+            { key: 'Phoma', nombre: 'Phoma (Quema)' }
+          ];
+
+          let enfermedadesDetectadas = [];
+          
+          for (let enf of enfermedades) {
+            if (diagnostico[enf.key]?.detectado) {
+              enfermedadesDetectadas.push({
+                nombre: enf.nombre,
+                mensaje: diagnostico[enf.key].mensaje,
+                prob: probs[enf.key] * 100
+              });
+            }
+          }
+
+          // Si hay al menos una enfermedad confirmada
+          if (enfermedadesDetectadas.length > 0) {
+            condicion = 'Positivo';
+            clasificacion = enfermedadesDetectadas.map(e => e.nombre).join(' + ');
+            recomendacion = enfermedadesDetectadas[0].mensaje; 
+            maxConfianza = enfermedadesDetectadas[0].prob;
+          }
+        }
+
+        // 3. Retornar el objeto con la estructura que el ViewModel y la UI exigen
         return {
-          condicion: (esEnferma && porcentajeMaximoRaw > 50) ? 'Positivo' : 'Negativo',
-          clasificacion: esEnferma ? (this.detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal) : 'Sano',
-          confianza: porcentajeMaximoRaw.toFixed(1) + '%',
-          recomendacion: esEnferma 
-            ? (this.detallesEnfermedad[enfermedadPrincipal]?.recomendacion || 'Consulta con un agrónomo.')
-            : 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.',
+          condicion: condicion,
+          clasificacion: clasificacion,
+          confianza: maxConfianza.toFixed(1) + '%',
+          recomendacion: recomendacion,
           probabilidades: probabilidadesFormateadas,
-          porcentajeMaximoRaw: porcentajeMaximoRaw
+          porcentajeMaximoRaw: maxConfianza
         };
       })
     );
