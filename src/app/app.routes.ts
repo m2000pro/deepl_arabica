@@ -19,7 +19,6 @@ export const routes: Routes = [
     path: 'portal-tecnico-acceso', 
     loadComponent: () => import('./features/auth/presentation/pages/login-admin/admin-login.component').then(m => m.AdminLoginComponent)
   },
-  // 👇 ¡AQUÍ ESTÁ LA RUTA QUE FALTABA! 👇
   { 
     path: 'panel-admin', 
     loadComponent: () => import('./features/admin/presentation/pages/panel-admin/panel-admin.component').then(m => m.PanelAdminComponent)
