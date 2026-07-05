@@ -29,10 +29,10 @@
         </div>
         
         <div class="card-body">
-          <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima.temperatura.actual }}</strong></div>
-          <div class="data-row"><span class="label">Máxima del día</span> <strong class="value">{{ clima.temperatura.max }}</strong></div>
-          <div class="data-row"><span class="label">Mínima del día</span> <strong class="value">{{ clima.temperatura.min }}</strong></div>
-          <div class="data-row"><span class="label">Promedio semanal</span> <strong class="value">{{ clima.temperatura.promedio }}</strong></div>
+          <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima?.temperatura?.actual }}</strong></div>
+          <div class="data-row"><span class="label">Máxima del día</span> <strong class="value">{{ clima?.temperatura?.max }}</strong></div>
+          <div class="data-row"><span class="label">Mínima del día</span> <strong class="value">{{ clima?.temperatura?.min }}</strong></div>
+          <div class="data-row"><span class="label">Promedio semanal</span> <strong class="value">{{ clima?.temperatura?.promedio }}</strong></div>
           
           <div class="progress-zone">
             <span class="progress-label">Rango óptimo para café (18–24°C)</span>
@@ -50,10 +50,10 @@
         </div>
         
         <div class="card-body">
-          <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima.humedad.actual }}</strong></div>
-          <div class="data-row"><span class="label">Promedio Semanal</span> <strong class="value">{{ clima.humedad.promedio }}</strong></div>
-          <div class="data-row"><span class="label">Lluvia hoy</span> <strong class="value">{{ clima.humedad.lluviaHoy }}</strong></div>
-          <div class="data-row"><span class="label">Lluvia semanal</span> <strong class="value">{{ clima.humedad.lluviaSemana }}</strong></div>
+          <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima?.humedad?.actual }}</strong></div>
+          <div class="data-row"><span class="label">Promedio Semanal</span> <strong class="value">{{ clima?.humedad?.promedio }}</strong></div>
+          <div class="data-row"><span class="label">Lluvia hoy</span> <strong class="value">{{ clima?.humedad?.lluviaHoy }}</strong></div>
+          <div class="data-row"><span class="label">Lluvia semanal</span> <strong class="value">{{ clima?.humedad?.lluviaSemana }}</strong></div>
           
           <div class="progress-zone">
             <span class="progress-label">Rango óptimo (60–80%)</span>
@@ -72,10 +72,10 @@
         
         <div class="card-body">
           <div class="grid-2">
-            <div class="data-row"><span class="label">Viento</span> <strong class="value">{{ clima.condicion.viento }}</strong></div>
-            <div class="data-row"><span class="label">Índice UV</span> <strong class="value">{{ clima.condicion.uv }}</strong></div>
-            <div class="data-row"><span class="label">Presión</span> <strong class="value">{{ clima.condicion.presion }}</strong></div>
-            <div class="data-row"><span class="label">Alerta Activa</span> <strong class="value text-danger">{{ clima.condicion.alerta }}</strong></div>
+            <div class="data-row"><span class="label">Viento</span> <strong class="value">{{ clima?.condicion?.viento }}</strong></div>
+            <div class="data-row"><span class="label">Índice UV</span> <strong class="value">{{ clima?.condicion?.uv }}</strong></div>
+            <div class="data-row"><span class="label">Presión</span> <strong class="value">{{ clima?.condicion?.presion }}</strong></div>
+            <div class="data-row"><span class="label">Alerta Activa</span> <strong class="value text-danger">{{ clima?.condicion?.alerta }}</strong></div>
           </div>
           
           <div class="progress-zone alert-zone">

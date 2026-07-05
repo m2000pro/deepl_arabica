@@ -31,11 +31,30 @@
       </div>
 
       <div class="action-buttons">
-        <button class="btn-neo-primary">TOMAR FOTO</button>
-        <label class="btn-neo-ghost">
-          SUBIR IMAGEN
-          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
-        </label>
+        
+        <ng-container *ngIf="!imagenUrl">
+          <button class="btn-neo-primary">TOMAR FOTO</button>
+          <label class="btn-neo-ghost">
+            SUBIR IMAGEN
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
+          </label>
+        </ng-container>
+
+        <ng-container *ngIf="imagenUrl && estadoAnalisis === 'vacio'">
+          <button class="btn-neo-primary" (click)="analizar()">🧠 ANALIZAR HOJA</button>
+          <button class="btn-neo-ghost" (click)="descartar()">DESCARTAR</button>
+        </ng-container>
+        
+        <ng-container *ngIf="estadoAnalisis === 'analizando'">
+          <button class="btn-neo-primary" disabled style="opacity: 0.7; cursor: wait;">
+            PROCESANDO...
+          </button>
+        </ng-container>
+        
+        <ng-container *ngIf="estadoAnalisis === 'completado'">
+          <button class="btn-neo-ghost" (click)="descartar()">ESCANEAR OTRA HOJA</button>
+        </ng-container>
+
       </div>
     </section>
 
@@ -51,7 +70,7 @@
         <div class="data-block">
           <span class="label">CONDICIÓN DE LA PLANTA</span>
           <strong class="value pending" *ngIf="estadoAnalisis === 'analizando'">Analizando textura y patrones...</strong>
-          <strong class="value" *ngIf="estadoAnalisis === 'completado'">{{ resultado.condicion }}</strong>
+          <strong class="value" *ngIf="estadoAnalisis === 'completado'">{{ resultado?.condicion }}</strong>
         </div>
 
         <div class="input-shell highlight-shell">
@@ -59,12 +78,12 @@
             <span class="label">DIAGNÓSTICO PRINCIPAL</span>
             <strong class="value pending" *ngIf="estadoAnalisis === 'analizando'">Calculando modelo...</strong>
             <strong class="value text-vibrant" *ngIf="estadoAnalisis === 'completado'">
-              {{ resultado.clasificacion }} ({{ resultado.confianza }})
+              {{ resultado?.clasificacion }} ({{ resultado?.confianza }})
             </strong>
           </div>
         </div>
 
-        <div class="recommendation-shell" *ngIf="estadoAnalisis === 'completado' && resultado.recomendacion">
+        <div class="recommendation-shell" *ngIf="estadoAnalisis === 'completado' && resultado?.recomendacion">
           <div class="rec-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -73,7 +92,7 @@
           </div>
           <div class="rec-content">
             <span class="label">ACCIÓN RECOMENDADA</span>
-            <p class="rec-text">{{ resultado.recomendacion }}</p>
+            <p class="rec-text">{{ resultado?.recomendacion }}</p>
           </div>
         </div>
 
@@ -83,15 +102,15 @@
           <span class="label">PROBABILIDADES POR ENFERMEDAD</span>
           
           <div class="prob-list">
-            <div class="prob-item" *ngFor="let prob of probabilidades">
+            <div class="prob-item" *ngFor="let prob of resultado?.probabilidades">
               <div class="prob-info">
                 <span class="prob-name">{{ prob.nombre }}</span>
                 <span class="prob-value">{{ prob.porcentaje }}%</span>
               </div>
               <div class="prob-track">
                 <div class="prob-fill" 
-                     [style.width.%]="prob.porcentaje" 
-                     [style.background-color]="prob.color">
+                    [style.width.%]="prob.porcentaje" 
+                    [style.background-color]="prob.nombre === 'Aparentemente sana' ? '#6d9b43' : '#d32f2f'">
                 </div>
               </div>
             </div>

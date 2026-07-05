@@ -1,6 +1,4 @@
 <div class="app-wrapper">
-  
-  <!-- BARRA DE NAVEGACIÓN FLOTANTE -->
   <header class="app-nav glass-panel">
     <div class="nav-brand">
       <div class="menu-icon" routerLink="/dashboard">
@@ -16,28 +14,16 @@
     </div>
   </header>
 
-  <!-- CONTENEDOR PRINCIPAL -->
   <main class="history-shell">
-    
-    <!-- ZONA DE FILTROS -->
     <div class="filters-zone">
       <div class="filter-group">
         <button class="btn-neo-pill" [class.active]="filtroActivo === 'HOY'" (click)="aplicarFiltro('HOY')">Hoy</button>
         <button class="btn-neo-pill" [class.active]="filtroActivo === 'ESTA SEMANA'" (click)="aplicarFiltro('ESTA SEMANA')">Esta Semana</button>
         <button class="btn-neo-pill" [class.active]="filtroActivo === 'ESTE MES'" (click)="aplicarFiltro('ESTE MES')">Este Mes</button>
-        <button class="btn-neo-pill" [class.active]="filtroActivo === 'HACE 3 MESES'" (click)="aplicarFiltro('HACE 3 MESES')">Últimos 3 Meses</button>
-      </div>
-      
-      <div class="filter-group">
-        <button class="btn-neo-pill outline" [class.active]="filtroActivo === 'PLAZO PERSONALIZADO'" (click)="aplicarFiltro('PLAZO PERSONALIZADO')">
-          Rango Personalizado
-        </button>
-        <button class="btn-neo-pill ghost">Desde</button>
-        <button class="btn-neo-pill ghost">Hasta</button>
+        <button class="btn-neo-pill" [class.active]="filtroActivo === 'TODOS'" (click)="aplicarFiltro('TODOS')">Todos los Registros</button>
       </div>
     </div>
 
-    <!-- TARJETA DE LA TABLA -->
     <section class="table-card glass-panel">
       <div class="table-responsive">
         <table class="neo-table">
@@ -50,28 +36,49 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="registrosAMostrar.length === 0">
-              <td colspan="4" class="empty-state">
-                No hemos encontrado diagnósticos en este período de tiempo.
-              </td>
+            <tr *ngIf="(viewModel.registrosAMostrar$ | async)?.length === 0">
+              <td colspan="4" class="empty-state">No hemos encontrado diagnósticos en este período de tiempo.</td>
             </tr>
-            
-            <tr *ngFor="let item of registrosAMostrar">
+            <tr *ngFor="let item of (viewModel.registrosAMostrar$ | async)" (click)="viewModel.abrirDetalles(item)" style="cursor: pointer;">
               <td class="font-bold">{{ item.fecha }}</td>
               <td>
-                <span class="status-badge" 
-                      [ngClass]="{'is-positive': item.diagnostico === 'Positivo', 
-                                  'is-negative': item.diagnostico === 'Negativo'}">
+                <span class="status-badge" [ngClass]="{'is-positive': item.diagnostico === 'Aparentemente sana', 'is-negative': item.diagnostico === 'Hoja enferma'}">
                   <span class="dot"></span> {{ item.diagnostico }}
                 </span>
               </td>
               <td class="text-muted">{{ item.enfermedad }}</td>
-              <td class="parcel-name">{{ item.parcela }}</td>
+              <td class="parcel-name">{{ item.parcela || 'Sin asignar' }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
-
   </main>
+
+  <div class="modal-overlay" *ngIf="viewModel.modalAbierto">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h3>Detalles del Diagnóstico</h3>
+        <button class="btn-close" (click)="viewModel.cerrarModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="foto-container" *ngIf="viewModel.registroSeleccionado?.foto_url">
+          <img [src]="viewModel.registroSeleccionado?.foto_url" alt="Hoja analizada">
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Ubicación / Parcela</span>
+            <div class="display-mode" *ngIf="!viewModel.modoEdicion">
+              <strong>{{ viewModel.registroSeleccionado?.parcela || 'Lote sin asignar' }}</strong>
+              <button class="btn-edit" (click)="viewModel.activarEdicion()">✏️ Asignar Lote</button>
+            </div>
+            <div class="edit-mode" *ngIf="viewModel.modoEdicion">
+              <input type="text" [(ngModel)]="viewModel.parcelaTemporal" placeholder="Nombre de parcela">
+              <button class="btn-save" (click)="viewModel.guardarParcela()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

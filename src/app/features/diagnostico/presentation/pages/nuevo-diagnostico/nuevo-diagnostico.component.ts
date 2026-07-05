@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -21,7 +21,10 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(public viewModel: NuevoDiagnosticoViewModel) {}
+  constructor(
+    public viewModel: NuevoDiagnosticoViewModel,
+    private cdr: ChangeDetectorRef // <-- 1. Inyectamos el detector de cambios
+  ) {}
 
   ngOnInit() {
     const userData = localStorage.getItem('deepL_usuario');
@@ -31,11 +34,17 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
 
     this.viewModel.estado$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(estado => this.estadoAnalisis = estado);
+      .subscribe(estado => {
+        this.estadoAnalisis = estado;
+        this.cdr.detectChanges(); // <-- 2. Obligamos a la pantalla a actualizarse
+      });
 
     this.viewModel.resultado$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(res => this.resultado = res);
+      .subscribe(res => {
+        this.resultado = res;
+        this.cdr.detectChanges(); // <-- 3. Obligamos a pintar los porcentajes
+      });
   }
 
   ngOnDestroy() {
@@ -58,8 +67,8 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
   }
 
   analizar() {
-    if (this.archivoSeleccionado) {
-      this.viewModel.procesarImagen(this.archivoSeleccionado);
+    if (this.archivoSeleccionado && this.imagenUrl) {
+      this.viewModel.procesarImagen(this.archivoSeleccionado, this.imagenUrl as string);
     }
   }
 
