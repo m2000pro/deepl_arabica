@@ -87,13 +87,26 @@ export class AnalizarImagenUseCase {
             { key: 'Phoma', nombre: 'Phoma (Quema)' }
           ].filter(e => diagnostico[e.key]?.detectado);
 
+          // Filtramos las que solo son sospechas
+          const sospechas = [
+            { key: 'Leaf rust', nombre: 'Roya Amarilla' },
+            { key: 'Miner', nombre: 'Minador de la hoja' },
+            { key: 'Phoma', nombre: 'Phoma (Quema)' }
+          ].filter(e => diagnostico[e.key]?.sospecha && !diagnostico[e.key]?.detectado);
+
           if (detectadas.length > 0) {
             condicion = 'Positivo';
             clasificacion = detectadas.map(e => e.nombre).join(' + ');
-            
-            // Asignamos la recomendación de la enfermedad dominante usando nuestro diccionario base
             const principal = detectadas[0].key;
             recomendacion = this.recomendacionesBase[principal] || 'Consulte con un ingeniero agrónomo.';
+            
+            if (sospechas.length > 0) {
+                recomendacion += ` Además, hay indicios leves de ${sospechas.map(s => s.nombre).join(', ')}.`;
+            }
+          } 
+          // Si no hay detectadas, pero la hoja fue clasificada como sana Y hay una sospecha alta (como tu Minador al 44%)
+          else if (condicion === 'Negativo' && sospechas.length > 0) {
+            recomendacion = `La hoja parece sana en general, pero el sistema detectó patrones inusuales que podrían coincidir con fases muy tempranas de ${sospechas.map(s => s.nombre).join(', ')}. Mantén el monitoreo.`;
           }
         }
 

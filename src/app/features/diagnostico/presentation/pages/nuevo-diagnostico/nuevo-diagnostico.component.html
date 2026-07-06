@@ -26,6 +26,9 @@
             <div class="scan-laser"></div>
           </div>
           <p class="placeholder-text">Sube una imagen de la hoja para comenzar el análisis</p>
+          <p style="font-size: 0.85rem; color: #7d6858; font-weight: 500; margin: 0; padding: 0 1rem;">
+              ⚠️ <strong>Importante:</strong> Encuadra la hoja completa. Evita acercamientos extremos (fotos macro) o cubrir la hoja con los dedos.
+          </p>
         </div>
         <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image" alt="Hoja analizada">
       </div>
@@ -41,7 +44,7 @@
         </ng-container>
 
         <ng-container *ngIf="imagenUrl && estadoAnalisis === 'vacio'">
-          <button class="btn-neo-primary" (click)="analizar()">🧠 ANALIZAR HOJA</button>
+          <button class="btn-neo-primary" (click)="analizar()">ANALIZAR HOJA</button>
           <button class="btn-neo-ghost" (click)="descartar()">DESCARTAR</button>
         </ng-container>
         
