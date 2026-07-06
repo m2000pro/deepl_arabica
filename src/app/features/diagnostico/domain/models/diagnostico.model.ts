@@ -7,6 +7,7 @@ export interface ProbabilidadFormat {
   nombre: string;
   porcentaje: string;
   valorRaw: number;
+  color: string; 
 }
 
 export interface ResultadoDiagnostico {
@@ -18,7 +19,6 @@ export interface ResultadoDiagnostico {
   porcentajeMaximoRaw: number;
 }
 
-// AQUÍ AGREGAMOS LA FOTO Y LA RECOMENDACIÓN
 export interface PayloadHistorial {
   usuario_id: number;
   parcela_id: number;
