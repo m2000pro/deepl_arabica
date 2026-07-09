@@ -11,7 +11,11 @@ def listar_usuarios():
         conn = get_db_connection()
         with conn.cursor() as cursor:
             cursor.execute("SELECT id, nombre_completo, usuario, correo_electronico, estado FROM usuarios")
-            usuarios = cursor.fetchall()
+            
+            # MAGIA AQUÍ: Convertimos las tuplas crudas a diccionarios con el nombre de la columna
+            columnas = [columna[0] for columna in cursor.description]
+            usuarios = [dict(zip(columnas, fila)) for fila in cursor.fetchall()]
+            
         conn.close()
         return jsonify(usuarios), 200
     except Exception as e:
