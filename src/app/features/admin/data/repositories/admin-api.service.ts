@@ -6,7 +6,7 @@ import { UsuarioAdmin } from '../../domain/models/usuario-admin.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService implements AdminRepository {
-  private apiUrl = 'https://backend-pruebaaa.onrender.com'; 
+  private apiUrl = 'https://backend-pruebaaa.onrender.com/api/usuarios'; 
 
   constructor(private http: HttpClient) {}
 
