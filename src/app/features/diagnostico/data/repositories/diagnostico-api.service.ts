@@ -7,7 +7,7 @@ import { PayloadHistorial } from '../../domain/models/diagnostico.model';
 @Injectable({ providedIn: 'root' })
 export class DiagnosticoApiService implements DiagnosticoRepository {
   private iaUrl = 'https://modelo-clasificador-coffe.onrender.com'; 
-  private dbUrl = 'https://backend-prueba-em2d.onrender.com/api/diagnosticos'; 
+  private dbUrl = 'https://backend-pruebaaa.onrender.com/api/diagnosticos'; 
 
   constructor(private http: HttpClient) {}
 
