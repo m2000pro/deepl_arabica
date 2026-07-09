@@ -18,10 +18,13 @@ export interface ResultadoDiagnostico {
   porcentajeMaximoRaw: number;
 }
 
+// AQUÍ AGREGAMOS LA FOTO Y LA RECOMENDACIÓN
 export interface PayloadHistorial {
   usuario_id: number;
   parcela_id: number;
   resultado: string;
   enfermedad: string;
   confianza: number;
+  recomendacion: string; 
+  foto_url: string;      
 }

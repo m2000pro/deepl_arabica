@@ -5,7 +5,7 @@ import { AuthRepository } from '../../domain/repositories/auth.repository';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService implements AuthRepository {
-  private apiUrl = 'https://backend-l-u7je.onrender.com/api/auth';
+  private apiUrl = 'https://backend-pruebaaa.onrender.com/api/auth';
 
   constructor(private http: HttpClient) {}
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   FONDOS Y BURBUJAS (Exactamente igual al Login)
+   FONDOS Y BURBUJAS 
    ========================================================= */
 .app-wrapper {
   min-height: 100vh;
@@ -101,7 +101,35 @@
 }
 
 /* =========================================================
-   DISEÑO MÓVIL
+   MODAL DE DETALLES Y EDICIÓN
+   ========================================================= */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(8px); display: grid; place-items: center; z-index: 1000; padding: 1rem;
+}
+
+.modal-card {
+  width: min(520px, 100%); padding: 2.5rem; border-radius: 2rem; background: rgba(255, 251, 246, 0.95); box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+  
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; h3 { margin: 0; color: #301d11; font-weight: 900; } .btn-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #7d6858; transition: 0.3s; &:hover { color: #d32f2f; transform: scale(1.1); } } }
+  
+  .foto-container { width: 100%; height: 220px; border-radius: 1.2rem; overflow: hidden; margin-bottom: 1.5rem; border: 1px solid rgba(81, 55, 32, 0.1); box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); img { width: 100%; height: 100%; object-fit: cover; } }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  
+  .info-item { display: flex; flex-direction: column; gap: 0.4rem; .label { font-size: 0.75rem; font-weight: 800; color: #7d6858; text-transform: uppercase; letter-spacing: 0.05em; } strong { color: #301d11; font-size: 1.05rem; font-weight: 700; } .text-danger { color: #d32f2f; } }
+
+  .parcel-edit-zone { grid-column: 1 / -1; background: rgba(109, 155, 67, 0.08); padding: 1.2rem; border-radius: 1.2rem; border: 1px solid rgba(109, 155, 67, 0.2);
+    .display-mode, .edit-mode { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; }
+    .btn-edit { background: none; border: none; font-size: 0.85rem; cursor: pointer; color: #3f6f32; font-weight: 800; padding: 0.5rem 1rem; border-radius: 999px; transition: 0.3s; &:hover { background: rgba(109, 155, 67, 0.15); } }
+    input { flex: 1; padding: 0.8rem 1rem; border-radius: 0.8rem; border: 1px solid rgba(109, 155, 67, 0.4); outline: none; font-family: inherit; font-weight: 600; color: #301d11; transition: 0.3s; &:focus { border-color: #6d9b43; box-shadow: 0 0 0 3px rgba(109, 155, 67, 0.15); } }
+    .btn-save { background: linear-gradient(135deg, #6d9b43 0%, #3f6f32 100%); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 0.8rem; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(109, 155, 67, 0.2); &:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(109, 155, 67, 0.3); } }
+  }
+
+  .recommendation-box { background: rgba(255, 255, 255, 0.6); padding: 1.5rem; border-radius: 1.2rem; border-left: 5px solid #6d9b43; box-shadow: 0 4px 15px rgba(0,0,0,0.03); .label { display: block; font-size: 0.75rem; font-weight: 800; color: #3f6f32; margin-bottom: 0.5rem; letter-spacing: 0.05em; } p { margin: 0; font-size: 0.95rem; color: #452d1b; line-height: 1.6; } }
+}
+
+/* =========================================================
+  DISEÑO MÓVIL
    ========================================================= */
 @media (max-width: 980px) {
   .filter-group { flex-direction: column; width: 100%; .btn-neo-pill { width: 100%; justify-content: center; } }
@@ -111,4 +139,5 @@
   .app-wrapper { padding: 1rem; }
   .app-nav { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; border-radius: 1.5rem; }
   .table-card { padding: 1rem; border-radius: 1.5rem; }
+  .modal-card { padding: 1.5rem; .info-grid { grid-template-columns: 1fr; } .parcel-edit-zone .edit-mode { flex-direction: column; input, .btn-save { width: 100%; } } }
 }

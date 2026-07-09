@@ -2,27 +2,27 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DiagnosticoRepository } from '../repositories/diagnostico.repository';
-import { ResultadoDiagnostico, PrediccionRaw } from '../models/diagnostico.model';
+import { ResultadoDiagnostico } from '../models/diagnostico.model';
 
 @Injectable({ providedIn: 'root' })
 export class AnalizarImagenUseCase {
   
   private detallesEnfermedad: { [key: string]: { nombre: string, recomendacion: string } } = {
-    'roya': { 
+    'rust': { 
       nombre: 'Roya Amarilla', 
-      recomendacion: 'Aplicar fungicidas a base de cobre. Realizar podas sanitarias para mejorar la ventilación y reducir la humedad en el follaje.' 
+      recomendacion: 'Aplicar fungicidas a base de cobre. Realizar podas sanitarias para mejorar la ventilación y reducir la humedad.' 
     },
-    'mancha_hierro': { 
-      nombre: 'Mancha de Hierro', 
-      recomendacion: 'Mejorar la ventilación del cultivo y mantener un plan de fertilización equilibrado rico en potasio.' 
-    },
-    'minador': { 
+    'miner': { 
       nombre: 'Minador de la hoja', 
-      recomendacion: 'Usar trampas de luz o feromonas. En casos severos, aplicar insecticidas sistémicos específicos.' 
+      recomendacion: 'Usar trampas de luz o feromonas. En casos severos, aplicar insecticidas específicos.' 
     },
     'phoma': { 
       nombre: 'Phoma (Quema)', 
-      recomendacion: 'Podar ramas afectadas y quemarlas. Aplicar fungicidas preventivos antes de la época de lluvias.' 
+      recomendacion: 'Podar ramas afectadas y quemarlas. Aplicar fungicidas preventivos.' 
+    },
+    'sano': {
+      nombre: 'Aparentemente Sana',
+      recomendacion: 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.'
     }
   };
 
@@ -35,29 +35,74 @@ export class AnalizarImagenUseCase {
 
     return this.repository.analizarImagen(archivo).pipe(
       map((response: any) => {
-        const predictions: PrediccionRaw[] = response.predictions || [];
+        let predictions: any[] = [];
         
-        let maxPred = predictions[0];
-        const probabilidadesFormateadas = predictions.map(p => {
-          if (p.probability > maxPred.probability) maxPred = p;
-          return {
-            nombre: this.detallesEnfermedad[p.class]?.nombre || p.class,
-            porcentaje: (p.probability * 100).toFixed(1),
-            valorRaw: p.probability
-          };
-        });
+        // 1. EXTRACCIÓN A PRUEBA DE BALAS
+        if (response && response.diagnostico) {
+          for (const key in response.diagnostico) {
+            const data = response.diagnostico[key];
+            let prob = 0;
 
+            // Extraemos el número dinámicamente, no importa cómo se llame la variable
+            if (typeof data === 'object' && data !== null) {
+              const valoresNumericos = Object.values(data).filter(v => typeof v === 'number');
+              if (valoresNumericos.length > 0) {
+                prob = valoresNumericos[0] as number;
+              }
+            } else if (typeof data === 'number') {
+              prob = data;
+            } else if (typeof data === 'string' && !isNaN(Number(data))) {
+              prob = Number(data);
+            }
+
+            // Normalización: Si Python envía "85" en lugar de "0.85", lo ajustamos
+            if (prob > 1) {
+                prob = prob / 100;
+            }
+
+            predictions.push({ class: key, probability: prob });
+          }
+        } else {
+          predictions = [{ class: 'sano', probability: 1 }];
+        }
+
+        // 2. BUSCAR EL MAYOR PORCENTAJE REAL
+        const maxPred = predictions.reduce((max, current) => 
+          (current.probability > max.probability) ? current : max
+        , predictions[0]);
+
+        // 3. FORMATEAR PARA LAS BARRAS VISUALES
+        const probabilidadesFormateadas = predictions.map(p => ({
+          nombre: this.detallesEnfermedad[p.class]?.nombre || p.class,
+          porcentaje: (p.probability * 100).toFixed(1),
+          valorRaw: p.probability
+        }));
+
+        // 4. LÓGICA DE DIAGNÓSTICO ESTRICTA
         const porcentajeMaximoRaw = maxPred.probability * 100;
         const enfermedadPrincipal = maxPred.class;
-        const esEnferma = enfermedadPrincipal !== 'sano';
+        
+        // Es enferma si la clase no es sano Y la IA está segura a más del 50%
+        const esEnferma = enfermedadPrincipal !== 'sano' && enfermedadPrincipal !== 'healthy' && porcentajeMaximoRaw > 50;
+
+        let condicionFinal = 'Aparentemente sana';
+        let clasificacionFinal = 'Sano';
+
+        if (esEnferma) {
+            condicionFinal = 'Hoja enferma';
+            clasificacionFinal = this.detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal;
+        } else if (porcentajeMaximoRaw <= 50 && enfermedadPrincipal !== 'sano') {
+            condicionFinal = 'Indeterminado';
+            clasificacionFinal = 'Baja certeza de enfermedad';
+        }
 
         return {
-          condicion: (esEnferma && porcentajeMaximoRaw > 50) ? 'Positivo' : 'Negativo',
-          clasificacion: esEnferma ? (this.detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal) : 'Sano',
+          condicion: condicionFinal,
+          clasificacion: clasificacionFinal,
           confianza: porcentajeMaximoRaw.toFixed(1) + '%',
           recomendacion: esEnferma 
             ? (this.detallesEnfermedad[enfermedadPrincipal]?.recomendacion || 'Consulta con un agrónomo.')
-            : 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.',
+            : this.detallesEnfermedad['sano'].recomendacion,
           probabilidades: probabilidadesFormateadas,
           porcentajeMaximoRaw: porcentajeMaximoRaw
         };

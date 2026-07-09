@@ -7,7 +7,8 @@ import { RegistroHistorial } from '../models/registro-historial.model';
 export class ObtenerHistorialUseCase {
   constructor(private repository: HistorialRepository) {}
 
-  ejecutar(): Observable<RegistroHistorial[]> {
-    return this.repository.obtenerRegistros();
+  // AHORA RECIBE EL ID Y SE LO PASA AL REPOSITORIO
+  ejecutar(usuarioId: number): Observable<RegistroHistorial[]> {
+    return this.repository.obtenerRegistros(usuarioId);
   }
 }

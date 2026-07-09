@@ -6,15 +6,16 @@ import { ReporteClima } from '../../domain/models/reporte-clima.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReportesApiService implements ReportesRepository {
-  // Aquí irá la URL de la API de clima externa (ej. OpenWeatherMap)
-  private apiUrl = 'URL_API_CLIMA_EXTERNA'; 
+  // ✅ URL ACTUALIZADA apuntando a tu nuevo servidor en Render
+  private apiUrl = 'https://backend-pruebaaa.onrender.com/api/reportes'; 
 
   constructor(private http: HttpClient) {}
 
   obtenerClimaActual(): Observable<ReporteClima> {
-    // TODO: Implementar llamada HTTP cuando tengan la API externa
-    // return this.http.get<ReporteClima>(`${this.apiUrl}/current`);
+    // Cuando tu backend tenga la ruta de clima lista, solo descomenta la línea de abajo:
+    // return this.http.get<ReporteClima>(`${this.apiUrl}/clima`);
 
+    // Por ahora mantenemos los datos de prueba para que la interfaz se vea bien
     const mockClima: ReporteClima = {
       temperatura: { actual: '22°C', max: '27°C', min: '16°C', promedio: '21°C' },
       humedad: { actual: '78%', promedio: '72%', lluviaHoy: '3.2mm', lluviaSemana: '18.4mm' },
