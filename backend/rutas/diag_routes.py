@@ -35,7 +35,8 @@ def obtener_historial(usuario_id):
     try:
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            sql = """SELECT id, DATE_FORMAT(fecha_hora, '%d/%m/%Y') as fecha, 
+            # MAGIA AQUÍ: Usamos %% para que Python no confunda el formato de fecha
+            sql = """SELECT id, DATE_FORMAT(fecha_hora, '%%d/%%m/%%Y') as fecha, 
                             resultado as diagnostico, enfermedad, parcela_id as parcela, 
                             confianza, recomendacion, foto_url
                     FROM diagnosticos 
@@ -43,26 +44,10 @@ def obtener_historial(usuario_id):
                     ORDER BY fecha_hora DESC"""
             cursor.execute(sql, (usuario_id,))
             
-            # MAGIA AQUÍ: Convertimos las tuplas crudas a diccionarios
             columnas = [columna[0] for columna in cursor.description]
             registros = [dict(zip(columnas, fila)) for fila in cursor.fetchall()]
             
         conn.close()
         return jsonify(registros), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@diag_bp.route('/historial/actualizar-parcela', methods=['PUT', 'OPTIONS'])
-def actualizar_parcela():
-    if request.method == 'OPTIONS': return '', 200
-    data = request.json
-    try:
-        conn = get_db_connection()
-        with conn.cursor() as cursor:
-            sql = "UPDATE diagnosticos SET parcela_id = %s WHERE id = %s"
-            cursor.execute(sql, (data['nueva_parcela'], data['id_diagnostico']))
-        conn.commit()
-        conn.close()
-        return jsonify({'mensaje': 'Parcela actualizada correctamente'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
