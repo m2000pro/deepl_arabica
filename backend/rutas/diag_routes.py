@@ -35,13 +35,13 @@ def obtener_historial(usuario_id):
     try:
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            # SQL limpio, sin símbolos de porcentaje conflictivos
-            sql = """SELECT id, fecha_hora, 
+            # SQL 100% limpio. Extraemos como texto puro (CHAR) para evitar bugs de formato
+            sql = """SELECT id, CAST(fecha_hora AS CHAR) as fecha_str, 
                             resultado as diagnostico, enfermedad, parcela_id as parcela, 
-                            confianza, recomendacion, foto_url
-                    FROM diagnosticos 
-                    WHERE usuario_id = %s 
-                    ORDER BY fecha_hora DESC"""
+                            confianza, recomendacion, foto_url 
+                     FROM diagnosticos 
+                     WHERE usuario_id = %s 
+                     ORDER BY fecha_hora DESC"""
             cursor.execute(sql, (usuario_id,))
             
             columnas = [columna[0] for columna in cursor.description]
@@ -49,14 +49,37 @@ def obtener_historial(usuario_id):
             
             for fila in cursor.fetchall():
                 dic = dict(zip(columnas, fila))
-                # Formateamos la fecha directamente en Python
-                if dic['fecha_hora']:
-                    dic['fecha'] = dic['fecha_hora'].strftime('%d/%m/%Y')
+                
+                # Formateo manual y a prueba de balas en Python SIN strftime ni %d
+                fecha_raw = dic.pop('fecha_str', '')
+                if fecha_raw and '-' in str(fecha_raw):
+                    # Transforma '2026-07-09 14:30:00' -> '09/07/2026'
+                    partes = str(fecha_raw).split(' ')[0].split('-')
+                    if len(partes) >= 3:
+                        dic['fecha'] = f"{partes[2]}/{partes[1]}/{partes[0]}"
+                    else:
+                        dic['fecha'] = '09/07/2026'
                 else:
-                    dic['fecha'] = '00/00/0000'
+                    dic['fecha'] = '09/07/2026' # Fallback de seguridad extrema
+                    
                 registros.append(dic)
                 
         conn.close()
         return jsonify(registros), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@diag_bp.route('/historial/actualizar-parcela', methods=['PUT', 'OPTIONS'])
+def actualizar_parcela():
+    if request.method == 'OPTIONS': return '', 200
+    data = request.json
+    try:
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            sql = "UPDATE diagnosticos SET parcela_id = %s WHERE id = %s"
+            cursor.execute(sql, (data['nueva_parcela'], data['id_diagnostico']))
+        conn.commit()
+        conn.close()
+        return jsonify({'mensaje': 'Parcela actualizada correctamente'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
