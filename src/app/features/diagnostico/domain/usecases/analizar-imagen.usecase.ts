@@ -2,28 +2,32 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DiagnosticoRepository } from '../repositories/diagnostico.repository';
-import { ResultadoDiagnostico } from '../models/diagnostico.model';
+import { ResultadoDiagnostico, ProbabilidadFormat } from '../models/diagnostico.model';
 
 @Injectable({ providedIn: 'root' })
 export class AnalizarImagenUseCase {
   
-  private detallesEnfermedad: { [key: string]: { nombre: string, recomendacion: string } } = {
-    'rust': { 
-      nombre: 'Roya Amarilla', 
-      recomendacion: 'Aplicar fungicidas a base de cobre. Realizar podas sanitarias para mejorar la ventilación y reducir la humedad.' 
-    },
-    'miner': { 
-      nombre: 'Minador de la hoja', 
-      recomendacion: 'Usar trampas de luz o feromonas. En casos severos, aplicar insecticidas específicos.' 
-    },
-    'phoma': { 
-      nombre: 'Phoma (Quema)', 
-      recomendacion: 'Podar ramas afectadas y quemarlas. Aplicar fungicidas preventivos.' 
-    },
-    'sano': {
-      nombre: 'Aparentemente Sana',
-      recomendacion: 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.'
-    }
+  // Paleta de colores para el HTML
+  private coloresEnfermedad: { [key: string]: string } = {
+    'Healthy': '#6d9b43',
+    'Leaf rust': '#FF6B6B',
+    'Miner': '#FCD53F',
+    'Phoma': '#A8D08D'
+  };
+
+  private nombresEnfermedad: { [key: string]: string } = {
+    'Healthy': 'Sano',
+    'Leaf rust': 'Roya Amarilla',
+    'Miner': 'Minador de la hoja',
+    'Phoma': 'Phoma (Quema)'
+  };
+
+  // Diccionario para las enfermedades individuales (las complejas vienen del backend)
+  private recomendacionesBase: { [key: string]: string } = {
+    'Leaf rust': 'Aplicar fungicidas a base de cobre. Realizar podas sanitarias para mejorar la ventilación y reducir la humedad.',
+    'Miner': 'Usar trampas de luz o feromonas. En casos severos, aplicar insecticidas específicos.',
+    'Phoma': 'Podar ramas afectadas y quemarlas. Aplicar fungicidas preventivos.',
+    'Healthy': 'Tu cultivo parece estar en óptimas condiciones. Mantén el monitoreo constante.'
   };
 
   constructor(private repository: DiagnosticoRepository) {}
@@ -35,76 +39,84 @@ export class AnalizarImagenUseCase {
 
     return this.repository.analizarImagen(archivo).pipe(
       map((response: any) => {
-        let predictions: any[] = [];
-        
-        // 1. EXTRACCIÓN A PRUEBA DE BALAS
-        if (response && response.diagnostico) {
-          for (const key in response.diagnostico) {
-            const data = response.diagnostico[key];
-            let prob = 0;
+        const diagnostico = response.diagnostico || {};
 
-            // Extraemos el número dinámicamente, no importa cómo se llame la variable
-            if (typeof data === 'object' && data !== null) {
-              const valoresNumericos = Object.values(data).filter(v => typeof v === 'number');
-              if (valoresNumericos.length > 0) {
-                prob = valoresNumericos[0] as number;
-              }
-            } else if (typeof data === 'number') {
-              prob = data;
-            } else if (typeof data === 'string' && !isNaN(Number(data))) {
-              prob = Number(data);
-            }
-
-            // Normalización: Si Python envía "85" en lugar de "0.85", lo ajustamos
-            if (prob > 1) {
-                prob = prob / 100;
-            }
-
-            predictions.push({ class: key, probability: prob });
+        // 1. EXTRAER PROBABILIDADES DEL NUEVO FORMATO DE PYTHON
+        const listaClases = ['Healthy', 'Leaf rust', 'Miner', 'Phoma'];
+        const probabilidadesFormateadas: ProbabilidadFormat[] = listaClases.map(clase => {
+          let valueRaw = 0;
+          if (diagnostico[clase] && diagnostico[clase].porcentaje !== undefined) {
+            valueRaw = diagnostico[clase].porcentaje;
           }
-        } else {
-          predictions = [{ class: 'sano', probability: 1 }];
-        }
+          // Normalizar a escala 0-1
+          if (valueRaw > 1) valueRaw = valueRaw / 100;
 
-        // 2. BUSCAR EL MAYOR PORCENTAJE REAL
-        const maxPred = predictions.reduce((max, current) => 
-          (current.probability > max.probability) ? current : max
-        , predictions[0]);
+          return {
+            nombre: this.nombresEnfermedad[clase] || clase,
+            porcentaje: (valueRaw * 100).toFixed(1),
+            valorRaw: valueRaw,
+            color: this.coloresEnfermedad[clase] || '#4682B4'
+          };
+        }).sort((a, b) => b.valorRaw - a.valorRaw);
 
-        // 3. FORMATEAR PARA LAS BARRAS VISUALES
-        const probabilidadesFormateadas = predictions.map(p => ({
-          nombre: this.detallesEnfermedad[p.class]?.nombre || p.class,
-          porcentaje: (p.probability * 100).toFixed(1),
-          valorRaw: p.probability
-        }));
-
-        // 4. LÓGICA DE DIAGNÓSTICO ESTRICTA
-        const porcentajeMaximoRaw = maxPred.probability * 100;
-        const enfermedadPrincipal = maxPred.class;
+        // 2. LÓGICA HÍBRIDA DE DIAGNÓSTICO
+        let condicion = 'Negativo';
+        let clasificacion = 'Sano';
+        let recomendacion = this.recomendacionesBase['Healthy'];
         
-        // Es enferma si la clase no es sano Y la IA está segura a más del 50%
-        const esEnferma = enfermedadPrincipal !== 'sano' && enfermedadPrincipal !== 'healthy' && porcentajeMaximoRaw > 50;
+        const maxProbObj = probabilidadesFormateadas[0];
+        let maxConfianza = maxProbObj ? maxProbObj.valorRaw * 100 : 0;
 
-        let condicionFinal = 'Aparentemente sana';
-        let clasificacionFinal = 'Sano';
+        // A. Prioridad máxima: Mensajes dinámicos del Backend (Lesión Compleja o Anomalía)
+        if (diagnostico['Lesion_Compleja']?.detectado) {
+          condicion = 'Positivo';
+          clasificacion = 'Lesión Compleja';
+          recomendacion = diagnostico['Lesion_Compleja'].mensaje || 'Tejido necrótico avanzado.';
+          maxConfianza = Math.max(maxConfianza, 90.0); 
+        } 
+        else if (diagnostico['Anomalia']?.detectado) {
+          condicion = 'Advertencia';
+          clasificacion = 'Anomalía Desconocida';
+          recomendacion = diagnostico['Anomalia'].mensaje || 'Posible deficiencia o daño no catalogado.';
+        } 
+        // B. Enfermedades regulares
+        else {
+          const detectadas = [
+            { key: 'Leaf rust', nombre: 'Roya Amarilla' },
+            { key: 'Miner', nombre: 'Minador de la hoja' },
+            { key: 'Phoma', nombre: 'Phoma (Quema)' }
+          ].filter(e => diagnostico[e.key]?.detectado);
 
-        if (esEnferma) {
-            condicionFinal = 'Hoja enferma';
-            clasificacionFinal = this.detallesEnfermedad[enfermedadPrincipal]?.nombre || enfermedadPrincipal;
-        } else if (porcentajeMaximoRaw <= 50 && enfermedadPrincipal !== 'sano') {
-            condicionFinal = 'Indeterminado';
-            clasificacionFinal = 'Baja certeza de enfermedad';
+          // Filtramos las que solo son sospechas
+          const sospechas = [
+            { key: 'Leaf rust', nombre: 'Roya Amarilla' },
+            { key: 'Miner', nombre: 'Minador de la hoja' },
+            { key: 'Phoma', nombre: 'Phoma (Quema)' }
+          ].filter(e => diagnostico[e.key]?.sospecha && !diagnostico[e.key]?.detectado);
+
+          if (detectadas.length > 0) {
+            condicion = 'Positivo';
+            clasificacion = detectadas.map(e => e.nombre).join(' + ');
+            const principal = detectadas[0].key;
+            recomendacion = this.recomendacionesBase[principal] || 'Consulte con un ingeniero agrónomo.';
+            
+            if (sospechas.length > 0) {
+                recomendacion += ` Además, hay indicios leves de ${sospechas.map(s => s.nombre).join(', ')}.`;
+            }
+          } 
+          // Si no hay detectadas, pero la hoja fue clasificada como sana Y hay una sospecha alta (como tu Minador al 44%)
+          else if (condicion === 'Negativo' && sospechas.length > 0) {
+            recomendacion = `La hoja parece sana en general, pero el sistema detectó patrones inusuales que podrían coincidir con fases muy tempranas de ${sospechas.map(s => s.nombre).join(', ')}. Mantén el monitoreo.`;
+          }
         }
 
         return {
-          condicion: condicionFinal,
-          clasificacion: clasificacionFinal,
-          confianza: porcentajeMaximoRaw.toFixed(1) + '%',
-          recomendacion: esEnferma 
-            ? (this.detallesEnfermedad[enfermedadPrincipal]?.recomendacion || 'Consulta con un agrónomo.')
-            : this.detallesEnfermedad['sano'].recomendacion,
+          condicion: condicion,
+          clasificacion: clasificacion,
+          confianza: maxConfianza.toFixed(1) + '%',
+          recomendacion: recomendacion,
           probabilidades: probabilidadesFormateadas,
-          porcentajeMaximoRaw: porcentajeMaximoRaw
+          porcentajeMaximoRaw: maxConfianza
         };
       })
     );
