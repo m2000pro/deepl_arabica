@@ -15,11 +15,23 @@ import { Subject, takeUntil } from 'rxjs';
 export class HistorialComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   filtroActivo: string = 'TODOS';
+  usuarioId: number = 0;
 
   constructor(public viewModel: HistorialViewModel) {}
 
   ngOnInit() {
-    this.viewModel.cargarHistorial(this.filtroActivo);
+    // 1. Rescatamos al usuario logueado de la memoria del navegador
+    const userData = localStorage.getItem('deepL_usuario');
+    if (userData) {
+      const usuario = JSON.parse(userData);
+      this.usuarioId = usuario.id;
+      
+      // 2. Le pasamos el ID del usuario y el filtro a tu ViewModel
+      // Nota: Asegúrate de que tu HistorialViewModel.cargarHistorial reciba el usuarioId como primer parámetro
+      this.viewModel.cargarHistorial(this.usuarioId, this.filtroActivo);
+    } else {
+      console.error('No se encontró sesión activa.');
+    }
   }
 
   aplicarFiltro(filtro: string) {

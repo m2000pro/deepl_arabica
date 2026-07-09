@@ -13,18 +13,21 @@ export class HistorialApiService implements HistorialRepository {
 
   obtenerRegistros(usuarioId: number): Observable<RegistroHistorial[]> {
     return this.http.get<any[]>(`${this.apiUrl}/historial/usuario/${usuarioId}`).pipe(
-      map(datosBD => datosBD.map(item => ({
-        id: item.id,
-        fecha: item.fecha,
-        diagnostico: item.diagnostico,
-        enfermedad: item.enfermedad,
-        parcela: item.parcela || 'Sin asignar',
-        confianza: item.confianza,
-        recomendacion: item.recomendacion,
-        foto_url: item.foto_url,
-        // Usamos nuestro motor inteligente de fechas
-        categoria: this.determinarCategoria(item.fecha) 
-      })))
+      map(datosBD => {
+        if (!datosBD || datosBD.length === 0) return [];
+        return datosBD.map(item => ({
+          id: item.id,
+          fecha: item.fecha,
+          diagnostico: item.diagnostico,
+          enfermedad: item.enfermedad,
+          parcela: item.parcela || 'Sin asignar',
+          confianza: item.confianza,
+          recomendacion: item.recomendacion,
+          foto_url: item.foto_url,
+          // Usamos nuestro motor inteligente de fechas
+          categoria: this.determinarCategoria(item.fecha) 
+        }));
+      })
     );
   }
 

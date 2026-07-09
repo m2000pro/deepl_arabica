@@ -29,6 +29,7 @@
         <table class="neo-table">
           <thead>
             <tr>
+              <th>Imagen</th>
               <th>Fecha de escaneo</th>
               <th>Diagnóstico general</th>
               <th>Patología detectada</th>
@@ -37,9 +38,13 @@
           </thead>
           <tbody>
             <tr *ngIf="(viewModel.registrosAMostrar$ | async)?.length === 0">
-              <td colspan="4" class="empty-state">No hemos encontrado diagnósticos en este período de tiempo.</td>
+              <td colspan="5" class="empty-state">No hemos encontrado diagnósticos en este período de tiempo.</td>
             </tr>
             <tr *ngFor="let item of (viewModel.registrosAMostrar$ | async)" (click)="viewModel.abrirDetalles(item)" style="cursor: pointer;">
+              <td>
+                <img *ngIf="item.foto_url" [src]="item.foto_url" alt="Hoja" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                <span *ngIf="!item.foto_url" style="font-size: 0.8rem; color: #8fa396;">Sin foto</span>
+              </td>
               <td class="font-bold">{{ item.fecha }}</td>
               <td>
                 <span class="status-badge" [ngClass]="{'is-positive': item.diagnostico === 'Aparentemente sana', 'is-negative': item.diagnostico === 'Hoja enferma'}">
@@ -63,14 +68,14 @@
       </div>
       <div class="modal-body">
         <div class="foto-container" *ngIf="viewModel.registroSeleccionado?.foto_url">
-          <img [src]="viewModel.registroSeleccionado?.foto_url" alt="Hoja analizada">
+          <img [src]="viewModel.registroSeleccionado?.foto_url" alt="Hoja analizada" style="max-width: 100%; border-radius: 12px; margin-bottom: 1rem;">
         </div>
         <div class="info-grid">
           <div class="info-item">
             <span class="label">Ubicación / Parcela</span>
             <div class="display-mode" *ngIf="!viewModel.modoEdicion">
               <strong>{{ viewModel.registroSeleccionado?.parcela || 'Lote sin asignar' }}</strong>
-              <button class="btn-edit" (click)="viewModel.activarEdicion()">✏️ Asignar Lote</button>
+              <button class="btn-edit" (click)="viewModel.activarEdicion()" style="margin-left: 10px;">✏️ Asignar Lote</button>
             </div>
             <div class="edit-mode" *ngIf="viewModel.modoEdicion">
               <input type="text" [(ngModel)]="viewModel.parcelaTemporal" placeholder="Nombre de parcela">

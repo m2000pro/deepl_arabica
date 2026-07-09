@@ -21,13 +21,13 @@ export class HistorialViewModel {
 
   constructor(private historialRepo: HistorialRepository) {}
 
-  cargarHistorial(filtroInicial: string = 'TODOS'): void {
+  // AHORA RECIBE EL ID DIRECTAMENTE DEL COMPONENTE
+  cargarHistorial(usuarioId: number, filtroInicial: string = 'TODOS'): void {
     this.isLoadingSubject.next(true);
     
-    // Obtenemos el usuario de la sesión actual
-    const userData = localStorage.getItem('deepL_usuario');
-const usuarioId = userData ? (JSON.parse(userData) as any).id : 0;
-    if (usuarioId === 0) {
+    // Si el ID no es válido, detenemos la carga por seguridad
+    if (!usuarioId || usuarioId === 0) {
+      console.warn('ID de usuario inválido. No se puede cargar el historial.');
       this.isLoadingSubject.next(false);
       return;
     }
@@ -79,7 +79,8 @@ const usuarioId = userData ? (JSON.parse(userData) as any).id : 0;
         // Actualizamos visualmente sin recargar la base de datos
         this.registroSeleccionado.parcela = this.parcelaTemporal;
         this.modoEdicion = false;
-        this.aplicarFiltro('TODOS'); // Refrescamos la tabla
+        // Refrescamos la tabla
+        this.registrosAMostrarSubject.next([...this.todosLosRegistros]); 
       },
       error: (err) => {
         console.error(err);
