@@ -7,7 +7,7 @@ import { RegistroHistorial } from '../../domain/models/registro-historial.model'
 @Injectable({ providedIn: 'root' })
 export class HistorialApiService implements HistorialRepository {
   // Conectado a tu backend en Render
-  private apiUrl = 'https://backend-prueba-em2d.onrender.com/api/diagnosticos'; 
+  private apiUrl = 'https://backend-pruebaaa.onrender.com/api/diagnosticos'; 
 
   constructor(private http: HttpClient) {}
 
