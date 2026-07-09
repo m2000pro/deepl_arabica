@@ -6,7 +6,6 @@ import { RegistroHistorial } from '../../domain/models/registro-historial.model'
 
 @Injectable({ providedIn: 'root' })
 export class HistorialApiService implements HistorialRepository {
-  // Conectado a tu backend en Render
   private apiUrl = 'https://backend-pruebaaa.onrender.com/api/diagnosticos'; 
 
   constructor(private http: HttpClient) {}
@@ -24,7 +23,6 @@ export class HistorialApiService implements HistorialRepository {
           confianza: item.confianza,
           recomendacion: item.recomendacion,
           foto_url: item.foto_url,
-          // Usamos nuestro motor inteligente de fechas
           categoria: this.determinarCategoria(item.fecha) 
         }));
       })
@@ -38,17 +36,14 @@ export class HistorialApiService implements HistorialRepository {
     });
   }
 
-  // --- MOTOR MATEMÁTICO DE FECHAS ---
   private determinarCategoria(fechaDDMMYYYY: string): string {
     if (!fechaDDMMYYYY) return 'TODOS';
-    
-    // Tu backend envía la fecha como 'DD/MM/YYYY'
     const partes = fechaDDMMYYYY.split('/');
     if (partes.length !== 3) return 'TODOS';
 
     const fechaRegistro = new Date(Number(partes[2]), Number(partes[1]) - 1, Number(partes[0]));
     const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0); // Limpiamos la hora para comparar solo días
+    hoy.setHours(0, 0, 0, 0); 
 
     const diffTiempo = hoy.getTime() - fechaRegistro.getTime();
     const diffDias = Math.floor(diffTiempo / (1000 * 3600 * 24));

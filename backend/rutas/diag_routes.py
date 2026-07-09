@@ -42,7 +42,11 @@ def obtener_historial(usuario_id):
                     WHERE usuario_id = %s 
                     ORDER BY fecha_hora DESC"""
             cursor.execute(sql, (usuario_id,))
-            registros = cursor.fetchall()
+            
+            # MAGIA AQUÍ: Convertimos las tuplas crudas a diccionarios
+            columnas = [columna[0] for columna in cursor.description]
+            registros = [dict(zip(columnas, fila)) for fila in cursor.fetchall()]
+            
         conn.close()
         return jsonify(registros), 200
     except Exception as e:
