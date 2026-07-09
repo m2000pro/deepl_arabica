@@ -1,5 +1,4 @@
 <div class="app-wrapper">
-  
   <header class="app-nav glass-panel">
     <div class="nav-brand">
       <div class="menu-icon" routerLink="/dashboard">
@@ -16,7 +15,6 @@
   </header>
 
   <main class="app-shell">
-    
     <section class="diagnostic-visual glass-panel">
       <div class="image-viewer">
         <div class="scanner-placeholder" *ngIf="!imagenUrl">
@@ -31,7 +29,6 @@
       </div>
 
       <div class="action-buttons">
-        
         <ng-container *ngIf="!imagenUrl">
           <button class="btn-neo-primary">TOMAR FOTO</button>
           <label class="btn-neo-ghost">
@@ -54,7 +51,6 @@
         <ng-container *ngIf="estadoAnalisis === 'completado'">
           <button class="btn-neo-ghost" (click)="descartar()">ESCANEAR OTRA HOJA</button>
         </ng-container>
-
       </div>
     </section>
 
@@ -66,7 +62,6 @@
       </div>
 
       <div class="results-body">
-        
         <div class="data-block">
           <span class="label">CONDICIÓN DE LA PLANTA</span>
           <strong class="value pending" *ngIf="estadoAnalisis === 'analizando'">Analizando textura y patrones...</strong>
@@ -100,9 +95,8 @@
 
         <div class="probabilities-section" *ngIf="estadoAnalisis === 'completado'">
           <span class="label">PROBABILIDADES POR ENFERMEDAD</span>
-          
           <div class="prob-list">
-            <div class="prob-item" *ngFor="let prob of resultado?.probabilidades">
+            <div class="prob-item" *ngFor="let prob of resultado?.probabilidades || []">
               <div class="prob-info">
                 <span class="prob-name">{{ prob.nombre }}</span>
                 <span class="prob-value">{{ prob.porcentaje }}%</span>
@@ -119,6 +113,5 @@
 
       </div>
     </section>
-
   </main>
 </div>

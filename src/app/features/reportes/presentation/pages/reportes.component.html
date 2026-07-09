@@ -17,7 +17,6 @@
   </header>
 
   <main class="reports-shell">
-    
     <div class="weather-grid">
       
       <section class="weather-card glass-panel card-temp">
@@ -27,7 +26,6 @@
           </div>
           <h3>Temperatura</h3>
         </div>
-        
         <div class="card-body">
           <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima?.temperatura?.actual }}</strong></div>
           <div class="data-row"><span class="label">Máxima del día</span> <strong class="value">{{ clima?.temperatura?.max }}</strong></div>
@@ -48,7 +46,6 @@
           </div>
           <h3>Humedad</h3>
         </div>
-        
         <div class="card-body">
           <div class="data-row"><span class="label">Actual</span> <strong class="value highlight">{{ clima?.humedad?.actual }}</strong></div>
           <div class="data-row"><span class="label">Promedio Semanal</span> <strong class="value">{{ clima?.humedad?.promedio }}</strong></div>
@@ -69,7 +66,6 @@
           </div>
           <h3>Condición General</h3>
         </div>
-        
         <div class="card-body">
           <div class="grid-2">
             <div class="data-row"><span class="label">Viento</span> <strong class="value">{{ clima?.condicion?.viento }}</strong></div>
@@ -77,7 +73,6 @@
             <div class="data-row"><span class="label">Presión</span> <strong class="value">{{ clima?.condicion?.presion }}</strong></div>
             <div class="data-row"><span class="label">Alerta Activa</span> <strong class="value text-danger">{{ clima?.condicion?.alerta }}</strong></div>
           </div>
-          
           <div class="progress-zone alert-zone">
             <span class="progress-label text-danger">Condiciones favorables para propagación de roya</span>
             <div class="progress-track"><div class="progress-fill" style="width: 80%; background: linear-gradient(90deg, #FF9800, #F37021);"></div></div>

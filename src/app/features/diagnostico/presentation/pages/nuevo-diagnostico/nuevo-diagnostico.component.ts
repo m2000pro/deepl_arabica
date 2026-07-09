@@ -23,7 +23,7 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
 
   constructor(
     public viewModel: NuevoDiagnosticoViewModel,
-    private cdr: ChangeDetectorRef // <-- 1. Inyectamos el detector de cambios
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -36,14 +36,14 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(estado => {
         this.estadoAnalisis = estado;
-        this.cdr.detectChanges(); // <-- 2. Obligamos a la pantalla a actualizarse
+        this.cdr.detectChanges();
       });
 
     this.viewModel.resultado$
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.resultado = res;
-        this.cdr.detectChanges(); // <-- 3. Obligamos a pintar los porcentajes
+        this.cdr.detectChanges();
       });
   }
 
