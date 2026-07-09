@@ -35,8 +35,8 @@ def obtener_historial(usuario_id):
     try:
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            # MAGIA AQUÍ: Usamos %% para que Python no confunda el formato de fecha
-            sql = """SELECT id, DATE_FORMAT(fecha_hora, '%%d/%%m/%%Y') as fecha, 
+            # SQL limpio, sin símbolos de porcentaje conflictivos
+            sql = """SELECT id, fecha_hora, 
                             resultado as diagnostico, enfermedad, parcela_id as parcela, 
                             confianza, recomendacion, foto_url
                     FROM diagnosticos 
@@ -45,8 +45,17 @@ def obtener_historial(usuario_id):
             cursor.execute(sql, (usuario_id,))
             
             columnas = [columna[0] for columna in cursor.description]
-            registros = [dict(zip(columnas, fila)) for fila in cursor.fetchall()]
+            registros = []
             
+            for fila in cursor.fetchall():
+                dic = dict(zip(columnas, fila))
+                # Formateamos la fecha directamente en Python
+                if dic['fecha_hora']:
+                    dic['fecha'] = dic['fecha_hora'].strftime('%d/%m/%Y')
+                else:
+                    dic['fecha'] = '00/00/0000'
+                registros.append(dic)
+                
         conn.close()
         return jsonify(registros), 200
     except Exception as e:
