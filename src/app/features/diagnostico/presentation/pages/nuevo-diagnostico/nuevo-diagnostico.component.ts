@@ -14,6 +14,7 @@ import { ResultadoDiagnostico } from '../../../domain/models/diagnostico.model';
 })
 export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
   nombreUsuario: string = 'ADMIN';
+  usuarioId: number = 0; // 🚀 Nueva variable para almacenar la identidad única
   imagenUrl: string | ArrayBuffer | null = null;
   archivoSeleccionado: File | null = null; 
   estadoAnalisis: EstadoAnalisis = 'vacio';
@@ -27,9 +28,12 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // 🚀 Extraemos al usuario y SU ID
     const userData = localStorage.getItem('deepL_usuario');
     if (userData) {
-      this.nombreUsuario = JSON.parse(userData).usuario;
+      const parsedUser = JSON.parse(userData);
+      this.nombreUsuario = parsedUser.usuario;
+      this.usuarioId = parsedUser.id; // ¡Aquí capturamos la llave de su privacidad!
     }
 
     this.viewModel.estado$
@@ -68,7 +72,8 @@ export class NuevoDiagnosticoComponent implements OnInit, OnDestroy {
 
   analizar() {
     if (this.archivoSeleccionado && this.imagenUrl) {
-      this.viewModel.procesarImagen(this.archivoSeleccionado, this.imagenUrl as string);
+      // 🚀 Le pasamos el ID del agricultor al ViewModel para que sepa de quién es
+      this.viewModel.procesarImagen(this.archivoSeleccionado, this.imagenUrl as string, this.usuarioId);
     }
   }
 
