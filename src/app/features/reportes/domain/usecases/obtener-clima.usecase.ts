@@ -7,7 +7,7 @@ import { ReporteClima } from '../models/reporte-clima.model';
 export class ObtenerClimaUseCase {
   constructor(private repository: ReportesRepository) {}
 
-  ejecutar(): Observable<ReporteClima> {
-    return this.repository.obtenerClimaActual();
+  ejecutar(lat: number, lon: number): Observable<ReporteClima> {
+    return this.repository.obtenerClimaActual(lat, lon);
   }
 }

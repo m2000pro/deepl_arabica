@@ -25,7 +25,7 @@ export class HistorialComponent implements OnInit, OnDestroy {
       const usuario = JSON.parse(userData);
       this.usuarioId = usuario.id;
       
-      this.viewModel.cargarHistorial(this.usuarioId, this.filtroActivo);
+      this.viewModel.cargarHistorial(this.filtroActivo);
     }
   }
 

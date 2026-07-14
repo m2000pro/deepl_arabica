@@ -15,13 +15,34 @@ export class ReportesViewModel {
 
   cargarClima(): void {
     this.isLoadingSubject.next(true);
-    this.obtenerClimaUseCase.ejecutar().subscribe({
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          this.ejecutarUseCase(lat, lon);
+        },
+        (error) => {
+          console.warn('Permiso de geolocalización denegado/fallido. Usando coordenadas por defecto.');
+          // Si el usuario deniega el permiso, pasamos coords genéricas (ej. centro del país)
+          this.ejecutarUseCase(-9.189967, -75.015152); 
+        }
+      );
+    } else {
+      console.warn('Geolocalización no soportada. Usando coordenadas por defecto.');
+      this.ejecutarUseCase(-9.189967, -75.015152);
+    }
+  }
+
+  private ejecutarUseCase(lat: number, lon: number) {
+    this.obtenerClimaUseCase.ejecutar(lat, lon).subscribe({
       next: (data) => {
         this.climaSubject.next(data);
         this.isLoadingSubject.next(false);
       },
       error: (err) => {
-        console.error('Error al obtener clima', err);
+        console.error('Error al obtener clima desde el API', err);
         this.isLoadingSubject.next(false);
       }
     });

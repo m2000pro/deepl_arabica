@@ -1,27 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, delay, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ReportesRepository } from '../../domain/repositories/reportes.repository';
 import { ReporteClima } from '../../domain/models/reporte-clima.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReportesApiService implements ReportesRepository {
-  // ✅ URL ACTUALIZADA apuntando a tu nuevo servidor en Render
-  private apiUrl = 'https://backend-pruebaaa.onrender.com/api/reportes'; 
+  // Asegúrate de que esta URL coincida con tu endpoint real
+  //private apiUrl = 'https://backend-prueba-em2d.onrender.com/api/reportes'; 
+  private apiUrl = 'http://127.0.0.1:5001/api/reportes';
 
   constructor(private http: HttpClient) {}
 
-  obtenerClimaActual(): Observable<ReporteClima> {
-    // Cuando tu backend tenga la ruta de clima lista, solo descomenta la línea de abajo:
-    // return this.http.get<ReporteClima>(`${this.apiUrl}/clima`);
-
-    // Por ahora mantenemos los datos de prueba para que la interfaz se vea bien
-    const mockClima: ReporteClima = {
-      temperatura: { actual: '22°C', max: '27°C', min: '16°C', promedio: '21°C' },
-      humedad: { actual: '78%', promedio: '72%', lluviaHoy: '3.2mm', lluviaSemana: '18.4mm' },
-      condicion: { viento: '12km/h', uv: 'Alto', presion: '1012hPa', alerta: 'Roya' }
-    };
-    
-    return of(mockClima).pipe(delay(400));
+  obtenerClimaActual(lat: number, lon: number): Observable<ReporteClima> {
+    // Llamada HTTP real reemplazando el Mock
+    return this.http.get<ReporteClima>(`${this.apiUrl}/clima?lat=${lat}&lon=${lon}`);
   }
 }
