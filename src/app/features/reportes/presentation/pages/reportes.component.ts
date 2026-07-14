@@ -33,6 +33,7 @@ export class ReportesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(datosClima => {
         if (datosClima) {
+          console.log('✅ Clima recibido en Angular:', datosClima); // <-- Nuevo Log
           this.clima = datosClima;
         }
       });

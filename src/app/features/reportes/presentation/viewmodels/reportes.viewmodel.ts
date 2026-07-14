@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core'; // <-- 1. Importa NgZone
 import { BehaviorSubject } from 'rxjs';
 import { ObtenerClimaUseCase } from '../../domain/usecases/obtener-clima.usecase';
 import { ReporteClima } from '../../domain/models/reporte-clima.model';
@@ -11,7 +11,10 @@ export class ReportesViewModel {
   private climaSubject = new BehaviorSubject<ReporteClima | null>(null);
   public clima$ = this.climaSubject.asObservable();
 
-  constructor(private obtenerClimaUseCase: ObtenerClimaUseCase) {}
+  constructor(
+    private obtenerClimaUseCase: ObtenerClimaUseCase,
+    private ngZone: NgZone // <-- 2. Inyéctalo aquí
+  ) {}
 
   cargarClima(): void {
     this.isLoadingSubject.next(true);
@@ -19,14 +22,19 @@ export class ReportesViewModel {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          this.ejecutarUseCase(lat, lon);
+          // 3. Envuelve la ejecución dentro de la "Zona" de Angular
+          this.ngZone.run(() => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            this.ejecutarUseCase(lat, lon);
+          });
         },
         (error) => {
-          console.warn('Permiso de geolocalización denegado/fallido. Usando coordenadas por defecto.');
-          // Si el usuario deniega el permiso, pasamos coords genéricas (ej. centro del país)
-          this.ejecutarUseCase(-9.189967, -75.015152); 
+          // También es buena práctica envolver el error
+          this.ngZone.run(() => {
+            console.warn('Permiso de geolocalización denegado/fallido. Usando coordenadas por defecto.');
+            this.ejecutarUseCase(-9.189967, -75.015152); 
+          });
         }
       );
     } else {
