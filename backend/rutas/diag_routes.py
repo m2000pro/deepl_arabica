@@ -45,12 +45,15 @@ def obtener_historial(usuario_id):
                      ORDER BY fecha_hora DESC"""
             cursor.execute(sql, (usuario_id,))
             
-            columnas = [columna[0] for columna in cursor.description]
             registros = []
-            
             for fila in cursor.fetchall():
-                dic = dict(zip(columnas, fila))
-                
+                # 🔥 EL FIX MAESTRO: Detectamos si la base de datos ya lo manda como diccionario
+                if isinstance(fila, dict):
+                    dic = dict(fila)
+                else:
+                    columnas = [columna[0] for columna in cursor.description]
+                    dic = dict(zip(columnas, fila))
+                    
                 # 🚀 Formateo manual usando la fecha REAL del sistema
                 fecha_raw = dic.pop('fecha_str', '')
                 if fecha_raw and '-' in str(fecha_raw):
