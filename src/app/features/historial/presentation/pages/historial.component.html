@@ -47,8 +47,19 @@
               </td>
               <td class="font-bold">{{ item.fecha }}</td>
               <td>
-                <span class="status-badge" [ngClass]="{'is-positive': item.diagnostico === 'Aparentemente sana', 'is-negative': item.diagnostico === 'Hoja enferma'}">
-                  <span class="dot"></span> {{ item.diagnostico }}
+                <span *ngIf="item.diagnostico === 'Positivo' || item.diagnostico === 'Hoja enferma'" class="status-badge is-negative">
+                  <span class="dot"></span> Positivo
+                </span>
+                
+                <span *ngIf="item.diagnostico === 'Aparentemente sana' || item.diagnostico === 'Negativo'" class="status-badge is-positive">
+                  <span class="dot"></span> Negativo
+                </span>
+                
+                <span *ngIf="item.diagnostico === 'Indeterminado' || item.diagnostico === 'Baja certeza de enfermedad'" 
+                      class="status-badge" 
+                      style="background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.25); display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+                  <span class="dot" style="background-color: #d97706; width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span> 
+                  Indeterminado
                 </span>
               </td>
               <td class="text-muted">{{ item.enfermedad }}</td>
