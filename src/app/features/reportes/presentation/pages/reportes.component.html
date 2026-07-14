@@ -81,5 +81,9 @@
 
       </div>
     </ng-container>
+
+    <div *ngIf="viewModel.isLoading$ | async" style="text-align: center; margin-top: 2rem; color: #5b4638;">
+      <strong>Consultando estaciones meteorológicas...</strong>
+    </div>
     </main>
 </div>
