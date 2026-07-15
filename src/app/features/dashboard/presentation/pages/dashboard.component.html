@@ -38,7 +38,7 @@
       
       <div class="stat-card glass-panel">
         <div class="card-head">
-          <h3>Resumen General</h3>
+          <h3>Total Diagnosticado</h3>
           <button class="btn-icon" routerLink="/historial">→</button>
         </div>
         <div class="card-body">
@@ -67,12 +67,12 @@
         <div class="card-body flex-row">
           <div class="data-block">
             <span class="label">Temp</span>
-            <strong class="value text-success">21°C</strong>
+            <strong class="value text-success">{{ temperaturaActual }}</strong>
           </div>
           <div class="vert-divider"></div>
           <div class="data-block">
             <span class="label">Humedad</span>
-            <strong class="value text-dark">72%</strong>
+            <strong class="value text-dark">{{ humedadActual }}</strong>
           </div>
         </div>
       </div>
