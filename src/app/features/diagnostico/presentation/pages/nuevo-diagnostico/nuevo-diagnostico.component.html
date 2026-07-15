@@ -5,8 +5,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
       </div>
       <div class="greeting">
-        <span class="eyebrow">DIAGNÓSTICO CON IA</span>
-        <h1>Hola, {{ nombreUsuario | uppercase }}</h1>
+        <h1 style="font-size: 1.6rem;">DIAGNÓSTICO CON IA</h1>
+        <p style="margin: 0.3rem 0 0; color: #5b4638; font-size: 0.95rem; font-weight: 600;">
+          Tome o ingrese una foto para ver los resultados.
+        </p>
       </div>
     </div>
     <div class="nav-actions">
@@ -17,7 +19,9 @@
   <main class="app-shell">
     <section class="diagnostic-visual glass-panel">
       <div class="image-viewer">
-        <div class="scanner-placeholder" *ngIf="!imagenUrl">
+        
+        <!-- 1. Placeholder original (cuando no hay cámara ni imagen) -->
+        <div class="scanner-placeholder" *ngIf="!imagenUrl && !camaraActiva">
           <div class="target-frame">
             <div class="corner t-l"></div><div class="corner t-r"></div>
             <div class="corner b-l"></div><div class="corner b-r"></div>
@@ -28,29 +32,48 @@
               ⚠️ <strong>Importante:</strong> Encuadra la hoja completa. Evita acercamientos extremos (fotos macro) o cubrir la hoja con los dedos.
           </p>
         </div>
-        <img *ngIf="imagenUrl" [src]="imagenUrl" class="uploaded-image" alt="Hoja analizada">
+
+        <!-- 2. Visor de Cámara en Vivo -->
+        <video #videoElement autoplay playsinline class="uploaded-image" [hidden]="!camaraActiva"></video>
+        <!-- Canvas oculto para capturar el fotograma -->
+        <canvas #canvasElement style="display: none;"></canvas>
+
+        <!-- 3. Imagen capturada/subida (tu código original) -->
+        <img *ngIf="imagenUrl && !camaraActiva" [src]="imagenUrl" class="uploaded-image" alt="Hoja analizada">
       </div>
 
       <div class="action-buttons">
-        <ng-container *ngIf="!imagenUrl">
-          <button class="btn-neo-primary">TOMAR FOTO</button>
+        <!-- Estado inicial: Opciones para iniciar cámara o subir archivo -->
+        <ng-container *ngIf="!imagenUrl && !camaraActiva">
+          <button class="btn-neo-primary" (click)="iniciarCamara()">USAR CÁMARA</button>
           <label class="btn-neo-ghost">
             SUBIR IMAGEN
             <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
           </label>
         </ng-container>
 
-        <ng-container *ngIf="imagenUrl && estadoAnalisis === 'vacio'">
+        <!-- Estado de cámara activa: Botón para tomar la foto -->
+        <ng-container *ngIf="camaraActiva">
+          <button class="btn-neo-primary" (click)="tomarFoto()" style="background: linear-gradient(135deg, #FF6B6B 0%, #d32f2f 100%);">
+            📸 CAPTURAR FOTO
+          </button>
+          <button class="btn-neo-ghost" (click)="detenerCamara()">CANCELAR</button>
+        </ng-container>
+
+        <!-- Estado con imagen lista para analizar (tu código original) -->
+        <ng-container *ngIf="imagenUrl && !camaraActiva && estadoAnalisis === 'vacio'">
           <button class="btn-neo-primary" (click)="analizar()">ANALIZAR HOJA</button>
           <button class="btn-neo-ghost" (click)="descartar()">DESCARTAR</button>
         </ng-container>
         
+        <!-- Estado analizando (tu código original) -->
         <ng-container *ngIf="estadoAnalisis === 'analizando'">
           <button class="btn-neo-primary" disabled style="opacity: 0.7; cursor: wait;">
             PROCESANDO...
           </button>
         </ng-container>
         
+        <!-- Estado completado (tu código original) -->
         <ng-container *ngIf="estadoAnalisis === 'completado'">
           <button class="btn-neo-ghost" (click)="descartar()">ESCANEAR OTRA HOJA</button>
         </ng-container>
