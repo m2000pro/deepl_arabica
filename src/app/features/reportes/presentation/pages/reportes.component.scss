@@ -1,10 +1,26 @@
 /* =========================================================
+   BLOQUEO ABSOLUTO DE BARRAS DE DESPLAZAMIENTO
+   ========================================================= */
+html, body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+*, *::before, *::after { 
+  box-sizing: border-box; 
+}
+
+/* =========================================================
    FONDOS Y BURBUJAS 
    ========================================================= */
 .app-wrapper {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex; flex-direction: column; align-items: center;
-  padding: clamp(1rem, 4vw, 3rem);
+  padding: 1rem;
   background:
     radial-gradient(circle at top left, rgba(96, 138, 61, 0.18) 0%, transparent 32%),
     radial-gradient(circle at bottom right, rgba(92, 51, 23, 0.18) 0%, transparent 28%),
@@ -27,16 +43,20 @@
    ========================================================= */
 .app-nav {
   display: flex; justify-content: space-between; align-items: center;
-  width: min(1200px, 100%); padding: 1rem 2.5rem; border-radius: 2.5rem; margin-bottom: 3.5rem;
+  width: min(1200px, 100%); 
+  padding: 0.6rem 2rem; 
+  border-radius: 2.5rem; 
+  margin-bottom: 1rem; 
+  flex-shrink: 0; 
 
   .nav-brand {
-    display: flex; align-items: center; gap: 1.5rem;
-    .menu-icon { color: #5d7f3d; cursor: pointer; padding: 0.5rem; transition: transform 0.3s; svg { width: 28px; height: 28px; } &:hover { transform: scale(1.1); color: #3f6f32; } }
-    .greeting { .eyebrow { font-size: 0.75rem; font-weight: 800; color: #647f40; letter-spacing: 0.1em; } h1 { margin: 0; font-size: 1.5rem; color: #301d11; font-weight: 900; letter-spacing: -0.03em; } }
+    display: flex; align-items: center; gap: 1rem;
+    .menu-icon { color: #5d7f3d; cursor: pointer; padding: 0.5rem; transition: transform 0.3s; svg { width: 26px; height: 26px; } &:hover { transform: scale(1.1); color: #3f6f32; } }
+    .greeting { .eyebrow { font-size: 0.7rem; font-weight: 800; color: #647f40; letter-spacing: 0.1em; } h1 { margin: 0; font-size: 1.4rem; color: #301d11; font-weight: 900; letter-spacing: -0.03em; } }
   }
 
   .nav-actions button {
-    background: transparent; border: 1px solid rgba(77, 52, 34, 0.2); color: #412a1a; padding: 0.8rem 1.5rem; border-radius: 999px; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.3s;
+    background: transparent; border: 1px solid rgba(77, 52, 34, 0.2); color: #412a1a; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: 0.3s;
     &:hover { background: rgba(255, 247, 239, 0.92); border-color: rgba(77, 52, 34, 0.4); transform: translateY(-2px); }
   }
 }
@@ -44,45 +64,67 @@
 /* =========================================================
    CONTENEDOR DE REPORTES
    ========================================================= */
-.reports-shell { width: min(1200px, 100%); position: relative; z-index: 1; }
+.reports-shell { 
+  width: min(1200px, 100%); 
+  position: relative; z-index: 1; 
+  flex: 1; 
+  min-height: 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ESTO CENTRA TODO EL BLOQUE VERTICALMENTE */
+  padding-bottom: 2rem;
+}
 
 .weather-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2.5rem;
+  display: grid; 
+  /* LA MAGIA AQUÍ: Obligamos a que sean exactamente 2 columnas iguales */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 2rem; 
+  overflow-y: auto; 
+  padding-right: 0.5rem; /* Pequeño margen para que el scroll no roce */
+  
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-thumb { background: rgba(81, 55, 32, 0.2); border-radius: 10px; }
   
   .weather-card {
-    border-radius: 2.5rem; padding: 3rem; display: flex; flex-direction: column; overflow: hidden; background: rgba(255, 251, 246, 0.85);
+    border-radius: 2rem; 
+    padding: 2rem; 
+    display: flex; flex-direction: column; overflow: hidden; background: rgba(255, 251, 246, 0.85);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(58, 37, 22, 0.05); /* Le da un poco de profundidad a las tarjetas */
     
-    /* Líneas decorativas superiores para cada tipo de clima */
     &::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; }
     &.card-temp::before { background: linear-gradient(90deg, #FF9800, #FFC107); }
     &.card-humid::before { background: linear-gradient(90deg, #00BCD4, #3FA9F5); }
     &.card-wind::before { background: linear-gradient(90deg, #6d9b43, #3f6f32); }
 
-    &.card-wide { grid-column: 1 / -1; }
+    &.card-wide { 
+      grid-column: 1 / -1; /* Ocupa las dos columnas */
+    }
 
     .card-head {
-      display: flex; align-items: center; gap: 1.2rem; margin-bottom: 2.5rem;
-      .icon-box { width: 50px; height: 50px; border-radius: 1.2rem; background: rgba(81, 55, 32, 0.08); display: flex; justify-content: center; align-items: center; color: #5b4638; box-shadow: inset 0 2px 4px rgba(255,255,255,0.5); svg { width: 24px; height: 24px; } }
-      h3 { margin: 0; font-size: 1.6rem; color: #301d11; font-weight: 900; letter-spacing: -0.02em; }
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; 
+      .icon-box { width: 42px; height: 42px; border-radius: 1rem; background: rgba(81, 55, 32, 0.08); display: flex; justify-content: center; align-items: center; color: #5b4638; box-shadow: inset 0 2px 4px rgba(255,255,255,0.5); svg { width: 20px; height: 20px; } }
+      h3 { margin: 0; font-size: 1.3rem; color: #301d11; font-weight: 900; letter-spacing: -0.02em; }
     }
 
     .card-body {
-      display: flex; flex-direction: column; flex: 1; gap: 1rem;
+      display: flex; flex-direction: column; flex: 1; gap: 0.8rem; 
       
-      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 3rem; }
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 3rem; } /* Más separación interna */
       
       .data-row {
-        display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px dashed rgba(81, 55, 32, 0.2);
-        .label { font-size: 0.95rem; color: #5b4638; font-weight: 700; letter-spacing: 0.05em; }
-        .value { font-size: 1.15rem; color: #301d11; font-weight: 800; }
-        .highlight { font-size: 1.8rem; font-weight: 900; color: #6d9b43; }
+        display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px dashed rgba(81, 55, 32, 0.2);
+        .label { font-size: 0.85rem; color: #5b4638; font-weight: 700; letter-spacing: 0.05em; }
+        .value { font-size: 1rem; color: #301d11; font-weight: 800; }
+        .highlight { font-size: 1.5rem; font-weight: 900; color: #6d9b43; }
         .text-danger { color: #d32f2f; }
       }
       
       .progress-zone {
-        margin-top: 2rem;
-        .progress-label { display: block; font-size: 0.8rem; font-weight: 800; color: #7d6858; margin-bottom: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; }
-        .progress-track { width: 100%; height: 10px; background: rgba(81, 55, 32, 0.1); border-radius: 999px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        margin-top: 1.2rem; 
+        .progress-label { display: block; font-size: 0.75rem; font-weight: 800; color: #7d6858; margin-bottom: 0.5rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .progress-track { width: 100%; height: 8px; background: rgba(81, 55, 32, 0.1); border-radius: 999px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
         .progress-fill { height: 100%; border-radius: 999px; transition: 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
       }
     }
@@ -90,14 +132,16 @@
 }
 
 /* =========================================================
-   DISEÑO MÓVIL
+   DISEÑO MÓVIL Y TABLET
    ========================================================= */
 @media (max-width: 980px) {
+  /* En tablets, pasamos a 1 sola columna para que no se aprieten */
+  .weather-grid { grid-template-columns: 1fr; }
   .weather-grid .weather-card.card-wide .grid-2 { grid-template-columns: 1fr; gap: 0; }
 }
 
 @media (max-width: 640px) {
-  .app-wrapper { padding: 1rem; }
-  .app-nav { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; border-radius: 1.5rem; }
-  .weather-grid .weather-card { padding: 2rem 1.5rem; border-radius: 1.5rem; }
+  .app-wrapper { padding: 0.5rem; }
+  .app-nav { flex-direction: column; gap: 1rem; text-align: center; padding: 1rem; margin-bottom: 1rem; border-radius: 1.5rem; }
+  .weather-grid .weather-card { padding: 1.5rem; border-radius: 1.5rem; }
 }
