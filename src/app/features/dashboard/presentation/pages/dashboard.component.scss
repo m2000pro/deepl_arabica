@@ -123,3 +123,7 @@
 @media (max-width: 640px) {
   .app-nav { flex-direction: column; gap: 1rem; text-align: center; border-radius: 1.5rem; }
 }
+/* Color Ámbar para el estado Indeterminado */
+.text-warning {
+  color: #ffb300 !important; /* Tono ámbar/naranja legible y profesional */
+}

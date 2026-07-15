@@ -38,18 +38,23 @@
       
       <div class="stat-card glass-panel">
         <div class="card-head">
-          <h3>Salud de la Semana</h3>
+          <h3>Resumen General</h3>
           <button class="btn-icon" routerLink="/historial">→</button>
         </div>
         <div class="card-body">
           <div class="data-row">
             <span class="label">Hojas Enfermas</span>
-            <strong class="value text-danger">5</strong>
+            <strong class="value text-danger">{{ cantidadEnfermas }}</strong>
           </div>
           <div class="divider"></div>
           <div class="data-row">
             <span class="label">Hojas Sanas</span>
-            <strong class="value text-success">5</strong>
+            <strong class="value text-success">{{ cantidadSanas }}</strong>
+          </div>
+          <div class="divider"></div>
+          <div class="data-row">
+            <span class="label">Indeterminado</span>
+            <strong class="value text-warning">{{ cantidadIndeterminadas }}</strong>
           </div>
         </div>
       </div>
