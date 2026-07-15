@@ -1,16 +1,16 @@
 /* =========================================================
-   EL TRUCO DEFINITIVO PARA ANGULAR (:host)
+   EL TRUCO DEFINITIVO PARA ANGULAR Y MÓVILES (100dvh)
    ========================================================= */
 :host {
   display: block;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden; /* Esto mata cualquier barra del navegador */
+  height: 100dvh; /* dvh soluciona el problema de la barra de direcciones en celulares */
+  overflow: hidden; 
 }
 
 html, body {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -25,7 +25,7 @@ html, body {
    ========================================================= */
 .app-wrapper {
   width: 100%;
-  height: 100%; /* Hereda el tamaño del :host */
+  height: 100%; 
   display: flex; flex-direction: column; align-items: center;
   padding: 1rem;
   background:
@@ -78,16 +78,20 @@ html, body {
   min-height: 0; 
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  padding-bottom: 2rem;
 }
 
 .weather-grid {
+  /* LA MAGIA DE LA CORRECCIÓN: Obliga a la cuadrícula a respetar el alto de la pantalla */
+  flex: 1;
+  min-height: 0; 
+  
   display: grid; 
   grid-template-columns: repeat(2, 1fr); 
   gap: 2rem; 
-  overflow-y: auto; 
+  align-content: start; /* Mantiene las tarjetas pegadas arriba */
+  overflow-y: auto; /* Aquí vive el scroll */
   padding-right: 0.5rem; 
+  padding-bottom: 2rem; /* Espacio al final del scroll para que no choque con el borde inferior */
   
   &::-webkit-scrollbar { width: 6px; }
   &::-webkit-scrollbar-thumb { background: rgba(81, 55, 32, 0.2); border-radius: 10px; }
@@ -138,10 +142,9 @@ html, body {
 }
 
 /* =========================================================
-   DISEÑO MÓVIL Y TABLET (AQUÍ ESTÁ LA MAGIA REPARADA)
+   DISEÑO MÓVIL Y TABLET
    ========================================================= */
 @media (max-width: 980px) {
-  /* En tablets, las tarjetas mayores pasan a 1 sola columna */
   .weather-grid { grid-template-columns: 1fr; gap: 1.5rem; }
 }
 
@@ -154,7 +157,8 @@ html, body {
   }
   
   .weather-grid {
-    gap: 1rem; /* Menos espacio entre tarjetas en celular */
+    gap: 1rem; 
+    padding-bottom: 3rem; /* Espacio extra muy necesario en celulares */
   }
 
   .weather-grid .weather-card { 
@@ -162,18 +166,14 @@ html, body {
   }
 
   .weather-grid .weather-card .card-head h3 {
-    font-size: 1.1rem; /* Texto un poco más manejable */
+    font-size: 1.1rem; 
   }
 
-  /* ESTO ES LO QUE FALTABA: 
-     Obliga a los datos internos (Actual, Promedio, etc) a colocarse uno debajo de otro 
-     en lugar de intentar apretarse en 2 columnas en una pantalla pequeña */
   .weather-grid .weather-card .card-body .grid-2 { 
     grid-template-columns: 1fr; 
     gap: 0; 
   }
 
-  /* Reducimos el padding de las filas para aprovechar el espacio vertical */
   .weather-grid .weather-card .card-body .data-row {
     padding: 0.6rem 0;
   }
