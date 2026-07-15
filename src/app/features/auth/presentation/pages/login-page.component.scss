@@ -1,6 +1,13 @@
 /* =========================================================
-   BLOQUEO ABSOLUTO DE BARRAS DE DESPLAZAMIENTO
+   EL TRUCO DEFINITIVO PARA ANGULAR (:host)
    ========================================================= */
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Esto mata cualquier barra del navegador global */
+}
+
 html, body {
   width: 100%;
   height: 100vh;
@@ -14,11 +21,11 @@ html, body {
 }
 
 /* =========================================================
-   FONDOS Y BURBUJAS
+   FONDOS Y BURBUJAS (FONDO FIJO)
    ========================================================= */
 .auth-wrapper {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,28 +41,24 @@ html, body {
 
 .auth-wrapper::before,
 .auth-wrapper::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 0;
+  content: ""; position: absolute; border-radius: 50%; filter: blur(10px); pointer-events: none; z-index: 0;
 }
 
 .auth-wrapper::before { width: 22rem; height: 22rem; top: -4rem; right: -5rem; background: rgba(52, 122, 74, 0.12); }
 .auth-wrapper::after { width: 20rem; height: 20rem; bottom: -5rem; left: -4rem; background: rgba(120, 72, 35, 0.12); }
 
 /* =========================================================
-   CONTENEDOR PRINCIPAL - RECUPERANDO EL ESPACIO
+   CONTENEDOR PRINCIPAL
    ========================================================= */
 .auth-shell {
-  /* Hacemos el contenedor más ancho y con una altura dinámica dominante */
   width: min(1300px, 95vw);
-  height: clamp(600px, 80vh, 850px); /* Toma el 80% del alto de la pantalla, pero nunca menos de 600px ni más de 850px */
+  height: clamp(600px, 80vh, 850px);
   display: grid;
-  grid-template-columns: 1fr 480px; /* Ensanchamos el formulario a 480px */
+  grid-template-columns: 1fr 480px;
   gap: 2rem;
-  align-items: stretch; /* Ambas cajas se estiran a la misma altura automáticamente */
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 
 .glass-panel {
@@ -67,13 +70,13 @@ html, body {
 }
 
 /* =========================================================
-   CAJA IZQUIERDA (IMAGEN DE GRANOS DE CAFÉ Y TEXTO)
+   CAJA IZQUIERDA (IMAGEN Y TEXTO)
    ========================================================= */
 .auth-visual {
   position: relative;
-  border-radius: 2.5rem; /* Borde suave de nuevo */
+  border-radius: 2.5rem; 
   overflow: hidden;
-  padding: 3.5rem; /* Recuperamos el espacio interior */
+  padding: 3.5rem; 
   display: flex;
   align-items: stretch;
   background: url("https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=80") center/cover no-repeat;
@@ -99,14 +102,14 @@ html, body {
   width: 100%; height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* LA MAGIA: Distribuye el contenido para llenar todo el alto */
+  justify-content: space-between; 
 }
 
 /* Marca Superior Izquierda */
 .brand-section {
   display: flex; align-items: center; gap: 1rem;
   width: fit-content;
-  padding: 1rem 1.5rem; /* Más robusto */
+  padding: 1rem 1.5rem; 
   border-radius: 1.5rem;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
@@ -137,7 +140,7 @@ html, body {
 
   h3 {
     margin: 0 0 1.2rem;
-    font-size: clamp(2.5rem, 4vw, 3.5rem); /* Letra grande e imponente */
+    font-size: clamp(2.5rem, 4vw, 3.5rem); 
     line-height: 1.15;
     letter-spacing: -0.02em;
     font-weight: 900;
@@ -178,12 +181,13 @@ html, body {
    ========================================================= */
 .auth-card {
   border-radius: 2.5rem;
-  padding: 3.5rem; /* Recupera el respiro interno */
+  padding: 3.5rem; 
   display: flex; flex-direction: column; justify-content: center; 
   background: rgba(255, 251, 246, 0.85);
   overflow-y: auto; 
   
   &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb { background: rgba(81, 55, 32, 0.2); border-radius: 10px; }
 }
 
@@ -219,20 +223,53 @@ html, body {
 }
 
 /* =========================================================
-   DISEÑO MÓVIL
+   DISEÑO MÓVIL Y TABLET (RESPONSIVIDAD CORREGIDA)
    ========================================================= */
 @media (max-width: 980px) {
-  .auth-shell { grid-template-columns: 1fr; gap: 1.5rem; display: flex; flex-direction: column; overflow-y: auto; height: auto; max-height: none; }
-  .auth-visual { min-height: 400px; height: auto; flex: none; order: 1; padding: 2rem; overflow-y: visible; }
-  .auth-card { order: 2; padding: 2rem; flex: none; overflow-y: visible; }
+  .auth-wrapper {
+    padding: 1rem;
+  }
+  
+  /* En pantallas móviles/tablets, el contenedor principal pasa a ser el que hace scroll */
+  .auth-shell { 
+    grid-template-columns: 1fr; 
+    gap: 1.5rem; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; /* Toma todo el alto disponible */
+    max-height: 100%;
+    overflow-y: auto; /* PERMITE EL SCROLL MÓVIL SÓLO AQUÍ */
+    padding-right: 0.5rem; /* Evita que el scroll roce */
+    
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: rgba(109, 155, 67, 0.4); border-radius: 10px; }
+  }
+  
+  .auth-visual { 
+    min-height: 380px; /* Reducimos altura para que no ocupe todo el teléfono */
+    height: auto; 
+    flex: none; 
+    order: 1; 
+    padding: 2rem; 
+  }
+  
+  .auth-card { 
+    order: 2; 
+    padding: 2rem; 
+    flex: none; 
+    overflow-y: visible; /* Apagamos el scroll interno para que use el del padre */
+    margin-bottom: 2rem; /* Espacio extra al final para que no quede pegado al piso */
+  }
+  
   .visual-message h3 { font-size: clamp(2rem, 5vw, 2.5rem); }
-  .visual-content { justify-content: space-around; gap: 2rem;}
+  .visual-content { justify-content: space-around; gap: 2rem; }
 }
 
 @media (max-width: 640px) {
-  .auth-wrapper { padding: 1rem; }
+  .auth-wrapper { padding: 0.5rem; }
   .auth-visual, .auth-card { border-radius: 1.5rem; }
-  .auth-visual { padding: 1.5rem; min-height: auto; }
+  .auth-visual { padding: 1.5rem; min-height: 340px; }
   .auth-card { padding: 1.5rem; }
   .brand-section { padding: 0.8rem 1rem; }
   .leaf-logo { width: 38px; height: 38px; }
