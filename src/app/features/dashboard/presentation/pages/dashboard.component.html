@@ -1,77 +1,95 @@
-<div class="app-wrapper">
+<div class="app-wrapper layout-con-sidebar">
   
-  <header class="app-nav glass-panel">
-    <div class="nav-brand">
-      <div class="menu-icon" routerLink="/dashboard">
-        <div class="hamburger"><span></span><span></span><span></span></div>
-      </div>
+  <aside class="sidebar glass-panel">
+    <div class="brand">
+      <span class="logo-icon">🌿</span>
+      <h2>Arabica</h2>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" class="active">🏠 Panel General</a>
+      <a routerLink="/dashboard/perfil">👤 Mi Perfil</a>
+      <a routerLink="/dashboard/configuracion">⚙️ Configuración</a>
+      <a routerLink="/dashboard/ayuda">❓ Ayuda y Tutoriales</a>
+    </nav>
+    
+    <div class="sidebar-bottom">
+      <button class="btn-outline-dark w-100" (click)="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    
+    <header class="app-nav glass-panel">
       <div class="greeting">
         <span class="eyebrow">PANEL PRINCIPAL</span>
         <h1>Hola, {{ nombreUsuario | uppercase }}</h1>
       </div>
-    </div>
-    
-    <div class="nav-actions">
-      <button class="btn-outline-dark" (click)="cerrarSesion()">Cerrar Sesión</button>
-    </div>
-  </header>
+    </header>
 
-  <main class="app-content">
-    
-    <section class="module-scanner glass-panel">
-      <div class="scanner-visual">
-        <div class="target-frame">
-          <div class="corner t-l"></div><div class="corner t-r"></div>
-          <div class="corner b-l"></div><div class="corner b-r"></div>
-          <div class="scan-laser"></div>
-        </div>
-      </div>
+    <main class="app-content">
       
-      <div class="scanner-info">
-        <h2>Diagnóstico IA</h2>
-        <p>Analiza el estado de salud de tus hojas de café o cacao al instante.</p>
-        <button class="btn-neo-primary" routerLink="/nuevo-diagnostico">NUEVO DIAGNÓSTICO</button>
-      </div>
-    </section>
+      <ng-container *ngIf="router.url === '/dashboard'">
+        <section class="module-scanner glass-panel">
+          <div class="scanner-visual">
+            <div class="target-frame">
+              <div class="corner t-l"></div><div class="corner t-r"></div>
+              <div class="corner b-l"></div><div class="corner b-r"></div>
+              <div class="scan-laser"></div>
+            </div>
+          </div>
+          
+          <div class="scanner-info">
+            <h2>Diagnóstico IA</h2>
+            <p>Analiza el estado de salud de tus hojas de café o cacao al instante.</p>
+            <button class="btn-neo-primary" routerLink="/nuevo-diagnostico">NUEVO DIAGNÓSTICO</button>
+          </div>
+        </section>
 
-    <section class="module-stats">
-      
-      <div class="stat-card glass-panel">
-        <div class="card-head">
-          <h3>Salud de la Semana</h3>
-          <button class="btn-icon" routerLink="/historial">→</button>
-        </div>
-        <div class="card-body">
-          <div class="data-row">
-            <span class="label">Hojas Enfermas</span>
-            <strong class="value text-danger">5</strong>
+        <section class="module-stats">
+          
+          <div class="stat-card glass-panel">
+            <div class="card-head">
+              <h3>Salud de la Semana</h3>
+              <button class="btn-icon" routerLink="/historial">→</button>
+            </div>
+            <div class="card-body">
+              <div class="data-row">
+                <span class="label">Hojas Enfermas</span>
+                <strong class="value text-danger">5</strong>
+              </div>
+              <div class="divider"></div>
+              <div class="data-row">
+                <span class="label">Hojas Sanas</span>
+                <strong class="value text-success">5</strong>
+              </div>
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="data-row">
-            <span class="label">Hojas Sanas</span>
-            <strong class="value text-success">5</strong>
-          </div>
-        </div>
-      </div>
 
-      <div class="stat-card glass-panel">
-        <div class="card-head">
-          <h3>Clima Local</h3>
-          <button class="btn-icon" routerLink="/reportes">→</button>
-        </div>
-        <div class="card-body flex-row">
-          <div class="data-block">
-            <span class="label">Temp</span>
-            <strong class="value text-success">21°C</strong>
+          <div class="stat-card glass-panel">
+            <div class="card-head">
+              <h3>Clima Local</h3>
+              <button class="btn-icon" routerLink="/reportes">→</button>
+            </div>
+            <div class="card-body flex-row">
+              <div class="data-block">
+                <span class="label">Temp</span>
+                <strong class="value text-success">21°C</strong>
+              </div>
+              <div class="vert-divider"></div>
+              <div class="data-block">
+                <span class="label">Humedad</span>
+                <strong class="value text-dark">72%</strong>
+              </div>
+            </div>
           </div>
-          <div class="vert-divider"></div>
-          <div class="data-block">
-            <span class="label">Humedad</span>
-            <strong class="value text-dark">72%</strong>
-          </div>
-        </div>
-      </div>
 
-    </section>
-  </main>
+        </section>
+      </ng-container>
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
 </div>

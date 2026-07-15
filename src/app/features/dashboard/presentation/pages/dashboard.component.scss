@@ -1,6 +1,10 @@
-.app-wrapper {
+/* --- ESTRUCTURA PRINCIPAL DIVIDIDA --- */
+.layout-con-sidebar {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* 260px para el menú lateral, el resto para el contenido */
+  gap: 2.5rem;
   min-height: 100vh;
-  padding: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(1rem, 2vw, 2rem);
   background: 
     radial-gradient(circle at top left, rgba(96, 138, 61, 0.12) 0%, transparent 40%),
     linear-gradient(135deg, #f6f0e7 0%, #eef4e8 50%, #e7ddd1 100%);
@@ -16,40 +20,84 @@
   border-radius: 2rem;
 }
 
-/* --- HEADER --- */
-.app-nav {
+/* --- SIDEBAR (BARRA LATERAL FIJA) --- */
+.sidebar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto 2.5rem;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  height: calc(100vh - 4rem); /* Ocupa casi todo el alto de la pantalla */
+  position: sticky; /* Se queda fijo si haces scroll hacia abajo */
+  top: 2rem;
 
-  .nav-brand {
-    display: flex; align-items: center; gap: 1.5rem;
-    .menu-icon {
-      cursor: pointer; padding: 0.5rem;
-      .hamburger span { display: block; width: 24px; height: 3px; background: #301d11; margin-bottom: 5px; border-radius: 2px; transition: 0.3s; }
-      &:hover .hamburger span { background: #6d9b43; }
-    }
-    .greeting {
-      .eyebrow { font-size: 0.75rem; font-weight: 800; color: #647f40; letter-spacing: 0.1em; }
-      h1 { margin: 0; font-size: 1.5rem; color: #301d11; font-weight: 900; letter-spacing: -0.03em; }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 3rem;
+    padding-left: 10px;
+
+    .logo-icon { font-size: 2rem; }
+    h2 { margin: 0; color: #301d11; font-weight: 900; font-size: 1.5rem; }
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex: 1; /* Empuja el botón de cerrar sesión hacia abajo del todo */
+
+    a {
+      padding: 1rem 1.2rem;
+      text-decoration: none;
+      color: #5b4638;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 1rem;
+      transition: all 0.3s ease;
+
+      &:hover, &.active {
+        background: rgba(109, 155, 67, 0.15); /* Tu verde semitransparente */
+        color: #3f6f32;
+        transform: translateX(5px); /* Pequeña animación a la derecha */
+      }
     }
   }
 
-  .btn-outline-dark {
-    background: transparent; border: 2px solid rgba(81, 55, 32, 0.2); color: #452d1b; padding: 0.7rem 1.5rem; border-radius: 99px; font-weight: 800; cursor: pointer; transition: 0.3s;
-    &:hover { background: #452d1b; color: #fff; }
+  .sidebar-bottom {
+    margin-top: auto;
+    
+    .w-100 { width: 100%; }
+    .btn-outline-dark {
+      background: transparent; border: 2px solid rgba(81, 55, 32, 0.2); color: #452d1b; padding: 0.9rem; border-radius: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s;
+      &:hover { background: #452d1b; color: #fff; }
+    }
   }
 }
 
-/* --- MAIN CONTENT --- */
+/* --- CONTENIDO PRINCIPAL (DERECHA) --- */
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* HEADER DEL CONTENIDO */
+.app-nav {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border-radius: 1.5rem;
+
+  .greeting {
+    .eyebrow { font-size: 0.75rem; font-weight: 800; color: #647f40; letter-spacing: 0.1em; }
+    h1 { margin: 0; font-size: 1.8rem; color: #301d11; font-weight: 900; letter-spacing: -0.03em; }
+  }
+}
+
+/* DASHBOARD CARDS (TU DISEÑO ORIGINAL INTACTO) */
 .app-content {
-  max-width: 1200px;
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 350px;
   gap: 2.5rem;
   align-items: start;
 }
@@ -115,11 +163,13 @@
   }
 }
 
-/* MÓVIL */
-@media (max-width: 980px) {
+/* MÓVIL (Respeta la barra lateral poniéndola arriba en pantallas pequeñas) */
+@media (max-width: 1024px) {
+  .layout-con-sidebar { grid-template-columns: 1fr; }
+  .sidebar { height: auto; position: relative; top: 0; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding: 1.5rem; }
+  .sidebar .brand { margin-bottom: 0; }
+  .sidebar .sidebar-nav { display: none; /* En móvil requeriría un menú hamburguesa real */ }
+  .sidebar .sidebar-bottom { margin-top: 0; }
   .app-content { grid-template-columns: 1fr; }
   .module-scanner { flex-direction: column; text-align: center; padding: 2.5rem; }
-}
-@media (max-width: 640px) {
-  .app-nav { flex-direction: column; gap: 1rem; text-align: center; border-radius: 1.5rem; }
 }

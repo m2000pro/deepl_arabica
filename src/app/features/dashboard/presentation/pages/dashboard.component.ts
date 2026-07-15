@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     public viewModel: DashboardViewModel,
-    private router: Router
+    public router: Router
   ) {}
 
   ngOnInit() {
