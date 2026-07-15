@@ -27,7 +27,19 @@ export const routes: Routes = [
   // --- RUTAS DEL SISTEMA ---
   { 
     path: 'dashboard', 
-    loadComponent: () => import('./features/dashboard/presentation/pages/dashboard.component').then(m => m.DashboardComponent)
+    loadComponent: () => import('./features/dashboard/presentation/pages/dashboard.component').then(m => m.DashboardComponent),
+    // AQUI ESTA LA MAGIA: Agregamos las rutas hijas (children)
+    children: [
+      {
+        path: 'perfil',
+        loadComponent: () => import('./features/perfil/perfil.component').then(m => m.PerfilComponent)
+      },
+      // 🔥 NUEVO: Agregamos Configuración
+      {
+        path: 'configuracion',
+        loadComponent: () => import('./features/configuracion/configuracion.component').then(m => m.ConfiguracionComponent)
+      },
+    ]
   },
   { 
     path: 'nuevo-diagnostico', 

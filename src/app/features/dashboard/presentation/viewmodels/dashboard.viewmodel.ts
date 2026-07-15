@@ -9,6 +9,10 @@ export class DashboardViewModel {
   private nombreUsuarioSubject = new BehaviorSubject<string>('ADMIN');
   public nombreUsuario$ = this.nombreUsuarioSubject.asObservable();
 
+  // Maneja el correo
+  private emailUsuarioSubject = new BehaviorSubject<string>('---');
+  public emailUsuario$ = this.emailUsuarioSubject.asObservable();
+
   // Evento de 1 solo uso para la redirección al login
   private logoutSuccessSubject = new Subject<void>();
   public logoutSuccess$ = this.logoutSuccessSubject.asObservable();
@@ -21,9 +25,10 @@ export class DashboardViewModel {
   cargarDatosUsuario(): void {
     const usuario = this.obtenerUsuarioUseCase.ejecutar();
     if (usuario) {
-      // Prioriza el nombre completo si existe, si no, usa el nickname
       const nombreMostrar = usuario.nombre_completo || usuario.usuario;
       this.nombreUsuarioSubject.next(nombreMostrar);
+
+      this.emailUsuarioSubject.next((usuario as any).correo || (usuario as any).email || 'Sin registro');
     }
   }
 

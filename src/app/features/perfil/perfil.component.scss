@@ -1,0 +1,143 @@
+/* Esto obliga al componente a saltarse la grilla del dashboard y centrarse */
+:host {
+  display: block;
+  width: 100%;
+  grid-column: 1 / -1; 
+}
+
+/* Contenedor general centrado */
+.perfil-container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header-perfil {
+  margin-bottom: 2rem;
+  text-align: center; /* Centra el título y subtítulo */
+  
+  h2 { margin: 0; font-size: 2rem; color: #301d11; font-weight: 900; }
+  p { color: #5b4638; margin-top: 0.5rem; }
+}
+
+/* Grilla para las tarjetas (mejorada para que se adapte al centro) */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* Reutilizando tu efecto Glassmorphism */
+.glass-panel {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(58, 37, 22, 0.05);
+  border-radius: 2rem;
+  padding: 2.5rem;
+}
+
+/* Tarjeta Info: Avatar y Datos */
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  .avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #6d9b43 0%, #3f6f32 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 8px 15px rgba(109, 155, 67, 0.3);
+  }
+
+  .nombres {
+    h3 { margin: 0 0 0.5rem; color: #301d11; font-size: 1.5rem; font-weight: 800; }
+    .badge-rol { background: rgba(109, 155, 67, 0.15); color: #3f6f32; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+  }
+}
+
+.detalles-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+
+  .detalle-item {
+    .label { display: block; color: #7d6858; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    p { margin: 0; color: #301d11; font-weight: 600; font-size: 1.1rem; }
+  }
+}
+
+.w-100 { width: 100%; }
+
+.btn-neo-primary {
+  background: linear-gradient(135deg, #6d9b43 0%, #3f6f32 100%); color: #fff; border: none; padding: 1.1rem 2rem; border-radius: 99px; font-weight: 800; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 10px 20px rgba(76, 111, 42, 0.2); transition: 0.3s;
+  &:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(76, 111, 42, 0.3); }
+}
+
+/* Tarjeta Preferencias */
+.tarjeta-preferencias {
+  h3 { margin: 0 0 1.5rem; color: #301d11; font-weight: 800; font-size: 1.3rem; }
+}
+
+.pref-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .pref-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .pref-text {
+      h4 { margin: 0 0 0.3rem; color: #301d11; font-weight: 700; }
+      p { margin: 0; color: #5b4638; font-size: 0.9rem; }
+    }
+  }
+
+  .divider { height: 1px; background: rgba(81, 55, 32, 0.1); }
+}
+
+/* Switch estilo iOS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+
+  input { opacity: 0; width: 0; height: 0; }
+
+  .slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s;
+    &:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
+  }
+
+  input:checked + .slider { background-color: #6d9b43; }
+  input:checked + .slider:before { transform: translateX(22px); }
+
+  .slider.round { border-radius: 34px; }
+  .slider.round:before { border-radius: 50%; }
+}
+
+/* Responsividad */
+@media (max-width: 980px) {
+  .perfil-grid { grid-template-columns: 1fr; }
+}

@@ -31,7 +31,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response) {
-          const datosUsuario = response.usuario || { usuario: this.usuario, rol: 'USER' };
+          // 1. Jalamos los datos que manda la base de datos
+          const datosBase = response.usuario || { usuario: this.usuario, rol: 'USER' };
+          
+          // 2. Unimos los datos base y aseguramos de atrapar el correo
+          const datosUsuario = {
+            ...datosBase,
+            correo: response.correo || datosBase.correo || datosBase.email || 'Sin registro'
+          };
+
+          // 3. Lo guardamos en memoria
           localStorage.setItem('deepL_usuario', JSON.stringify(datosUsuario));
           this.router.navigate(['/dashboard']);
         }

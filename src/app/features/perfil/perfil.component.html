@@ -1,0 +1,63 @@
+<div class="perfil-container">
+  <div class="header-perfil">
+    <h2>Configuración de Perfil</h2>
+    <p>Gestiona tu información personal y preferencias de alertas fitosanitarias.</p>
+  </div>
+
+  <div class="perfil-grid">
+    
+    <!-- Tarjeta Info: Avatar y Datos -->
+    <section class="tarjeta-info glass-panel">
+      <div class="avatar-section">
+        <div class="avatar-circle">
+          <span>{{ usuario.iniciales }}</span>
+        </div>
+        <div class="nombres">
+          <h3>{{ usuario.nombre }}</h3>
+          <span class="badge-rol">{{ usuario.rol }}</span>
+        </div>
+      </div>
+      
+      <!-- Sección de Detalles: AHORA MUESTRA EL USUARIO -->
+      <div class="detalles-section">
+        <div class="detalle-item">
+          <span class="label">Usuario</span>
+          <p>{{ usuario.nombreUsuario }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarjeta Preferencias -->
+    <section class="tarjeta-preferencias glass-panel">
+      <h3>Preferencias del Sistema</h3>
+      <div class="pref-lista">
+        
+        <div class="pref-item">
+          <div class="pref-text">
+            <h4>Alertas de Diagnóstico</h4>
+            <p>Recibir notificaciones cuando la IA detecte Roya Amarilla o Phoma.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="pref-item">
+          <div class="pref-text">
+            <h4>Informe climático</h4>
+            <p>Enviar resumen semanal de temperatura y humedad al correo.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>

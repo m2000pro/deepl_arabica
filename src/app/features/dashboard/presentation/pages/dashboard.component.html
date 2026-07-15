@@ -6,11 +6,11 @@
       <h2>Arabica</h2>
     </div>
     
+    <!-- AQUÍ ESTÁN TUS 3 OPCIONES LIMPIAS -->
     <nav class="sidebar-nav">
-      <a routerLink="/dashboard" class="active">🏠 Panel General</a>
-      <a routerLink="/dashboard/perfil">👤 Mi Perfil</a>
-      <a routerLink="/dashboard/configuracion">⚙️ Configuración</a>
-      <a routerLink="/dashboard/ayuda">❓ Ayuda y Tutoriales</a>
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">🏠 Panel General</a>
+      <a routerLink="/dashboard/perfil" routerLinkActive="active">👤 Mi Perfil</a>
+      <a routerLink="/dashboard/configuracion" routerLinkActive="active">⚙️ Configuración</a>
     </nav>
     
     <div class="sidebar-bottom">
